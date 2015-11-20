@@ -60,6 +60,6 @@ public class GUICanvas : MonoBehaviour
 	public void ShowWin(int i)
 	{
 		mWinText.gameObject.SetActive (true);
-		mWinText.text = "Player " + i + " wons!";
+		mWinText.text = "Player " + (i + 1) + " wons!";
 	}
 }

@@ -119,7 +119,10 @@ public class Game : MonoBehaviour
 			mPlayers[i].gameObject.SetActive(true);
 			mPlayers[i].Reset();
 		}
-
+		
+		GUICanvas.Instance.HideWin();
+		mGameEnded = false;
+		mGameStarted = true;
 		mMasterChef.Reset();
 	}
 

@@ -20,16 +20,16 @@ public class Player : MonoBehaviour
 		switch (i) 
 		{
 		case 0:
-			InitKeys(KeyCode.W, KeyCode.S, KeyCode.A, KeyCode.D);
+			InitKeys(KeyCode.UpArrow, KeyCode.DownArrow, KeyCode.LeftArrow, KeyCode.RightArrow);
 			break;
 		case 1:
 			InitKeys(KeyCode.W, KeyCode.S, KeyCode.A, KeyCode.D);
 			break;
 		case 2:
-			InitKeys(KeyCode.W, KeyCode.S, KeyCode.A, KeyCode.D);
+			InitKeys(KeyCode.Keypad8, KeyCode.Keypad2, KeyCode.Keypad4, KeyCode.Keypad6);
 			break;
 		case 3:
-			InitKeys(KeyCode.W, KeyCode.S, KeyCode.A, KeyCode.D);
+			InitKeys(KeyCode.I, KeyCode.K, KeyCode.J, KeyCode.L);
 			break;
 		}
 	}
