@@ -11,26 +11,28 @@ public class Game : MonoBehaviour
 			if (instance == null)
 			{
 				GameObject thisObject = GameObject.Find("Game");
-				instance = thisObject.GetComponent<AudioManager>();
+				instance = thisObject.GetComponent<Game>();
 			}
 			return instance;
 		}
 	}
 
 	public GameObject mPlayerPrefab;
-	public GameObject[] mStartPositinos = new GameObject[4];
-	public MasterChef mChef;
+	private GameObject[] mStartPositinos = new GameObject[4];
+	private MasterChef mMasterChef;
 
-	private GameObject[] mPlayers = new GameObject[4];
+	private Player[] mPlayers = new Player[4];
 
 	private bool mGameStarted;
 	private bool mGameEnded;
 
 	void Awake()
 	{
-		for (int i = 0; i < 4; i++) 
+		mMasterChef = GameObject.Find("MasterChef").GetComponent<MasterChef>();
+		for (int i = 0; i < 4; i++)
 		{
-			mPlayers[i] = Instantiate<GameObject>(mPlayerPrefab);
+			mStartPositinos[i] = transform.Find("StartPos" + (i + 1)).gameObject;
+			mPlayers[i] = Instantiate<GameObject>(mPlayerPrefab).GetComponent<Player>();
 		}
 
 		mGameStarted = true;
@@ -40,12 +42,14 @@ public class Game : MonoBehaviour
 	// Use this for initialization
 	void Start () 
 	{
+		GUICanvas.Instance.HideWin();
+
 		for (int i = 0; i < 4; i++) 
 		{
-
 			Vector3 pos = mStartPositinos[i].transform.position;
-			
-			//mPlayers[i].CreatePlayer(i, pos);
+
+			mPlayers[i].transform.position = pos;
+			mPlayers[i].CreatePlayer(i);
 		}
 	}
 	
@@ -65,22 +69,24 @@ public class Game : MonoBehaviour
 			}
 			
 			int playersAlive = 0;
+			int playerID = -1;
 			for (int i = 0; i < 4; i++) 
 			{
-				//if (mPlayers[i].IsDead()) 
+				if (!mPlayers[i].IsDead()) 
 				{
 					playersAlive++;
+					playerID = i;
 				}
 				
 				if (OutOfBounds(mPlayers[i])) 
 				{
-					//mPlayers.Kill();
+					mPlayers[i].Kill();
 				}
 			}
 			
 			if (playersAlive == 1) 
 			{
-				EndGame();
+				EndGame(playerID);
 			}
 		}
 		else 
@@ -90,34 +96,41 @@ public class Game : MonoBehaviour
 			{
 				Reset();
 			}
-
 		}
 	}
 
-	void EndGame ()
+	void EndGame (int playerID)
 	{
 		// game ends
+		GUICanvas.Instance.ShowWin(playerID);
 		mGameEnded = true;
+	}
+
+	public Player GetPlayer(int playerID)
+	{
+		return mPlayers[playerID];
 	}
 
 	void Reset()
 	{
 		for (int i = 0; i < 4; i++) 
 		{
-			//mPlayers[i].Reset();
+			mPlayers[i].transform.position = mStartPositinos[i].transform.position;
+			mPlayers[i].gameObject.SetActive(true);
+			mPlayers[i].Reset();
 		}
 
-		mChef.Reset();
+		mMasterChef.Reset();
 	}
 
-	bool OutOfBounds (GameObject gameObject)
+	bool OutOfBounds (Player player)
 	{
-		if (gameObject.transform.position.magnitude > 25f) 
+		if (player.transform.position.magnitude > 25f) 
 		{
 			return true;
 		}
 
-		if (gameObject.transform.position.y < -5f) 
+		if (player.transform.position.y < -5f) 
 		{
 			return true;
 		}
