@@ -11,7 +11,7 @@ public class cameraScript : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKey(Keycode.A))
+        if (Input.GetKey(KeyCode.A))
         {
 
         }
