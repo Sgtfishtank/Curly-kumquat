@@ -5,6 +5,7 @@ public class playerScript : MonoBehaviour
 {
 	public float moveSpeed;
 	public float jumpForce;
+	public float gravityForce;
 
 	private Rigidbody RB;
 	
@@ -37,6 +38,8 @@ public class playerScript : MonoBehaviour
 	void Start () 
 	{
 		RB = GetComponent<Rigidbody> ();
+		gravityForce *= -1;
+		Physics.gravity = new Vector3 (0, gravityForce, 0);
 	}
 
 	void Update () 
