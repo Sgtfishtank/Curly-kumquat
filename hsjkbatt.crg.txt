@@ -1,0 +1,134 @@
+﻿Merge branch 'master' of https://github.com/Sgtfishtank/Curly-kumquat
+
+Conflicts:
+	Curly Kumquat Project/Assets/Plugins/Android/fmod.jar.meta
+#
+# It looks like you may be committing a merge.
+# If this is not correct, please remove the file
+#	.git/MERGE_HEAD
+# and try again.
+
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch master
+# Your branch and 'origin/master' have diverged,
+# and have 1 and 2 different commits each, respectively.
+#   (use "git pull" to merge the remote branch into yours)
+#
+# All conflicts fixed but you are still merging.
+#
+# Changes to be committed:
+#	new file:   Curly Kumquat Project/Assets/AudioManager.prefab
+#	new file:   Curly Kumquat Project/Assets/AudioManager.prefab.meta
+#	new file:   Curly Kumquat Project/Assets/Editor/FMODEventEmitterInspector.cs
+#	new file:   Curly Kumquat Project/Assets/Editor/FMODEventEmitterInspector.cs.meta
+#	new file:   Curly Kumquat Project/Assets/Editor/FMODEventInspector.cs
+#	new file:   Curly Kumquat Project/Assets/Editor/FMODEventInspector.cs.meta
+#	new file:   Curly Kumquat Project/Assets/Plugins.meta
+#	new file:   Curly Kumquat Project/Assets/Plugins/Android.meta
+#	new file:   Curly Kumquat Project/Assets/Plugins/Android/fmod.jar
+#	new file:   Curly Kumquat Project/Assets/Plugins/Android/fmod.jar.meta
+#	new file:   Curly Kumquat Project/Assets/Plugins/Android/libs.meta
+#	new file:   Curly Kumquat Project/Assets/Plugins/Android/libs/armeabi-v7a.meta
+#	new file:   Curly Kumquat Project/Assets/Plugins/Android/libs/armeabi-v7a/libfmod.so
+#	new file:   Curly Kumquat Project/Assets/Plugins/Android/libs/armeabi-v7a/libfmod.so.meta
+#	new file:   Curly Kumquat Project/Assets/Plugins/Android/libs/armeabi-v7a/libfmodstudio.so
+#	new file:   Curly Kumquat Project/Assets/Plugins/Android/libs/armeabi-v7a/libfmodstudio.so.meta
+#	new file:   Curly Kumquat Project/Assets/Plugins/Android/libs/x86.meta
+#	new file:   Curly Kumquat Project/Assets/Plugins/Android/libs/x86/libfmod.so
+#	new file:   Curly Kumquat Project/Assets/Plugins/Android/libs/x86/libfmod.so.meta
+#	new file:   Curly Kumquat Project/Assets/Plugins/Android/libs/x86/libfmodstudio.so
+#	new file:   Curly Kumquat Project/Assets/Plugins/Android/libs/x86/libfmodstudio.so.meta
+#	new file:   Curly Kumquat Project/Assets/Plugins/FMOD.meta
+#	new file:   Curly Kumquat Project/Assets/Plugins/FMOD/Editor.meta
+#	new file:   Curly Kumquat Project/Assets/Plugins/FMOD/Editor/FMODEditorExtension.cs
+#	new file:   Curly Kumquat Project/Assets/Plugins/FMOD/Editor/FMODEditorExtension.cs.meta
+#	new file:   Curly Kumquat Project/Assets/Plugins/FMOD/FMODAsset.cs
+#	new file:   Curly Kumquat Project/Assets/Plugins/FMOD/FMODAsset.cs.meta
+#	new file:   Curly Kumquat Project/Assets/Plugins/FMOD/FMOD_Listener.cs
+#	new file:   Curly Kumquat Project/Assets/Plugins/FMOD/FMOD_Listener.cs.meta
+#	new file:   Curly Kumquat Project/Assets/Plugins/FMOD/FMOD_StudioEventEmitter.cs
+#	new file:   Curly Kumquat Project/Assets/Plugins/FMOD/FMOD_StudioEventEmitter.cs.meta
+#	new file:   Curly Kumquat Project/Assets/Plugins/FMOD/FMOD_StudioSystem.cs
+#	new file:   Curly Kumquat Project/Assets/Plugins/FMOD/FMOD_StudioSystem.cs.meta
+#	new file:   Curly Kumquat Project/Assets/Plugins/FMOD/Wrapper.meta
+#	new file:   Curly Kumquat Project/Assets/Plugins/FMOD/Wrapper/fmod.cs
+#	new file:   Curly Kumquat Project/Assets/Plugins/FMOD/Wrapper/fmod.cs.meta
+#	new file:   Curly Kumquat Project/Assets/Plugins/FMOD/Wrapper/fmod_dsp.cs
+#	new file:   Curly Kumquat Project/Assets/Plugins/FMOD/Wrapper/fmod_dsp.cs.meta
+#	new file:   Curly Kumquat Project/Assets/Plugins/FMOD/Wrapper/fmod_errors.cs
+#	new file:   Curly Kumquat Project/Assets/Plugins/FMOD/Wrapper/fmod_errors.cs.meta
+#	new file:   Curly Kumquat Project/Assets/Plugins/FMOD/Wrapper/fmod_studio.cs
+#	new file:   Curly Kumquat Project/Assets/Plugins/FMOD/Wrapper/fmod_studio.cs.meta
+#	new file:   Curly Kumquat Project/Assets/Plugins/Metro.meta
+#	new file:   Curly Kumquat Project/Assets/Plugins/Metro/arm.meta
+#	new file:   Curly Kumquat Project/Assets/Plugins/Metro/arm/fmod.dll
+#	new file:   Curly Kumquat Project/Assets/Plugins/Metro/arm/fmod.dll.meta
+#	new file:   Curly Kumquat Project/Assets/Plugins/Metro/arm/fmodstudio.dll
+#	new file:   Curly Kumquat Project/Assets/Plugins/Metro/arm/fmodstudio.dll.meta
+#	new file:   Curly Kumquat Project/Assets/Plugins/Metro/fmod.dll
+#	new file:   Curly Kumquat Project/Assets/Plugins/Metro/fmod.dll.meta
+#	new file:   Curly Kumquat Project/Assets/Plugins/Metro/fmodstudio.dll
+#	new file:   Curly Kumquat Project/Assets/Plugins/Metro/fmodstudio.dll.meta
+#	new file:   Curly Kumquat Project/Assets/Plugins/Metro/x86.meta
+#	new file:   Curly Kumquat Project/Assets/Plugins/Metro/x86/fmod.dll
+#	new file:   Curly Kumquat Project/Assets/Plugins/Metro/x86/fmod.dll.meta
+#	new file:   Curly Kumquat Project/Assets/Plugins/Metro/x86/fmodstudio.dll
+#	new file:   Curly Kumquat Project/Assets/Plugins/Metro/x86/fmodstudio.dll.meta
+#	new file:   Curly Kumquat Project/Assets/Plugins/fmod.bundle.meta
+#	new file:   Curly Kumquat Project/Assets/Plugins/fmod.bundle/Contents.meta
+#	new file:   Curly Kumquat Project/Assets/Plugins/fmod.bundle/Contents/MacOS.meta
+#	new file:   Curly Kumquat Project/Assets/Plugins/fmod.bundle/Contents/MacOS/fmod
+#	new file:   Curly Kumquat Project/Assets/Plugins/fmod.bundle/Contents/MacOS/fmod.meta
+#	new file:   Curly Kumquat Project/Assets/Plugins/fmodL.bundle.meta
+#	new file:   Curly Kumquat Project/Assets/Plugins/fmodL.bundle/Contents.meta
+#	new file:   Curly Kumquat Project/Assets/Plugins/fmodL.bundle/Contents/MacOS.meta
+#	new file:   Curly Kumquat Project/Assets/Plugins/fmodL.bundle/Contents/MacOS/fmodL
+#	new file:   Curly Kumquat Project/Assets/Plugins/fmodL.bundle/Contents/MacOS/fmodL.meta
+#	new file:   Curly Kumquat Project/Assets/Plugins/fmodstudio.bundle.meta
+#	new file:   Curly Kumquat Project/Assets/Plugins/fmodstudio.bundle/Contents.meta
+#	new file:   Curly Kumquat Project/Assets/Plugins/fmodstudio.bundle/Contents/MacOS.meta
+#	new file:   Curly Kumquat Project/Assets/Plugins/fmodstudio.bundle/Contents/MacOS/fmodstudio
+#	new file:   Curly Kumquat Project/Assets/Plugins/fmodstudio.bundle/Contents/MacOS/fmodstudio.meta
+#	new file:   Curly Kumquat Project/Assets/Plugins/fmodstudioL.bundle.meta
+#	new file:   Curly Kumquat Project/Assets/Plugins/fmodstudioL.bundle/Contents.meta
+#	new file:   Curly Kumquat Project/Assets/Plugins/fmodstudioL.bundle/Contents/MacOS.meta
+#	new file:   Curly Kumquat Project/Assets/Plugins/fmodstudioL.bundle/Contents/MacOS/fmodstudioL
+#	new file:   Curly Kumquat Project/Assets/Plugins/fmodstudioL.bundle/Contents/MacOS/fmodstudioL.meta
+#	new file:   Curly Kumquat Project/Assets/Plugins/iOS.meta
+#	new file:   Curly Kumquat Project/Assets/Plugins/iOS/libfmodstudiounityplugin.a
+#	new file:   Curly Kumquat Project/Assets/Plugins/iOS/libfmodstudiounityplugin.a.meta
+#	new file:   Curly Kumquat Project/Assets/Plugins/x86.meta
+#	new file:   Curly Kumquat Project/Assets/Plugins/x86/fmod.dll
+#	new file:   Curly Kumquat Project/Assets/Plugins/x86/fmod.dll.meta
+#	new file:   Curly Kumquat Project/Assets/Plugins/x86/fmodl.dll
+#	new file:   Curly Kumquat Project/Assets/Plugins/x86/fmodl.dll.meta
+#	new file:   Curly Kumquat Project/Assets/Plugins/x86/fmodstudio.dll
+#	new file:   Curly Kumquat Project/Assets/Plugins/x86/fmodstudio.dll.meta
+#	new file:   Curly Kumquat Project/Assets/Plugins/x86/fmodstudiol.dll
+#	new file:   Curly Kumquat Project/Assets/Plugins/x86/fmodstudiol.dll.meta
+#	new file:   Curly Kumquat Project/Assets/Plugins/x86/libfmod.so
+#	new file:   Curly Kumquat Project/Assets/Plugins/x86/libfmod.so.meta
+#	new file:   Curly Kumquat Project/Assets/Plugins/x86/libfmodstudio.so
+#	new file:   Curly Kumquat Project/Assets/Plugins/x86/libfmodstudio.so.meta
+#	new file:   Curly Kumquat Project/Assets/Plugins/x86_64.meta
+#	new file:   Curly Kumquat Project/Assets/Plugins/x86_64/fmod.dll
+#	new file:   Curly Kumquat Project/Assets/Plugins/x86_64/fmod.dll.meta
+#	new file:   Curly Kumquat Project/Assets/Plugins/x86_64/fmodl.dll
+#	new file:   Curly Kumquat Project/Assets/Plugins/x86_64/fmodl.dll.meta
+#	new file:   Curly Kumquat Project/Assets/Plugins/x86_64/fmodstudio.dll
+#	new file:   Curly Kumquat Project/Assets/Plugins/x86_64/fmodstudio.dll.meta
+#	new file:   Curly Kumquat Project/Assets/Plugins/x86_64/fmodstudiol.dll
+#	new file:   Curly Kumquat Project/Assets/Plugins/x86_64/fmodstudiol.dll.meta
+#	new file:   Curly Kumquat Project/Assets/Plugins/x86_64/libfmod.so
+#	new file:   Curly Kumquat Project/Assets/Plugins/x86_64/libfmod.so.meta
+#	new file:   Curly Kumquat Project/Assets/Plugins/x86_64/libfmodstudio.so
+#	new file:   Curly Kumquat Project/Assets/Plugins/x86_64/libfmodstudio.so.meta
+#	new file:   Curly Kumquat Project/Assets/Scripts/AudioManager.cs
+#	new file:   Curly Kumquat Project/Assets/Scripts/AudioManager.cs.meta
+#	modified:   Curly Kumquat Project/Assets/Scripts/Game.cs
+#	modified:   Curly Kumquat Project/Assets/Standard Assets/Utility/EventSystemChecker.cs
+#	modified:   Curly Kumquat Project/Assets/cameraScript.cs
+#
+
