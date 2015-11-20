@@ -21,7 +21,7 @@ public class Game : MonoBehaviour
 	private GameObject[] mStartPositinos = new GameObject[4];
 	private MasterChef mMasterChef;
 
-	private Player[] mPlayers = new Player[4];
+	private playerScript[] mPlayers = new playerScript[4];
 
 	private bool mGameStarted;
 	private bool mGameEnded;
@@ -32,7 +32,7 @@ public class Game : MonoBehaviour
 		for (int i = 0; i < 4; i++)
 		{
 			mStartPositinos[i] = transform.Find("StartPos" + (i + 1)).gameObject;
-			mPlayers[i] = Instantiate<GameObject>(mPlayerPrefab).GetComponent<Player>();
+			mPlayers[i] = Instantiate<GameObject>(mPlayerPrefab).GetComponent<playerScript>();
 		}
 
 		mGameStarted = true;
@@ -106,7 +106,7 @@ public class Game : MonoBehaviour
 		mGameEnded = true;
 	}
 
-	public Player GetPlayer(int playerID)
+	public playerScript GetPlayer(int playerID)
 	{
 		return mPlayers[playerID];
 	}
@@ -126,7 +126,7 @@ public class Game : MonoBehaviour
 		mMasterChef.Reset();
 	}
 
-	bool OutOfBounds (Player player)
+	bool OutOfBounds (playerScript player)
 	{
 		if (player.transform.position.magnitude > 25f) 
 		{
