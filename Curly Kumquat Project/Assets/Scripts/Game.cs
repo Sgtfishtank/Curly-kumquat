@@ -3,55 +3,94 @@ using System.Collections;
 
 public class Game : MonoBehaviour 
 {
-	public GameObject[] mPlayers = new GameObject[4];
-	public GameObject[] mStartPositinos = new GameObject[4];
-	public GameObject mChef;
+	private static Game instance = null;
+	public static Game Instance
+	{
+		get
+		{
+			if (instance == null)
+			{
+				GameObject thisObject = GameObject.Find("Game");
+				instance = thisObject.GetComponent<AudioManager>();
+			}
+			return instance;
+		}
+	}
 
-	public bool mGameStarted;
-	public bool mGameEnded;
+	public GameObject mPlayerPrefab;
+	public GameObject[] mStartPositinos = new GameObject[4];
+	public MasterChef mChef;
+
+	private GameObject[] mPlayers = new GameObject[4];
+
+	private bool mGameStarted;
+	private bool mGameEnded;
 
 	void Awake()
 	{
-
 		for (int i = 0; i < 4; i++) 
 		{
-			Vector3 pos = mStartPositinos[i].transform.position;
-
-			//mPlayers[i].CreatePlayer(i, pos);
+			mPlayers[i] = Instantiate<GameObject>(mPlayerPrefab);
 		}
+
+		mGameStarted = true;
+		mGameEnded = false;
 	}
 
 	// Use this for initialization
 	void Start () 
 	{
-	
+		for (int i = 0; i < 4; i++) 
+		{
+
+			Vector3 pos = mStartPositinos[i].transform.position;
+			
+			//mPlayers[i].CreatePlayer(i, pos);
+		}
 	}
 	
 	// Update is called once per frame
 	void Update () 
 	{
-		if (Input.GetKeyDown(KeyCode.R)) 
+		if (!mGameStarted) 
 		{
-			Reset();
+			// start game
 		}
-
-		int playersAlive = 0;
-		for (int i = 0; i < 4; i++) 
+		else if (!mGameEnded)
 		{
-			//if (mPlayers[i].IsDead()) 
+			// game running
+			if (Input.GetKeyDown(KeyCode.R)) 
 			{
-				playersAlive++;
+				Reset();
+			}
+			
+			int playersAlive = 0;
+			for (int i = 0; i < 4; i++) 
+			{
+				//if (mPlayers[i].IsDead()) 
+				{
+					playersAlive++;
+				}
+				
+				if (OutOfBounds(mPlayers[i])) 
+				{
+					//mPlayers.Kill();
+				}
+			}
+			
+			if (playersAlive == 1) 
+			{
+				EndGame();
+			}
+		}
+		else 
+		{
+			// game ended
+			if (Input.GetKeyDown(KeyCode.R)) 
+			{
+				Reset();
 			}
 
-			if (OutOfBounds(mPlayers[i])) 
-			{
-				//mPlayers.Kill();
-			}
-		}
-
-		if (playersAlive == 1) 
-		{
-			EndGame();
 		}
 	}
 
@@ -67,6 +106,8 @@ public class Game : MonoBehaviour
 		{
 			//mPlayers[i].Reset();
 		}
+
+		mChef.Reset();
 	}
 
 	bool OutOfBounds (GameObject gameObject)

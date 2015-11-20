@@ -22,7 +22,7 @@ public class AudioManager : MonoBehaviour
 		{
 			if (instance == null)
 			{
-				GameObject thisObject = GameObject.Find("Audio Manager");
+				GameObject thisObject = GameObject.Find("AudioManager");
 				instance = thisObject.GetComponent<AudioManager>();
 			}
 			return instance;

@@ -35,6 +35,12 @@ public class MasterChef : MonoBehaviour
 			break;
 		}		
 	}
+
+	public void Reset ()
+	{
+		// reset state
+	}
+
 	void Chop()
 	{
 
