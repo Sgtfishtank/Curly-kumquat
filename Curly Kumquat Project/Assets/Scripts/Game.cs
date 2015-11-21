@@ -17,11 +17,10 @@ public class Game : MonoBehaviour
 	}
 
 	public GameObject mPlayerPrefab;
+
 	private GameObject[] mStartPositinos = new GameObject[4];
 	private MasterChef mMasterChef;
-
 	private playerScript[] mPlayers;
-
 	private bool mGameStarted;
 	private bool mGameEnded;
 
@@ -110,7 +109,7 @@ public class Game : MonoBehaviour
 			Vector3 pos = mStartPositinos[i].transform.position;
 			
 			mPlayers[i].transform.position = pos;
-			mPlayers[i].CreatePlayer(i);
+			mPlayers[i].CreatePlayer(i, (playerScript.FruitType)(Random.Range(0, (int)playerScript.FruitType.FruitCount)));
 		}
 
 		mGameStarted = true;
@@ -162,7 +161,7 @@ public class Game : MonoBehaviour
 				mPlayers[i].Reset();
 
 				mPlayers[i].transform.position = pos;
-				mPlayers[i].CreatePlayer(i);
+				mPlayers[i].CreatePlayer(i, (playerScript.FruitType)(Random.Range(0, (int)playerScript.FruitType.FruitCount)));
 			}
 
 			mGameEnded = false;

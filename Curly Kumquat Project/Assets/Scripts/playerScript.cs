@@ -3,12 +3,24 @@ using System.Collections;
 
 public class playerScript : MonoBehaviour 
 {
+	public enum FruitType
+	{
+		Onion,
+		Carrot,
+
+		// len of enum
+		FruitCount
+	}
+
 	public float moveSpeed;
 	public float jumpForce;
 	public float mDashSpeed;
 	public float mDashDuration;
 	public float mKnockBackDuration;
-	
+
+	public GameObject mOinionBodyPrefab;
+	public GameObject mCarrotBodyPrefab;
+
 	private float gravityForce;
 	private Rigidbody RB;
 	
@@ -28,14 +40,16 @@ public class playerScript : MonoBehaviour
 	private bool mDashing = false;
 	private float mDashT;
 
+	private GameObject mBody;
+
 	void Awake()
 	{
 	
 	}
 
-	public void CreatePlayer (int i)
+	public void CreatePlayer (int playerID, FruitType type)
 	{
-		switch (i) 
+		switch (playerID) 
 		{
 		case 0:
 			InitKeys(KeyCode.UpArrow, KeyCode.DownArrow, KeyCode.LeftArrow, KeyCode.RightArrow);
@@ -50,7 +64,24 @@ public class playerScript : MonoBehaviour
 			InitKeys(KeyCode.I, KeyCode.K, KeyCode.J, KeyCode.L);
 			break;
 		}
-		mPlayerID = i;
+		mPlayerID = playerID;
+
+		if (mBody != null) 
+		{
+			Destroy(mBody);
+		}
+		switch (type) 
+		{
+		case FruitType.Carrot:
+			mBody = Instantiate(mOinionBodyPrefab);
+			break;
+		case FruitType.Onion:
+			mBody = Instantiate(mCarrotBodyPrefab);
+			break;
+		}
+
+		mBody.transform.parent = transform;
+		mBody.transform.localPosition = Vector3.zero;
 	}
 
 	void Start () 
