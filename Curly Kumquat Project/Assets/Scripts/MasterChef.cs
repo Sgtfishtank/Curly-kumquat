@@ -17,8 +17,13 @@ public class MasterChef : MonoBehaviour
 	public GameObject chopShoveWarning;
 	public GameObject swipeWarning;
 	public GameObject trippleChopWarning;
+	public GameObject knifePrefab;
 	public GameObject knife;
 
+	void Awake()
+	{
+		knife = Instantiate<GameObject>(knifePrefab);
+	}
 
 	// Use this for initialization
 	void Start ()
@@ -102,6 +107,9 @@ public class MasterChef : MonoBehaviour
 	public void Reset ()
 	{
 		// reset state
+		knife.transform.position = Vector3.zero;
+		knife.transform.rotation = Quaternion.identity;
+		currentState = (int)state.pick;
 	}
 
 	void Chop()
@@ -138,10 +146,12 @@ public class MasterChef : MonoBehaviour
 		currentState = (int)state.execute;
 
 
+
 	}
 	void TrippleChop()
 	{
 		currentState = (int)state.execute;
+
 
 	}
 	void idel()

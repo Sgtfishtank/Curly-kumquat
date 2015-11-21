@@ -44,7 +44,9 @@ public class playerScript : MonoBehaviour
 
 	void Awake()
 	{
-	
+		RB = GetComponent<Rigidbody>();
+		gravityForce = -50;
+		Physics.gravity = new Vector3 (0, gravityForce, 0);
 	}
 
 	public void CreatePlayer (int playerID, FruitType type)
@@ -86,9 +88,6 @@ public class playerScript : MonoBehaviour
 
 	void Start () 
 	{
-		RB = GetComponent<Rigidbody> ();
-		gravityForce = -50;
-		Physics.gravity = new Vector3 (0, gravityForce, 0);
 	}
 
 	void Update () 
@@ -177,6 +176,7 @@ public class playerScript : MonoBehaviour
 
 	public void Reset ()
 	{
+		gameObject.SetActive (true);
 		mIsDead = false;
 		RB.velocity = Vector3.zero;
 		RB.angularVelocity = Vector3.zero;
@@ -191,6 +191,7 @@ public class playerScript : MonoBehaviour
 	
 	public void Kill()
 	{
+		gameObject.SetActive (false);
 		mIsDead = true;
 	}
 
@@ -212,6 +213,10 @@ public class playerScript : MonoBehaviour
 			KnockBack();
 			RB.velocity = (transform.position - coll.collider.transform.position).normalized * 7;
 			RB.velocity += new Vector3(0, 7, 0);
+		}
+		else if (coll.collider.tag == "Knife") 
+		{
+			Kill();
 		}
 	}
 	

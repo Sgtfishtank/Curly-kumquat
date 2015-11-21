@@ -40,7 +40,9 @@ public class Game : MonoBehaviour
 	// Use this for initialization
 	void Start () 
 	{
+		mMasterChef.enabled = false;
 		UpdateGUI();
+		GUICanvas.Instance.ShowQuit(true);
 	}
 
 	void UpdateGUI ()
@@ -48,7 +50,6 @@ public class Game : MonoBehaviour
 		GUICanvas.Instance.ShowEnd(mGameEnded);
 		GUICanvas.Instance.ShowStart(!mGameStarted);
 		GUICanvas.Instance.ShowPlaying(mGameStarted && (!mGameEnded));
-		GUICanvas.Instance.ShowQuit(mGameEnded || (!mGameStarted));
 	}
 	
 	// Update is called once per frame
@@ -81,7 +82,7 @@ public class Game : MonoBehaviour
 				}
 			}
 			
-			if (playersAlive == 1) 
+			if (playersAlive < 2) 
 			{
 				EndGame(playerID);
 			}
@@ -98,6 +99,8 @@ public class Game : MonoBehaviour
 
 	public void StartGame (int playerCount)
 	{
+		GUICanvas.Instance.ShowQuit(false);
+		mMasterChef.enabled = true;
 		mPlayers = new playerScript[playerCount];
 		for (int i = 0; i < mPlayers.Length; i++)
 		{
@@ -129,6 +132,7 @@ public class Game : MonoBehaviour
 
 	void EndGame (int playerID)
 	{
+		mMasterChef.enabled = false;
 		// game ends
 		GUICanvas.Instance.SetWin(playerID);
 		mGameEnded = true;
@@ -136,6 +140,7 @@ public class Game : MonoBehaviour
 		{
 			Destroy(mPlayers[i].gameObject);
 		}
+		GUICanvas.Instance.ShowQuit(true);
 		mPlayers = null;
 		UpdateGUI();
 	}
