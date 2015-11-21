@@ -20,9 +20,7 @@ public class playerScript : MonoBehaviour
 
 	private int numberOfJumps;
 	private int maxJumps = 2;
-
 	private string LastKeyPressed;
-
 	private float buttonCooldown = 0.5F;
 	private int buttonCount = 0;
 
@@ -43,7 +41,6 @@ public class playerScript : MonoBehaviour
 	private KeyCode mUpKey = KeyCode.W;
 	private KeyCode mDownKey = KeyCode.S;
 	private KeyCode mSpaceKey = KeyCode.Space;
-	private KeyCode mDashKey = KeyCode.LeftShift;
 
 
 	private bool mDashing = false;
@@ -140,7 +137,6 @@ public class playerScript : MonoBehaviour
 			buttonCooldown -= 1 * Time.deltaTime ;
 			
 		}
-
 		else
 		{
 			buttonCount = 0 ;
@@ -199,17 +195,16 @@ public class playerScript : MonoBehaviour
 
 	void InitKeys (KeyCode w, KeyCode s, KeyCode a, KeyCode d)
 	{
-		InitKeys (w, s, a, d, KeyCode.Space, KeyCode.LeftShift);
+		InitKeys (w, s, a, d, KeyCode.Space);
 	}
 
-	void InitKeys (KeyCode w, KeyCode s, KeyCode a, KeyCode d, KeyCode jump, KeyCode dash)
+	void InitKeys (KeyCode w, KeyCode s, KeyCode a, KeyCode d, KeyCode jump)
 	{
 		mLeftKey = a;
 		mRightKey = d;
 		mUpKey = w;
 		mDownKey = s;
 		mSpaceKey = jump;
-		mDashKey = dash;
 	}
 
 	public bool IsDashing()
