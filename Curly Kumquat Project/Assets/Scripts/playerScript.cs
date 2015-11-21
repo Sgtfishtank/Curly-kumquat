@@ -10,11 +10,11 @@ public class playerScript : MonoBehaviour
 	private Rigidbody RB;
 	
 	private bool mIsDead;
-	private KeyCode mLeftKey;
-	private KeyCode mRightKey;
-	private KeyCode mUpKey;
-	private KeyCode mDownKey;
-	private KeyCode mSpaceKey;
+	private KeyCode mLeftKey = KeyCode.A;
+	private KeyCode mRightKey = KeyCode.D;
+	private KeyCode mUpKey = KeyCode.W;
+	private KeyCode mDownKey = KeyCode.S;
+	private KeyCode mSpaceKey = KeyCode.Space;
 
 	public void CreatePlayer (int i)
 	{
