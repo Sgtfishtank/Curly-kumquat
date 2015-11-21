@@ -147,10 +147,12 @@ public class MasterChef : MonoBehaviour
 
 
 
+
 	}
 	void TrippleChop()
 	{
 		currentState = (int)state.execute;
+
 
 
 	}

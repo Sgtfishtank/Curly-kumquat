@@ -175,11 +175,6 @@ public class playerScript : MonoBehaviour
 				numberOfJumps++;
 				RB.velocity = new Vector3(RB.velocity.x, jumpForce, RB.velocity.z);
 			}
-
-			if (Input.GetKeyDown(mDashKey))
-			{
-				Dash();
-			}
 		}
 
 		Vector3 pos = transform.position;
