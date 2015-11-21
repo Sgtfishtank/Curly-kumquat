@@ -87,11 +87,11 @@ public class GUICanvas : MonoBehaviour
 	{
 		if (i < 0) 
 		{
-			mWinText.text = "noo Player  wons! You lose";
+			mWinText.text = "No player  won! You lose";
 		}
 		else 
 		{
-			mWinText.text = "Player " + (i + 1) + " wons!";
+			mWinText.text = "Player " + (i + 1) + " won!";
 		}
 	}
 
