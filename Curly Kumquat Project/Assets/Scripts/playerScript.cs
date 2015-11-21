@@ -296,6 +296,11 @@ public class playerScript : MonoBehaviour
 		}
 		if (coll.collider.tag == "Player") 
 		{
+			if (mDashing)
+			{
+				mDashing = false;
+			}
+
 			playerScript otherPlayer = coll.collider.GetComponent<playerScript>();
 			int otherID = otherPlayer.mPlayerID;
 			print("ID: " + otherID);
