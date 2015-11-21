@@ -20,6 +20,7 @@ public class playerScript : MonoBehaviour
 
 	private int numberOfJumps;
 	private int maxJumps = 2;
+<<<<<<< HEAD
 	
 	private int LeftButtonCount;
 	private int RightButtonCount;
@@ -29,6 +30,9 @@ public class playerScript : MonoBehaviour
 	private bool RightDash = false;
 	private bool DownDash = false;
 	private bool UpDash = false;
+=======
+	private string LastKeyPressed;
+>>>>>>> origin/master
 	private float buttonCooldown = 0.5F;
 
 	public GameObject mOinionBodyPrefab;
@@ -48,7 +52,6 @@ public class playerScript : MonoBehaviour
 	private KeyCode mUpKey = KeyCode.W;
 	private KeyCode mDownKey = KeyCode.S;
 	private KeyCode mSpaceKey = KeyCode.Space;
-	private KeyCode mDashKey = KeyCode.LeftShift;
 
 
 	private bool mDashing = false;
@@ -165,7 +168,6 @@ public class playerScript : MonoBehaviour
 		{
 			buttonCooldown -= 1 * Time.deltaTime ;
 		}
-
 		else
 		{
 			LeftButtonCount = 0;
@@ -178,6 +180,7 @@ public class playerScript : MonoBehaviour
 		{
 			if (Input.GetKey(mLeftKey))
 			{
+<<<<<<< HEAD
 				RightButtonCount = 0;
 				DownButtonCount = 0;
 				UpButtonCount = 0;
@@ -186,6 +189,10 @@ public class playerScript : MonoBehaviour
 				{
 					LeftButtonCount++;
 				}
+=======
+				LastKeyPressed = mLeftKey.ToString();
+				mBody.transform.localScale = new Vector3(1, 1, 1);
+>>>>>>> origin/master
 				transform.Translate(Vector3.left * moveSpeed2 * Time.deltaTime, Space.World);
 			}
 			
@@ -204,6 +211,7 @@ public class playerScript : MonoBehaviour
 			
 			if (Input.GetKey(mRightKey))
 			{
+<<<<<<< HEAD
 				LeftButtonCount = 0;
 				DownButtonCount = 0;
 				UpButtonCount = 0;
@@ -212,6 +220,10 @@ public class playerScript : MonoBehaviour
 				{
 					RightButtonCount++;
 				}
+=======
+				LastKeyPressed = mRightKey.ToString();
+				mBody.transform.localScale = new Vector3(1, 1, -1);
+>>>>>>> origin/master
 				transform.Translate(Vector3.right * moveSpeed2 * Time.deltaTime, Space.World);
 			}
 			
@@ -233,11 +245,6 @@ public class playerScript : MonoBehaviour
 				numberOfJumps++;
 				RB.velocity = new Vector3(RB.velocity.x, jumpForce, RB.velocity.z);
 			}
-
-			if (Input.GetKeyDown(mDashKey))
-			{
-				Dash();
-			}
 		}
 
 		Vector3 pos = transform.position;
@@ -253,17 +260,16 @@ public class playerScript : MonoBehaviour
 
 	void InitKeys (KeyCode w, KeyCode s, KeyCode a, KeyCode d)
 	{
-		InitKeys (w, s, a, d, KeyCode.Space, KeyCode.LeftShift);
+		InitKeys (w, s, a, d, KeyCode.Space);
 	}
 
-	void InitKeys (KeyCode w, KeyCode s, KeyCode a, KeyCode d, KeyCode jump, KeyCode dash)
+	void InitKeys (KeyCode w, KeyCode s, KeyCode a, KeyCode d, KeyCode jump)
 	{
 		mLeftKey = a;
 		mRightKey = d;
 		mUpKey = w;
 		mDownKey = s;
 		mSpaceKey = jump;
-		mDashKey = dash;
 	}
 
 	public bool IsDashing()
