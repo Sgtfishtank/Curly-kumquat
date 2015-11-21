@@ -18,17 +18,17 @@ public class playerScript : MonoBehaviour
 	public float mDashDuration;
 	public float mKnockBackDuration;
 
-<<<<<<< HEAD
+	private int numberOfJumps;
+	private int maxJumps = 2;
+
 	private string LastKeyPressed;
 
 	private float buttonCooldown = 0.5F;
 	private int buttonCount = 0;
-	
-=======
+
 	public GameObject mOinionBodyPrefab;
 	public GameObject mCarrotBodyPrefab;
 
->>>>>>> origin/master
 	private float gravityForce;
 	private Rigidbody RB;
 
@@ -101,6 +101,7 @@ public class playerScript : MonoBehaviour
 
 	void Update () 
 	{
+		Debug.Log (numberOfJumps);
 		if (mKnockBacking)
 		{
 			if (mKnockBackT < Time.time)
@@ -119,7 +120,6 @@ public class playerScript : MonoBehaviour
 			}
 		}
 
-<<<<<<< HEAD
 		if (Input.anyKeyDown)
 		{
 			if ( buttonCooldown > 0 && buttonCount == 2 && Input.inputString == LastKeyPressed)
@@ -145,56 +145,36 @@ public class playerScript : MonoBehaviour
 		{
 			buttonCount = 0 ;
 		}
-		
-		if (Input.GetKey(mLeftKey))
-		{
-			LastKeyPressed = mLeftKey.ToString();
-			transform.Translate(Vector3.left * moveSpeed2 * Time.deltaTime, Space.World);
-		}
 
-		if (Input.GetKey(mDownKey))
-		{
-			LastKeyPressed = mLeftKey.ToString();
-			transform.Translate(Vector3.back * moveSpeed2 * Time.deltaTime, Space.World);
-		}
-
-		if (Input.GetKey(mRightKey))
-		{
-			LastKeyPressed = mLeftKey.ToString();
-			transform.Translate(Vector3.right * moveSpeed2 * Time.deltaTime, Space.World);
-		}
-
-		if (Input.GetKey(mUpKey))
-		{
-			LastKeyPressed = mLeftKey.ToString();
-			transform.Translate(Vector3.forward * moveSpeed2 * Time.deltaTime, Space.World);
-		}
-=======
 		if (!mKnockBacking)
 		{
 			if (Input.GetKey(mLeftKey))
 			{
+				LastKeyPressed = mLeftKey.ToString();
 				transform.Translate(Vector3.left * moveSpeed2 * Time.deltaTime, Space.World);
 			}
-
+			
 			if (Input.GetKey(mDownKey))
 			{
+				LastKeyPressed = mDownKey.ToString();
 				transform.Translate(Vector3.back * moveSpeed2 * Time.deltaTime, Space.World);
 			}
-
+			
 			if (Input.GetKey(mRightKey))
 			{
+				LastKeyPressed = mRightKey.ToString();
 				transform.Translate(Vector3.right * moveSpeed2 * Time.deltaTime, Space.World);
 			}
-
+			
 			if (Input.GetKey(mUpKey))
 			{
+				LastKeyPressed = mUpKey.ToString();
 				transform.Translate(Vector3.forward * moveSpeed2 * Time.deltaTime, Space.World);
 			}
->>>>>>> origin/master
 
-			if (Input.GetKeyDown(mSpaceKey))
+			if (Input.GetKeyDown(mSpaceKey) && numberOfJumps < maxJumps)
 			{
+				numberOfJumps++;
 				RB.velocity = new Vector3(RB.velocity.x, jumpForce, RB.velocity.z);
 			}
 
@@ -264,6 +244,11 @@ public class playerScript : MonoBehaviour
 
 	void OnCollisionEnter(Collision coll)
 	{
+		
+		if (coll.gameObject.tag == "Ground" && numberOfJumps > 0)
+		{
+			numberOfJumps = 0;
+		}
 		if (coll.collider.tag == "Player") 
 		{
 			playerScript otherPlayer = coll.collider.GetComponent<playerScript>();
