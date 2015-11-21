@@ -17,11 +17,10 @@ public class Game : MonoBehaviour
 	}
 
 	public GameObject mPlayerPrefab;
+
 	private GameObject[] mStartPositinos = new GameObject[4];
 	private MasterChef mMasterChef;
-
 	private playerScript[] mPlayers;
-
 	private bool mGameStarted;
 	private bool mGameEnded;
 
@@ -41,7 +40,9 @@ public class Game : MonoBehaviour
 	// Use this for initialization
 	void Start () 
 	{
+		mMasterChef.enabled = false;
 		UpdateGUI();
+		GUICanvas.Instance.ShowQuit(true);
 	}
 
 	void UpdateGUI ()
@@ -49,7 +50,6 @@ public class Game : MonoBehaviour
 		GUICanvas.Instance.ShowEnd(mGameEnded);
 		GUICanvas.Instance.ShowStart(!mGameStarted);
 		GUICanvas.Instance.ShowPlaying(mGameStarted && (!mGameEnded));
-		GUICanvas.Instance.ShowQuit(mGameEnded || (!mGameStarted));
 	}
 	
 	// Update is called once per frame
@@ -82,7 +82,7 @@ public class Game : MonoBehaviour
 				}
 			}
 			
-			if (playersAlive == 1) 
+			if (playersAlive < 2) 
 			{
 				EndGame(playerID);
 			}
@@ -99,6 +99,8 @@ public class Game : MonoBehaviour
 
 	public void StartGame (int playerCount)
 	{
+		GUICanvas.Instance.ShowQuit(false);
+		mMasterChef.enabled = true;
 		mPlayers = new playerScript[playerCount];
 		for (int i = 0; i < mPlayers.Length; i++)
 		{
@@ -110,7 +112,7 @@ public class Game : MonoBehaviour
 			Vector3 pos = mStartPositinos[i].transform.position;
 			
 			mPlayers[i].transform.position = pos;
-			mPlayers[i].CreatePlayer(i);
+			mPlayers[i].CreatePlayer(i, (playerScript.FruitType)(Random.Range(0, (int)playerScript.FruitType.FruitCount)));
 		}
 
 		mGameStarted = true;
@@ -130,6 +132,7 @@ public class Game : MonoBehaviour
 
 	void EndGame (int playerID)
 	{
+		mMasterChef.enabled = false;
 		// game ends
 		GUICanvas.Instance.SetWin(playerID);
 		mGameEnded = true;
@@ -137,6 +140,7 @@ public class Game : MonoBehaviour
 		{
 			Destroy(mPlayers[i].gameObject);
 		}
+		GUICanvas.Instance.ShowQuit(true);
 		mPlayers = null;
 		UpdateGUI();
 	}
@@ -162,7 +166,7 @@ public class Game : MonoBehaviour
 				mPlayers[i].Reset();
 
 				mPlayers[i].transform.position = pos;
-				mPlayers[i].CreatePlayer(i);
+				mPlayers[i].CreatePlayer(i, (playerScript.FruitType)(Random.Range(0, (int)playerScript.FruitType.FruitCount)));
 			}
 
 			mGameEnded = false;

@@ -3,17 +3,32 @@ using System.Collections;
 
 public class playerScript : MonoBehaviour 
 {
+	public enum FruitType
+	{
+		Onion,
+		Carrot,
+
+		// len of enum
+		FruitCount
+	}
+
 	public float moveSpeed;
 	public float jumpForce;
 	public float mDashSpeed;
 	public float mDashDuration;
 	public float mKnockBackDuration;
 
+<<<<<<< HEAD
 	private string LastKeyPressed;
 
 	private float buttonCooldown = 0.5F;
 	private int buttonCount = 0;
 	
+=======
+	public GameObject mOinionBodyPrefab;
+	public GameObject mCarrotBodyPrefab;
+
+>>>>>>> origin/master
 	private float gravityForce;
 	private Rigidbody RB;
 
@@ -34,14 +49,18 @@ public class playerScript : MonoBehaviour
 	private bool mDashing = false;
 	private float mDashT;
 
+	private GameObject mBody;
+
 	void Awake()
 	{
-	
+		RB = GetComponent<Rigidbody>();
+		gravityForce = -50;
+		Physics.gravity = new Vector3 (0, gravityForce, 0);
 	}
 
-	public void CreatePlayer (int i)
+	public void CreatePlayer (int playerID, FruitType type)
 	{
-		switch (i) 
+		switch (playerID) 
 		{
 		case 0:
 			InitKeys(KeyCode.UpArrow, KeyCode.DownArrow, KeyCode.LeftArrow, KeyCode.RightArrow);
@@ -56,14 +75,28 @@ public class playerScript : MonoBehaviour
 			InitKeys(KeyCode.I, KeyCode.K, KeyCode.J, KeyCode.L);
 			break;
 		}
-		mPlayerID = i;
+		mPlayerID = playerID;
+
+		if (mBody != null) 
+		{
+			Destroy(mBody);
+		}
+		switch (type) 
+		{
+		case FruitType.Carrot:
+			mBody = Instantiate(mOinionBodyPrefab);
+			break;
+		case FruitType.Onion:
+			mBody = Instantiate(mCarrotBodyPrefab);
+			break;
+		}
+
+		mBody.transform.parent = transform;
+		mBody.transform.localPosition = Vector3.zero;
 	}
 
 	void Start () 
 	{
-		RB = GetComponent<Rigidbody> ();
-		gravityForce = -50;
-		Physics.gravity = new Vector3 (0, gravityForce, 0);
 	}
 
 	void Update () 
@@ -73,10 +106,6 @@ public class playerScript : MonoBehaviour
 			if (mKnockBackT < Time.time)
 			{
 				mKnockBacking = false;
-			}
-			else 
-			{
-				return;
 			}
 		}
 
@@ -90,6 +119,7 @@ public class playerScript : MonoBehaviour
 			}
 		}
 
+<<<<<<< HEAD
 		if (Input.anyKeyDown)
 		{
 			if ( buttonCooldown > 0 && buttonCount == 2 && Input.inputString == LastKeyPressed)
@@ -139,16 +169,44 @@ public class playerScript : MonoBehaviour
 			LastKeyPressed = mLeftKey.ToString();
 			transform.Translate(Vector3.forward * moveSpeed2 * Time.deltaTime, Space.World);
 		}
-
-		if (Input.GetKeyDown(mSpaceKey))
+=======
+		if (!mKnockBacking)
 		{
-			RB.velocity = new Vector3(RB.velocity.x, jumpForce, RB.velocity.z);
+			if (Input.GetKey(mLeftKey))
+			{
+				transform.Translate(Vector3.left * moveSpeed2 * Time.deltaTime, Space.World);
+			}
+
+			if (Input.GetKey(mDownKey))
+			{
+				transform.Translate(Vector3.back * moveSpeed2 * Time.deltaTime, Space.World);
+			}
+
+			if (Input.GetKey(mRightKey))
+			{
+				transform.Translate(Vector3.right * moveSpeed2 * Time.deltaTime, Space.World);
+			}
+
+			if (Input.GetKey(mUpKey))
+			{
+				transform.Translate(Vector3.forward * moveSpeed2 * Time.deltaTime, Space.World);
+			}
+>>>>>>> origin/master
+
+			if (Input.GetKeyDown(mSpaceKey))
+			{
+				RB.velocity = new Vector3(RB.velocity.x, jumpForce, RB.velocity.z);
+			}
+
+			if (Input.GetKeyDown(mDashKey))
+			{
+				Dash();
+			}
 		}
 
-		if (Input.GetKeyDown(mDashKey))
-		{
-			Dash();
-		}
+		Vector3 pos = transform.position;
+		pos.z = Mathf.Clamp(pos.z, -4, 3);
+		transform.position = pos;
 	}
 
 	void Dash ()
@@ -179,6 +237,7 @@ public class playerScript : MonoBehaviour
 
 	public void Reset ()
 	{
+		gameObject.SetActive (true);
 		mIsDead = false;
 		RB.velocity = Vector3.zero;
 		RB.angularVelocity = Vector3.zero;
@@ -193,6 +252,7 @@ public class playerScript : MonoBehaviour
 	
 	public void Kill()
 	{
+		gameObject.SetActive (false);
 		mIsDead = true;
 	}
 
@@ -214,6 +274,10 @@ public class playerScript : MonoBehaviour
 			KnockBack();
 			RB.velocity = (transform.position - coll.collider.transform.position).normalized * 7;
 			RB.velocity += new Vector3(0, 7, 0);
+		}
+		else if (coll.collider.tag == "Knife") 
+		{
+			Kill();
 		}
 	}
 	

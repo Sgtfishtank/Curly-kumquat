@@ -93,6 +93,10 @@ public class GUICanvas : MonoBehaviour
 
 	public void SetWin(int i)
 	{
+		if (i < 0) 
+		{
+			mWinText.text = "noo Player  wons!";
+		}
 		mWinText.text = "Player " + (i + 1) + " wons!";
 	}
 
