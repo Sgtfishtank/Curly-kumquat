@@ -21,6 +21,7 @@ public class MasterChef : MonoBehaviour
 	public GameObject trippleChopWarning;
 	public GameObject knifePrefab;
 	public GameObject knife;
+	public FMOD.Studio.EventInstance mSlapChopMusic;
 
 	void Awake()
 	{

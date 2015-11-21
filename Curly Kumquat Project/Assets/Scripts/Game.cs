@@ -23,6 +23,8 @@ public class Game : MonoBehaviour
 		End
 	}
 	public GameObject mPlayerPrefab;
+	public FMOD.Studio.EventInstance mMenuMusic;
+	public FMOD.Studio.EventInstance mGameMusic;
 
 	private GameObject[] mStartPositinos = new GameObject[4];
 	private MasterChef mMasterChef;
@@ -44,6 +46,7 @@ public class Game : MonoBehaviour
 	// Use this for initialization
 	void Start () 
 	{
+		AudioManager.Instance.PlayMusic(mMenuMusic);
 		mMasterChef.enabled = false;
 		UpdateGUI();
 		GUICanvas.Instance.ShowQuit(true);
@@ -121,6 +124,8 @@ public class Game : MonoBehaviour
 
 	public void StartGame (int playerCount)
 	{
+		AudioManager.Instance.StopMusic(mMenuMusic, FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+		AudioManager.Instance.PlayMusic(mGameMusic);
 		GUICanvas.Instance.ShowQuit(false);
 		mMasterChef.enabled = true;
 		mPlayers = new playerScript[playerCount];
@@ -153,6 +158,7 @@ public class Game : MonoBehaviour
 
 	void EndGame (int playerID)
 	{
+		AudioManager.Instance.StopMusic (mGameMusic, FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
 		mMasterChef.enabled = false;
 		// game ends
 		GUICanvas.Instance.SetWin(playerID);

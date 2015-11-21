@@ -47,15 +47,18 @@ public class playerScript : MonoBehaviour
 	private KeyCode mSpaceKey = KeyCode.Space;
 
 	private Animator mAni;
+
+	private FMOD.Studio.EventInstance[] mScreams;
+
 	private bool mDashing = false;
 	private float mDashT;
-
 	private GameObject mBody;
 	private float mCrossT;
 
 	void Awake()
 	{
 		mCrossT = -1;
+		mScreams = new FMOD.Studio.EventInstance[0];
 		RB = GetComponent<Rigidbody>();
 		gravityForce = -45;
 		Physics.gravity = new Vector3 (0, gravityForce, 0);
@@ -112,6 +115,12 @@ public class playerScript : MonoBehaviour
 			print("crossfade");
 			mAni.CrossFade("Running", 0.5f, 0, Random.value);
 			mCrossT = -1;
+		}
+		
+		if (Random.value > 0.999f) 
+		{
+			int index = Random.Range(0, mScreams.Length);
+			AudioManager.Instance.PlaySoundOnce(mScreams[index]);
 		}
 
 		if (mKnockBacking)
