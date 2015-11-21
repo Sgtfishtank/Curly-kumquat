@@ -270,7 +270,7 @@ ModelImporter:
     4300024: leg1
     4300026: leg2
     4300028: arm2
-    7400000: Take 001
+    7400000: Running
     9500000: //RootNode
     13700000: arm1
     13700002: arm2
@@ -293,7 +293,7 @@ ModelImporter:
     extraExposedTransformPaths: []
     clipAnimations:
     - serializedVersion: 16
-      name: Take 001
+      name: Running
       takeName: Take 001
       firstFrame: 1
       lastFrame: 17
@@ -302,7 +302,7 @@ ModelImporter:
       level: 0
       cycleOffset: 0
       loop: 0
-      loopTime: 0
+      loopTime: 1
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
@@ -549,7 +549,7 @@ ModelImporter:
     isReadable: 1
   meshes:
     lODScreenPercentages: []
-    globalScale: 1
+    globalScale: .00999999978
     meshCompression: 0
     addColliders: 0
     importBlendShapes: 1

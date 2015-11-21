@@ -46,16 +46,18 @@ public class playerScript : MonoBehaviour
 	private KeyCode mDownKey = KeyCode.S;
 	private KeyCode mSpaceKey = KeyCode.Space;
 
-
+	private Animator mAni;
 	private bool mDashing = false;
 	private float mDashT;
 
 	private GameObject mBody;
+	private float mCrossT;
 
 	void Awake()
 	{
+		mCrossT = -1;
 		RB = GetComponent<Rigidbody>();
-		gravityForce = -50;
+		gravityForce = -45;
 		Physics.gravity = new Vector3 (0, gravityForce, 0);
 	}
 
@@ -92,8 +94,11 @@ public class playerScript : MonoBehaviour
 			break;
 		}
 
+		mAni = mBody.GetComponent<Animator> ();
+		mAni.CrossFade("Running", 0.5f, 0, Random.value);
 		mBody.transform.parent = transform;
 		mBody.transform.localPosition = Vector3.zero;
+		mBody.transform.localRotation = Quaternion.Euler (0,-90, 0);
 	}
 
 	void Start () 
@@ -102,6 +107,13 @@ public class playerScript : MonoBehaviour
 
 	void Update () 
 	{
+		if ((mCrossT < Time.time) && (mCrossT > 0))
+		{
+			print("crossfade");
+			mAni.CrossFade("Running", 0.5f, 0, Random.value);
+			mCrossT = -1;
+		}
+
 		if (mKnockBacking)
 		{
 			if (mKnockBackT < Time.time)
@@ -211,6 +223,8 @@ public class playerScript : MonoBehaviour
 
 			if (Input.GetKeyDown(mSpaceKey) && numberOfJumps < maxJumps)
 			{
+				mCrossT = Time.time + ((30 / 24.0f) / 1.4f) - 0.5f;
+				mAni.SetTrigger("Jump");
 				numberOfJumps++;
 				RB.velocity = new Vector3(RB.velocity.x, jumpForce, RB.velocity.z);
 			}

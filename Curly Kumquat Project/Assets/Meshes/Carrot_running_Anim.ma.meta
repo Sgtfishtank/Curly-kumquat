@@ -289,7 +289,7 @@ ModelImporter:
     4300030: leg1
     4300032: leg2
     4300034: arm2
-    7400000: Take 001
+    7400000: Running
     9500000: //RootNode
     13700000: arm1
     13700002: arm2
@@ -310,11 +310,275 @@ ModelImporter:
     animationScaleError: .5
     animationWrapMode: 0
     extraExposedTransformPaths: []
-    clipAnimations: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Running
+      takeName: Take 001
+      firstFrame: 1
+      lastFrame: 17
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: arm1
+        weight: 1
+      - path: arm2
+        weight: 1
+      - path: full_body_ctrl
+        weight: 1
+      - path: full_body_ctrl/L_foot_ctrl_group
+        weight: 1
+      - path: full_body_ctrl/L_foot_ctrl_group/L_foot_ctrl
+        weight: 1
+      - path: full_body_ctrl/L_foot_ctrl_group/L_foot_ctrl/L_toe_lift_group
+        weight: 1
+      - path: full_body_ctrl/L_foot_ctrl_group/L_foot_ctrl/L_toe_lift_group/L_ball_lift_group
+        weight: 1
+      - path: full_body_ctrl/L_foot_ctrl_group/L_foot_ctrl/L_toe_lift_group/L_ball_lift_group/L_ball_ik_handle
+        weight: 1
+      - path: full_body_ctrl/L_foot_ctrl_group/L_foot_ctrl/L_toe_lift_group/L_ball_lift_group/L_foot_ik_handle
+        weight: 1
+      - path: full_body_ctrl/L_foot_ctrl_group/L_foot_ctrl/L_toe_lift_group/L_toe_wiggle_group
+        weight: 1
+      - path: full_body_ctrl/L_foot_ctrl_group/L_foot_ctrl/L_toe_lift_group/L_toe_wiggle_group/L_toe_ik_handle
+        weight: 1
+      - path: full_body_ctrl/L_knee_ctrl_group
+        weight: 1
+      - path: full_body_ctrl/L_knee_ctrl_group/L_knee_ctrl
+        weight: 1
+      - path: full_body_ctrl/R_foot_ctrl_group
+        weight: 1
+      - path: full_body_ctrl/R_foot_ctrl_group/R_foot_ctrl
+        weight: 1
+      - path: full_body_ctrl/R_foot_ctrl_group/R_foot_ctrl/R_toe_lift_group
+        weight: 1
+      - path: full_body_ctrl/R_foot_ctrl_group/R_foot_ctrl/R_toe_lift_group/R_ball_lift_group
+        weight: 1
+      - path: full_body_ctrl/R_foot_ctrl_group/R_foot_ctrl/R_toe_lift_group/R_ball_lift_group/R_ball_ik_handle
+        weight: 1
+      - path: full_body_ctrl/R_foot_ctrl_group/R_foot_ctrl/R_toe_lift_group/R_ball_lift_group/R_foot_ik_handle
+        weight: 1
+      - path: full_body_ctrl/R_foot_ctrl_group/R_foot_ctrl/R_toe_lift_group/R_toe_wiggle_group
+        weight: 1
+      - path: full_body_ctrl/R_foot_ctrl_group/R_foot_ctrl/R_toe_lift_group/R_toe_wiggle_group/R_toe_ik_handle
+        weight: 1
+      - path: full_body_ctrl/R_knee_ctrl_group
+        weight: 1
+      - path: full_body_ctrl/R_knee_ctrl_group/R_knee_ctrl
+        weight: 1
+      - path: full_body_ctrl/root_joint
+        weight: 1
+      - path: full_body_ctrl/root_joint/hip_ctrl_group
+        weight: 1
+      - path: full_body_ctrl/root_joint/hip_ctrl_group/Hip_ctrl
+        weight: 1
+      - path: full_body_ctrl/root_joint/hip_joint
+        weight: 1
+      - path: full_body_ctrl/root_joint/hip_joint/Body_ctrl_group
+        weight: 1
+      - path: full_body_ctrl/root_joint/hip_joint/Body_ctrl_group/Body_ctrl
+        weight: 1
+      - path: full_body_ctrl/root_joint/hip_joint/Body_joint
+        weight: 1
+      - path: full_body_ctrl/root_joint/hip_joint/Body_joint/group5
+        weight: 1
+      - path: full_body_ctrl/root_joint/hip_joint/Body_joint/group5/carrot_lower_left1
+        weight: 1
+      - path: full_body_ctrl/root_joint/hip_joint/Body_joint/group5/carrot_lower_right1_1
+        weight: 1
+      - path: full_body_ctrl/root_joint/hip_joint/Body_joint/group5/carrot_upper_left1
+        weight: 1
+      - path: full_body_ctrl/root_joint/hip_joint/Body_joint/group5/carrot_upper_right1
+        weight: 1
+      - path: full_body_ctrl/root_joint/hip_joint/Body_joint/onionbody
+        weight: 1
+      - path: full_body_ctrl/root_joint/hip_joint/Body_joint/onionbody/group1
+        weight: 1
+      - path: full_body_ctrl/root_joint/hip_joint/Body_joint/onionbody/group1/R_upper_eyelid
+        weight: 1
+      - path: full_body_ctrl/root_joint/hip_joint/Body_joint/onionbody/group2
+        weight: 1
+      - path: full_body_ctrl/root_joint/hip_joint/Body_joint/onionbody/group2/R_bottom_eyelid
+        weight: 1
+      - path: full_body_ctrl/root_joint/hip_joint/Body_joint/onionbody/group3
+        weight: 1
+      - path: full_body_ctrl/root_joint/hip_joint/Body_joint/onionbody/group3/L_bottom_eyelid
+        weight: 1
+      - path: full_body_ctrl/root_joint/hip_joint/Body_joint/onionbody/group4
+        weight: 1
+      - path: full_body_ctrl/root_joint/hip_joint/Body_joint/onionbody/group4/L_upper_eyelid
+        weight: 1
+      - path: full_body_ctrl/root_joint/hip_joint/Body_joint/onionbody/L_eye
+        weight: 1
+      - path: full_body_ctrl/root_joint/hip_joint/Body_joint/onionbody/onion_mouth
+        weight: 1
+      - path: full_body_ctrl/root_joint/hip_joint/Body_joint/onionbody/R_eye
+        weight: 1
+      - path: full_body_ctrl/root_joint/hip_joint/Body_joint/polySurface37
+        weight: 1
+      - path: full_body_ctrl/root_joint/hip_joint/Body_joint/polySurface37/carrot_blast_left1
+        weight: 1
+      - path: full_body_ctrl/root_joint/hip_joint/Body_joint/polySurface37/carrot_blast_middle1
+        weight: 1
+      - path: full_body_ctrl/root_joint/hip_joint/Body_joint/polySurface37/carrot_blast_right1
+        weight: 1
+      - path: full_body_ctrl/root_joint/hip_joint/chest_ctrl_group
+        weight: 1
+      - path: full_body_ctrl/root_joint/hip_joint/chest_ctrl_group/chest_ctrl
+        weight: 1
+      - path: full_body_ctrl/root_joint/hip_joint/Chest_joint
+        weight: 1
+      - path: full_body_ctrl/root_joint/hip_joint/Chest_joint/L_inner_arm_joint1
+        weight: 1
+      - path: full_body_ctrl/root_joint/hip_joint/Chest_joint/L_inner_arm_joint1/L_inner_arm_joint2
+        weight: 1
+      - path: full_body_ctrl/root_joint/hip_joint/Chest_joint/L_inner_arm_joint1/L_inner_arm_joint2/L_elbow_ctrl_group
+        weight: 1
+      - path: full_body_ctrl/root_joint/hip_joint/Chest_joint/L_inner_arm_joint1/L_inner_arm_joint2/L_elbow_ctrl_group/L_elbow_ctrl
+        weight: 1
+      - path: full_body_ctrl/root_joint/hip_joint/Chest_joint/L_inner_arm_joint1/L_inner_arm_joint2/L_elbow_joint
+        weight: 1
+      - path: full_body_ctrl/root_joint/hip_joint/Chest_joint/L_inner_arm_joint1/L_inner_arm_joint2/L_elbow_joint/L_hand_ctrl_group
+        weight: 1
+      - path: full_body_ctrl/root_joint/hip_joint/Chest_joint/L_inner_arm_joint1/L_inner_arm_joint2/L_elbow_joint/L_hand_ctrl_group/L_hand_ctrl
+        weight: 1
+      - path: full_body_ctrl/root_joint/hip_joint/Chest_joint/L_inner_arm_joint1/L_inner_arm_joint2/L_elbow_joint/L_wrist_joint
+        weight: 1
+      - path: full_body_ctrl/root_joint/hip_joint/Chest_joint/L_inner_arm_joint1/L_inner_arm_joint2/L_elbow_joint/L_wrist_joint/L_indexfinger_joint_01
+        weight: 1
+      - path: full_body_ctrl/root_joint/hip_joint/Chest_joint/L_inner_arm_joint1/L_inner_arm_joint2/L_elbow_joint/L_wrist_joint/L_indexfinger_joint_01/L_indexfinger_joint_02
+        weight: 1
+      - path: full_body_ctrl/root_joint/hip_joint/Chest_joint/L_inner_arm_joint1/L_inner_arm_joint2/L_elbow_joint/L_wrist_joint/L_middlefinger_joint_01
+        weight: 1
+      - path: full_body_ctrl/root_joint/hip_joint/Chest_joint/L_inner_arm_joint1/L_inner_arm_joint2/L_elbow_joint/L_wrist_joint/L_middlefinger_joint_01/L_middlefinger_joint_02
+        weight: 1
+      - path: full_body_ctrl/root_joint/hip_joint/Chest_joint/L_inner_arm_joint1/L_inner_arm_joint2/L_elbow_joint/L_wrist_joint/L_pinkyfinger_01
+        weight: 1
+      - path: full_body_ctrl/root_joint/hip_joint/Chest_joint/L_inner_arm_joint1/L_inner_arm_joint2/L_elbow_joint/L_wrist_joint/L_pinkyfinger_01/L_pinkyfinger_02
+        weight: 1
+      - path: full_body_ctrl/root_joint/hip_joint/Chest_joint/L_inner_arm_joint1/L_inner_arm_joint2/L_elbow_joint/L_wrist_joint/L_thumb_joint_01
+        weight: 1
+      - path: full_body_ctrl/root_joint/hip_joint/Chest_joint/L_inner_arm_joint1/L_inner_arm_joint2/L_elbow_joint/L_wrist_joint/L_thumb_joint_01/L_thumb_joint_02
+        weight: 1
+      - path: full_body_ctrl/root_joint/hip_joint/Chest_joint/L_inner_arm_joint1/L_upper_arm_ctrl_group
+        weight: 1
+      - path: full_body_ctrl/root_joint/hip_joint/Chest_joint/L_inner_arm_joint1/L_upper_arm_ctrl_group/L_upper_arm_ctrl
+        weight: 1
+      - path: full_body_ctrl/root_joint/hip_joint/Chest_joint/L_shoulder_joint_group
+        weight: 1
+      - path: full_body_ctrl/root_joint/hip_joint/Chest_joint/L_shoulder_joint_group/L_shoulder_joint
+        weight: 1
+      - path: full_body_ctrl/root_joint/hip_joint/Chest_joint/R_inner_arm_joint1
+        weight: 1
+      - path: full_body_ctrl/root_joint/hip_joint/Chest_joint/R_inner_arm_joint1/R_inner_arm_joint2
+        weight: 1
+      - path: full_body_ctrl/root_joint/hip_joint/Chest_joint/R_inner_arm_joint1/R_inner_arm_joint2/R_elbow_ctrl_group
+        weight: 1
+      - path: full_body_ctrl/root_joint/hip_joint/Chest_joint/R_inner_arm_joint1/R_inner_arm_joint2/R_elbow_ctrl_group/R_elbow_ctrl
+        weight: 1
+      - path: full_body_ctrl/root_joint/hip_joint/Chest_joint/R_inner_arm_joint1/R_inner_arm_joint2/R_elbow_joint
+        weight: 1
+      - path: full_body_ctrl/root_joint/hip_joint/Chest_joint/R_inner_arm_joint1/R_inner_arm_joint2/R_elbow_joint/R_hand_ctrl_group
+        weight: 1
+      - path: full_body_ctrl/root_joint/hip_joint/Chest_joint/R_inner_arm_joint1/R_inner_arm_joint2/R_elbow_joint/R_hand_ctrl_group/R_hand_ctrl
+        weight: 1
+      - path: full_body_ctrl/root_joint/hip_joint/Chest_joint/R_inner_arm_joint1/R_inner_arm_joint2/R_elbow_joint/R_wrist_joint
+        weight: 1
+      - path: full_body_ctrl/root_joint/hip_joint/Chest_joint/R_inner_arm_joint1/R_inner_arm_joint2/R_elbow_joint/R_wrist_joint/R_indexfinger_joint_01
+        weight: 1
+      - path: full_body_ctrl/root_joint/hip_joint/Chest_joint/R_inner_arm_joint1/R_inner_arm_joint2/R_elbow_joint/R_wrist_joint/R_indexfinger_joint_01/R_indexfinger_joint_02
+        weight: 1
+      - path: full_body_ctrl/root_joint/hip_joint/Chest_joint/R_inner_arm_joint1/R_inner_arm_joint2/R_elbow_joint/R_wrist_joint/R_middlefinger_joint_01
+        weight: 1
+      - path: full_body_ctrl/root_joint/hip_joint/Chest_joint/R_inner_arm_joint1/R_inner_arm_joint2/R_elbow_joint/R_wrist_joint/R_middlefinger_joint_01/R_middlefinger_joint_02
+        weight: 1
+      - path: full_body_ctrl/root_joint/hip_joint/Chest_joint/R_inner_arm_joint1/R_inner_arm_joint2/R_elbow_joint/R_wrist_joint/R_pinkyfinger_01
+        weight: 1
+      - path: full_body_ctrl/root_joint/hip_joint/Chest_joint/R_inner_arm_joint1/R_inner_arm_joint2/R_elbow_joint/R_wrist_joint/R_pinkyfinger_01/R_pinkyfinger_02
+        weight: 1
+      - path: full_body_ctrl/root_joint/hip_joint/Chest_joint/R_inner_arm_joint1/R_inner_arm_joint2/R_elbow_joint/R_wrist_joint/R_thumb_joint_01
+        weight: 1
+      - path: full_body_ctrl/root_joint/hip_joint/Chest_joint/R_inner_arm_joint1/R_inner_arm_joint2/R_elbow_joint/R_wrist_joint/R_thumb_joint_01/R_thumb_joint_02
+        weight: 1
+      - path: full_body_ctrl/root_joint/hip_joint/Chest_joint/R_inner_arm_joint1/R_upper_arm_ctrl_group
+        weight: 1
+      - path: full_body_ctrl/root_joint/hip_joint/Chest_joint/R_inner_arm_joint1/R_upper_arm_ctrl_group/R_upper_arm_ctrl
+        weight: 1
+      - path: full_body_ctrl/root_joint/hip_joint/Chest_joint/R_shoulder_joint_group
+        weight: 1
+      - path: full_body_ctrl/root_joint/hip_joint/Chest_joint/R_shoulder_joint_group/R_shoulder_joint
+        weight: 1
+      - path: full_body_ctrl/root_joint/hip_joint/L_inner_leg_ctrl_group
+        weight: 1
+      - path: full_body_ctrl/root_joint/hip_joint/L_inner_leg_ctrl_group/L_inner_leg_ctrl
+        weight: 1
+      - path: full_body_ctrl/root_joint/hip_joint/L_inner_leg_joint
+        weight: 1
+      - path: full_body_ctrl/root_joint/hip_joint/L_inner_leg_joint/L_upper_leg_ctrl_group
+        weight: 1
+      - path: full_body_ctrl/root_joint/hip_joint/L_inner_leg_joint/L_upper_leg_ctrl_group1
+        weight: 1
+      - path: full_body_ctrl/root_joint/hip_joint/L_inner_leg_joint/L_upper_leg_ctrl_group1/L_upper_leg_ctrl
+        weight: 1
+      - path: full_body_ctrl/root_joint/hip_joint/L_inner_leg_joint/L_upper_leg_joint
+        weight: 1
+      - path: full_body_ctrl/root_joint/hip_joint/L_inner_leg_joint/L_upper_leg_joint/L_knee_joint
+        weight: 1
+      - path: full_body_ctrl/root_joint/hip_joint/L_inner_leg_joint/L_upper_leg_joint/L_knee_joint/L_foot_joint
+        weight: 1
+      - path: full_body_ctrl/root_joint/hip_joint/L_inner_leg_joint/L_upper_leg_joint/L_knee_joint/L_foot_joint/L_ball_joint
+        weight: 1
+      - path: full_body_ctrl/root_joint/hip_joint/L_inner_leg_joint/L_upper_leg_joint/L_knee_joint/L_foot_joint/L_ball_joint/L_toe_joint
+        weight: 1
+      - path: full_body_ctrl/root_joint/hip_joint/R_inner_leg_ctrl_group
+        weight: 1
+      - path: full_body_ctrl/root_joint/hip_joint/R_inner_leg_ctrl_group/R_inner_leg_ctrl
+        weight: 1
+      - path: full_body_ctrl/root_joint/hip_joint/R_inner_leg_joint
+        weight: 1
+      - path: full_body_ctrl/root_joint/hip_joint/R_inner_leg_joint/R_upper_leg_ctrl_group
+        weight: 1
+      - path: full_body_ctrl/root_joint/hip_joint/R_inner_leg_joint/R_upper_leg_ctrl_group1
+        weight: 1
+      - path: full_body_ctrl/root_joint/hip_joint/R_inner_leg_joint/R_upper_leg_ctrl_group1/R_upper_leg_ctrl
+        weight: 1
+      - path: full_body_ctrl/root_joint/hip_joint/R_inner_leg_joint/R_upper_leg_joint
+        weight: 1
+      - path: full_body_ctrl/root_joint/hip_joint/R_inner_leg_joint/R_upper_leg_joint/R_knee_joint
+        weight: 1
+      - path: full_body_ctrl/root_joint/hip_joint/R_inner_leg_joint/R_upper_leg_joint/R_knee_joint/R_foot_joint
+        weight: 1
+      - path: full_body_ctrl/root_joint/hip_joint/R_inner_leg_joint/R_upper_leg_joint/R_knee_joint/R_foot_joint/R_ball_joint
+        weight: 1
+      - path: full_body_ctrl/root_joint/hip_joint/R_inner_leg_joint/R_upper_leg_joint/R_knee_joint/R_foot_joint/R_ball_joint/R_toe_joint
+        weight: 1
+      - path: leg1
+        weight: 1
+      - path: leg2
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
     isReadable: 1
   meshes:
     lODScreenPercentages: []
-    globalScale: 1
+    globalScale: .00999999978
     meshCompression: 0
     addColliders: 0
     importBlendShapes: 1
