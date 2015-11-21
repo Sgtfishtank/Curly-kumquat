@@ -49,6 +49,7 @@ public class Game : MonoBehaviour
 		GUICanvas.Instance.ShowEnd(mGameEnded);
 		GUICanvas.Instance.ShowStart(!mGameStarted);
 		GUICanvas.Instance.ShowPlaying(mGameStarted && (!mGameEnded));
+		GUICanvas.Instance.ShowQuit(mGameEnded || (!mGameStarted));
 	}
 	
 	// Update is called once per frame

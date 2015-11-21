@@ -7,11 +7,17 @@ public class playerScript : MonoBehaviour
 	public float jumpForce;
 	public float mDashSpeed;
 	public float mDashDuration;
+	public float mKnockBackDuration;
 	
 	private float gravityForce;
 	private Rigidbody RB;
 	
 	private bool mIsDead;
+	private int mPlayerID;
+
+	private bool mKnockBacking = false;
+	private float mKnockBackT;
+
 	private KeyCode mLeftKey = KeyCode.A;
 	private KeyCode mRightKey = KeyCode.D;
 	private KeyCode mUpKey = KeyCode.W;
@@ -21,7 +27,6 @@ public class playerScript : MonoBehaviour
 
 	private bool mDashing = false;
 	private float mDashT;
-	private int mPlayerID;
 
 	void Awake()
 	{
@@ -57,6 +62,18 @@ public class playerScript : MonoBehaviour
 
 	void Update () 
 	{
+		if (mKnockBacking)
+		{
+			if (mKnockBackT < Time.time)
+			{
+				mKnockBacking = false;
+			}
+			else 
+			{
+				return;
+			}
+		}
+
 		float moveSpeed2 = moveSpeed;
 		if (IsDashing ())
 		{
@@ -143,6 +160,12 @@ public class playerScript : MonoBehaviour
 		mIsDead = true;
 	}
 
+	void KnockBack ()
+	{
+		mKnockBacking = true;
+		mKnockBackT = Time.time + mKnockBackDuration;
+	}
+
 	void OnCollisionEnter(Collision coll)
 	{
 		if (coll.collider.tag == "Player") 
@@ -150,6 +173,11 @@ public class playerScript : MonoBehaviour
 			playerScript otherPlayer = coll.collider.GetComponent<playerScript>();
 			int otherID = otherPlayer.mPlayerID;
 			print("ID: " + otherID);
+
+			//otherPlayer.GetComponent<Rigidbody>().velocity;
+			KnockBack();
+			RB.velocity = (transform.position - coll.collider.transform.position).normalized * 7;
+			RB.velocity += new Vector3(0, 7, 0);
 		}
 	}
 	

@@ -17,18 +17,20 @@ public class GUICanvas : MonoBehaviour
 		}
 	}
 
-	public Text mWinText;
-	public Text[] mPlayerTexts = new Text[4];
+	private Text mWinText;
+	private Text[] mPlayerTexts = new Text[4];
 	
-	public GameObject mStart;
-	public GameObject mPlaying;
-	public GameObject mEnd;
+	private GameObject mStart;
+	private GameObject mPlaying;
+	private GameObject mEnd;
+	private Button mQuitButton;
 
 	void Awake()
 	{
 		mStart = transform.Find("Start").gameObject;
 		mPlaying = transform.Find("Playing").gameObject;
 		mEnd = transform.Find("End").gameObject;
+		mQuitButton = transform.Find("Quit").GetComponent<Button>();
 
 		for (int i = 0; i < 4; i++) 
 		{
@@ -64,6 +66,11 @@ public class GUICanvas : MonoBehaviour
 		}
 	}
 
+	public void Exit()
+	{
+		Application.Quit();
+	}
+
 	public void StartGame(int i)
 	{
 		Game.Instance.StartGame(i);
@@ -87,5 +94,10 @@ public class GUICanvas : MonoBehaviour
 	public void SetWin(int i)
 	{
 		mWinText.text = "Player " + (i + 1) + " wons!";
+	}
+
+	public void ShowQuit (bool show)
+	{
+		mQuitButton.gameObject.SetActive (show);
 	}
 }
