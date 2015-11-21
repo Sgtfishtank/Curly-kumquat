@@ -87,9 +87,12 @@ public class GUICanvas : MonoBehaviour
 	{
 		if (i < 0) 
 		{
-			mWinText.text = "noo Player  wons!";
+			mWinText.text = "noo Player  wons! You lose";
 		}
-		mWinText.text = "Player " + (i + 1) + " wons!";
+		else 
+		{
+			mWinText.text = "Player " + (i + 1) + " wons!";
+		}
 	}
 
 	public void ShowQuit (bool show)

@@ -105,7 +105,7 @@ public class Game : MonoBehaviour
 			}
 		}
 		
-		if (playersAlive < 2) 
+		if (((playersAlive < 2) && (mPlayers.Length > 1)) || ((playersAlive < 1) && (mPlayers.Length == 1)))
 		{
 			EndGame(playerID);
 		}
