@@ -23,6 +23,7 @@ public class GameStarter : MonoBehaviour
 	public GameObject mCanvas;
 	public GameObject mGame;
 	public GameObject mMainCamera;
+	public GameObject mStove;
 
 	void Awake()
 	{
@@ -32,6 +33,7 @@ public class GameStarter : MonoBehaviour
 		GetOrCreate (mCanvas);
 		GetOrCreate (mGame);
 		GetOrCreate (mMainCamera);
+		GetOrCreate (mStove);
 	}
 
 	// Use this for initialization
@@ -48,6 +50,11 @@ public class GameStarter : MonoBehaviour
 
 	GameObject GetOrCreate (GameObject prefab)
 	{
+		if (prefab == null) 
+		{
+			return null;
+		}
+
 		GameObject x = GameObject.Find(prefab.name);
 		if (x == null) 
 		{

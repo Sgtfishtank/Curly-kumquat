@@ -21,10 +21,10 @@ public class playerScript : MonoBehaviour
 	private int numberOfJumps;
 	private int maxJumps = 2;
 
-	private int LeftButtonCount;
-	private int RightButtonCount;
-	private int DownButtonCount;
-	private int UpButtonCount;
+	public int LeftButtonCount;
+	public int RightButtonCount;
+	public int DownButtonCount;
+	public int UpButtonCount;
 
 	private float buttonCooldown = 0.5F;
 
@@ -148,32 +148,16 @@ public class playerScript : MonoBehaviour
 			}
 		}
 
-		if (Input.anyKeyDown)
-		{
-			if ( buttonCooldown > 0)
-			{
-				if (LeftButtonCount == 2 || RightButtonCount == 2 || DownButtonCount == 2 || UpButtonCount == 2)
-				{
-					Dash();
-				}
-				else
-				{
-					LeftButtonCount = 0;
-					RightButtonCount = 0;
-					DownButtonCount = 0;
-					UpButtonCount = 0;
-				}
-			}
-
-			else
-			{
-				buttonCooldown = 0.5F ;
-			}
-		}
-
 		if ( buttonCooldown > 0 )
 		{
 			buttonCooldown -= 1 * Time.deltaTime ;
+			if (buttonCooldown < 0) 
+			{
+				LeftButtonCount = 0;
+				RightButtonCount = 0;
+				DownButtonCount = 0;
+				UpButtonCount = 0;
+			}
 		}
 		else
 		{
@@ -190,6 +174,7 @@ public class playerScript : MonoBehaviour
 				if (Input.GetKeyDown (mLeftKey))
 				{
 					LeftButtonCount++;
+					print("Left");
 				}
 
 				mBody.transform.localScale = new Vector3(1, 1, 1);
@@ -205,6 +190,7 @@ public class playerScript : MonoBehaviour
 				if (Input.GetKeyDown (mDownKey))
 				{
 					DownButtonCount++;
+					print("Down");
 				}
 				transform.Translate(Vector3.back * moveSpeed2 * Time.deltaTime, Space.World);
 			}
@@ -218,6 +204,7 @@ public class playerScript : MonoBehaviour
 				if (Input.GetKeyDown (mRightKey))
 				{
 					RightButtonCount++;
+					print("Right");
 				}
 
 				mBody.transform.localScale = new Vector3(1, 1, -1);
@@ -233,6 +220,7 @@ public class playerScript : MonoBehaviour
 				if (Input.GetKeyDown (mUpKey))
 				{
 					UpButtonCount++;
+					print("Up");
 				}
 				transform.Translate(Vector3.forward * moveSpeed2 * Time.deltaTime, Space.World);
 			}
@@ -243,6 +231,33 @@ public class playerScript : MonoBehaviour
 				mAni.SetTrigger("Jump");
 				numberOfJumps++;
 				RB.velocity = new Vector3(RB.velocity.x, jumpForce, RB.velocity.z);
+			}
+		}
+
+		if (LeftButtonCount >= 1 || RightButtonCount >= 1 || DownButtonCount >= 1 || UpButtonCount >= 1)
+		{
+			if ( buttonCooldown > 0)
+			{
+				if (LeftButtonCount == 2 || RightButtonCount == 2 || DownButtonCount == 2 || UpButtonCount == 2)
+				{
+					Dash();
+					buttonCooldown = 0;
+					LeftButtonCount = 0;
+					RightButtonCount = 0;
+					DownButtonCount = 0;
+					UpButtonCount = 0;
+				}
+				else
+				{
+					/*LeftButtonCount = 0;
+					RightButtonCount = 0;
+					DownButtonCount = 0;
+					UpButtonCount = 0;*/
+				}
+			}
+			else
+			{
+				buttonCooldown = 0.5F ;
 			}
 		}
 
