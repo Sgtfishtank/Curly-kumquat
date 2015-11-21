@@ -20,19 +20,12 @@ public class playerScript : MonoBehaviour
 
 	private int numberOfJumps;
 	private int maxJumps = 2;
-<<<<<<< HEAD
-	
+
 	private int LeftButtonCount;
 	private int RightButtonCount;
 	private int DownButtonCount;
 	private int UpButtonCount;
-	private bool LeftDash = false;
-	private bool RightDash = false;
-	private bool DownDash = false;
-	private bool UpDash = false;
-=======
-	private string LastKeyPressed;
->>>>>>> origin/master
+
 	private float buttonCooldown = 0.5F;
 
 	public GameObject mOinionBodyPrefab;
@@ -129,38 +122,24 @@ public class playerScript : MonoBehaviour
 
 		if (Input.anyKeyDown)
 		{
-			if ( buttonCooldown > 0 && LeftButtonCount == 2 || RightButtonCount == 2 || DownButtonCount == 2 || UpButtonCount == 2)
+			if ( buttonCooldown > 0)
 			{
+				if (LeftButtonCount == 2 || RightButtonCount == 2 || DownButtonCount == 2 || UpButtonCount == 2)
+				{
 				Dash();
-
-				if (LeftButtonCount == 2)
-				{
-					LeftDash = true;
 				}
-
-				else if (RightButtonCount == 2)
+				else
 				{
-					RightDash = true;
-				}
-
-				else if (DownButtonCount == 2)
-				{
-					DownDash = true;
-				}
-
-				else if (UpButtonCount == 2)
-				{
-					UpDash = true;
-				}
 				LeftButtonCount = 0;
 				RightButtonCount = 0;
 				DownButtonCount = 0;
 				UpButtonCount = 0;
+				}
 			}
 
 			else
 			{
-				buttonCooldown = 1F ;
+				buttonCooldown = 0.5F ;
 			}
 		}
 
@@ -170,17 +149,12 @@ public class playerScript : MonoBehaviour
 		}
 		else
 		{
-			LeftButtonCount = 0;
-			RightButtonCount = 0;
-			DownButtonCount = 0;
-			UpButtonCount = 0;
 		}
 
 		if (!mKnockBacking)
 		{
 			if (Input.GetKey(mLeftKey))
 			{
-<<<<<<< HEAD
 				RightButtonCount = 0;
 				DownButtonCount = 0;
 				UpButtonCount = 0;
@@ -189,10 +163,8 @@ public class playerScript : MonoBehaviour
 				{
 					LeftButtonCount++;
 				}
-=======
-				LastKeyPressed = mLeftKey.ToString();
+
 				mBody.transform.localScale = new Vector3(1, 1, 1);
->>>>>>> origin/master
 				transform.Translate(Vector3.left * moveSpeed2 * Time.deltaTime, Space.World);
 			}
 			
@@ -211,7 +183,6 @@ public class playerScript : MonoBehaviour
 			
 			if (Input.GetKey(mRightKey))
 			{
-<<<<<<< HEAD
 				LeftButtonCount = 0;
 				DownButtonCount = 0;
 				UpButtonCount = 0;
@@ -220,10 +191,8 @@ public class playerScript : MonoBehaviour
 				{
 					RightButtonCount++;
 				}
-=======
-				LastKeyPressed = mRightKey.ToString();
+
 				mBody.transform.localScale = new Vector3(1, 1, -1);
->>>>>>> origin/master
 				transform.Translate(Vector3.right * moveSpeed2 * Time.deltaTime, Space.World);
 			}
 			
