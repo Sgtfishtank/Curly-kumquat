@@ -48,8 +48,6 @@ public class playerScript : MonoBehaviour
 
 	private Animator mAni;
 
-	private FMOD.Studio.EventInstance[] mScreams;
-
 	private FMOD.Studio.EventInstance mScream;
 	private FMOD.Studio.EventInstance mDash;
 	private FMOD.Studio.EventInstance mDashHit;
@@ -64,7 +62,6 @@ public class playerScript : MonoBehaviour
 	void Awake()
 	{
 		mCrossT = -1;
-		mScreams = new FMOD.Studio.EventInstance[0];
 		RB = GetComponent<Rigidbody>();
 		gravityForce = -45;
 		Physics.gravity = new Vector3 (0, gravityForce, 0);
@@ -157,14 +154,14 @@ public class playerScript : MonoBehaviour
 			{
 				if (LeftButtonCount == 2 || RightButtonCount == 2 || DownButtonCount == 2 || UpButtonCount == 2)
 				{
-				Dash();
+					Dash();
 				}
 				else
 				{
-				LeftButtonCount = 0;
-				RightButtonCount = 0;
-				DownButtonCount = 0;
-				UpButtonCount = 0;
+					LeftButtonCount = 0;
+					RightButtonCount = 0;
+					DownButtonCount = 0;
+					UpButtonCount = 0;
 				}
 			}
 

@@ -198,6 +198,7 @@ public class AudioManager : MonoBehaviour
 			return;
 		}
 		
+		fmodEvent.setPitch (Time.timeScale);
 		fmodEvent.setVolume(mMasterLevel * mSoundsLevel);
 		fmodEvent.start ();
 	}
@@ -208,7 +209,8 @@ public class AudioManager : MonoBehaviour
 		{
 			return;
 		}
-		
+
+		fmodEvent.setPitch (Time.timeScale);
 		fmodEvent.setVolume(mMasterLevel * mSoundsLevel);
 		fmodEvent.start();
 	}
