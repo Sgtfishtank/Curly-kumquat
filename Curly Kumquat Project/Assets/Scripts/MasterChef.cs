@@ -8,7 +8,7 @@ public class MasterChef : MonoBehaviour
 	int currentAttack;
 	public float Limits;
 	float pos;
-	bool done;
+	bool done = false;
 	public GameObject chopWarning;
 	public GameObject chopShoveWarning;
 	public GameObject swipeWarning;
@@ -27,12 +27,12 @@ public class MasterChef : MonoBehaviour
 	{
 		if(currentAttack == -1 && Time.time > mCooldown)
 		{
-			switch (UnityEngine.Random.Range(0,4))
+			switch (0)//UnityEngine.Random.Range(0,4))
 			{
 			case 0:
 				currentAttack = 0;
 				pos = Random.Range(-Limits,Limits+0.1f);
-				Destroy( Instantiate(chopWarning,new Vector3(pos,0,0),Quaternion.identity),1.1f);
+				//Destroy( Instantiate(chopWarning,new Vector3(pos,0,0),Quaternion.identity),1.1f);
 				Invoke("Chop" ,1);
 				break;
 			case 1:
@@ -70,8 +70,8 @@ public class MasterChef : MonoBehaviour
 		}
 		if(done)
 		{
-			if(knife.transform.rotation.eulerAngles.z != -90)
-				knife.transform.RotateAround(new Vector3(0,0,-5), new Vector3(0,0,1), -30 * Time.deltaTime);
+			if(knife.transform.rotation.eulerAngles.z > 270)
+				knife.transform.RotateAround(new Vector3(0,0,-5), Vector3.right, -30 * Time.deltaTime);
 			else
 			{
 				mCooldown = Random.Range(3,10) + Time.time;
@@ -89,8 +89,8 @@ public class MasterChef : MonoBehaviour
 	void Chop()
 	{
 		knife.transform.position = new Vector3(pos, transform.position.y, transform.position.z);
-		if(knife.transform.rotation.eulerAngles.z != 0)
-			knife.transform.RotateAround(new Vector3(0,0,-5), new Vector3(0,0,1), 30 * Time.deltaTime);
+		if(knife.transform.rotation.eulerAngles.z > 0)
+			knife.transform.RotateAround(new Vector3(0,0,-5), Vector3.right, 30 * Time.deltaTime);
 		else
 			done = true;
 
