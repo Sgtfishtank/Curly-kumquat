@@ -68,10 +68,6 @@ public class playerScript : MonoBehaviour
 			{
 				mKnockBacking = false;
 			}
-			else 
-			{
-				return;
-			}
 		}
 
 		float moveSpeed2 = moveSpeed;
@@ -84,35 +80,42 @@ public class playerScript : MonoBehaviour
 			}
 		}
 
-		if (Input.GetKey(mLeftKey))
+		if (!mKnockBacking)
 		{
-			transform.Translate(Vector3.left * moveSpeed2 * Time.deltaTime, Space.World);
+			if (Input.GetKey(mLeftKey))
+			{
+				transform.Translate(Vector3.left * moveSpeed2 * Time.deltaTime, Space.World);
+			}
+
+			if (Input.GetKey(mDownKey))
+			{
+				transform.Translate(Vector3.back * moveSpeed2 * Time.deltaTime, Space.World);
+			}
+
+			if (Input.GetKey(mRightKey))
+			{
+				transform.Translate(Vector3.right * moveSpeed2 * Time.deltaTime, Space.World);
+			}
+
+			if (Input.GetKey(mUpKey))
+			{
+				transform.Translate(Vector3.forward * moveSpeed2 * Time.deltaTime, Space.World);
+			}
+
+			if (Input.GetKeyDown(mSpaceKey))
+			{
+				RB.velocity = new Vector3(RB.velocity.x, jumpForce, RB.velocity.z);
+			}
+
+			if (Input.GetKeyDown(mDashKey))
+			{
+				Dash();
+			}
 		}
 
-		if (Input.GetKey(mDownKey))
-		{
-			transform.Translate(Vector3.back * moveSpeed2 * Time.deltaTime, Space.World);
-		}
-
-		if (Input.GetKey(mRightKey))
-		{
-			transform.Translate(Vector3.right * moveSpeed2 * Time.deltaTime, Space.World);
-		}
-
-		if (Input.GetKey(mUpKey))
-		{
-			transform.Translate(Vector3.forward * moveSpeed2 * Time.deltaTime, Space.World);
-		}
-
-		if (Input.GetKeyDown(mSpaceKey))
-		{
-			RB.velocity = new Vector3(RB.velocity.x, jumpForce, RB.velocity.z);
-		}
-
-		if (Input.GetKeyDown(mDashKey))
-		{
-			Dash();
-		}
+		Vector3 pos = transform.position;
+		pos.z = Mathf.Clamp(pos.z, -4, 3);
+		transform.position = pos;
 	}
 
 	void Dash ()
