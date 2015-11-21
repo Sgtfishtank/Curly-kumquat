@@ -10,6 +10,8 @@ public class MasterChef : MonoBehaviour
 	public int currentState;
 	public float Limits;
 	float targetPos;
+	int tripchopdir;
+	int toches;
 	float pos;
 	public float shoveSpeed;
 	public float swipeSpeed;
@@ -54,13 +56,16 @@ public class MasterChef : MonoBehaviour
 				Invoke("ChopShove" ,0.1f);
 				break;
 			case (int)attacks.Swipe:
+				knife.transform.position = new Vector3(0, transform.position.y, transform.position.z);
 				currentAttack = (int)attacks.Swipe;
 				targetPos = (Random.Range(0,2)*2-1) * Limits;
-
+				knife.transform.rotation = Quaternion.Euler(0,359,0);
 				Invoke("Swipe" ,0.1f);
 
 				break;
 			case (int)attacks.trippleChop:
+				knife.transform.RotateAround(new Vector3(0,0,0), Vector3.left, 120* Time.deltaTime);
+				tripchopdir = Random.Range(0,2)*2-1;
 				currentAttack = (int)attacks.trippleChop;
 				targetPos = (Random.Range(0,2)*2-1);
 
@@ -129,10 +134,9 @@ public class MasterChef : MonoBehaviour
 	{
 		currentState = (int)state.execute;
 		if(knife.transform.rotation.eulerAngles.x > 270)
-			knife.transform.RotateAround(new Vector3(0,0,0), Vector3.left, 120 * Time.deltaTime);
+			knife.transform.RotateAround(new Vector3(0,0,0), Vector3.left, 180 * Time.deltaTime);
 		else if (knife.transform.position.x != targetPos)
 		{
-			print ("shove");
 			knife.transform.position = Vector3.MoveTowards(knife.transform.position,new Vector3(targetPos,transform.position.y,transform.position.z),shoveSpeed*Time.deltaTime);
 		}
 		else
@@ -144,7 +148,15 @@ public class MasterChef : MonoBehaviour
 	void Swipe()
 	{
 		currentState = (int)state.execute;
-
+		if(knife.transform.rotation.eulerAngles.y > 180)
+			knife.transform.RotateAround(new Vector3(0,0,0), Vector3.down, 180 * Time.deltaTime);
+		else
+		{
+			knife.transform.rotation = Quaternion.Euler(0,0,270);
+			currentState = (int)state.pick;
+			mCooldown = Random.Range(3,10) + Time.time;
+	//		Invoke("idel",1f);
+		}
 
 
 
@@ -152,6 +164,14 @@ public class MasterChef : MonoBehaviour
 	void TrippleChop()
 	{
 		currentState = (int)state.execute;
+		if(knife.transform.rotation.eulerAngles.x > 270)
+			knife.transform.RotateAround(new Vector3(0,0,0), Vector3.left, 120 * Time.deltaTime);
+		else if(choping())
+		{
+			currentState = (int)state.idel;
+			Invoke("idel",1f);
+			toches =0;
+		}
 
 
 
@@ -159,6 +179,28 @@ public class MasterChef : MonoBehaviour
 	void idel()
 	{
 		currentState = (int)state.reset;
+	}
+	bool choping()
+	{
+
+		if(tripchopdir == -1)
+		{
+			knife.transform.position = new Vector3(knife.transform.position.x + -5 * Time.deltaTime,Mathf.Clamp(5+5*Mathf.Sin(10*Time.time),0,50),knife.transform.position.z);
+		}
+		else if(tripchopdir == 1)
+		{
+			knife.transform.position = new Vector3(knife.transform.position.x + 5 * Time.deltaTime,Mathf.Clamp(5+5*Mathf.Sin(10*Time.time),0,50),knife.transform.position.z);
+		}
+
+		if(Mathf.Clamp(5+5*Mathf.Sin(10*Time.time),0,50) <= 0.05f)
+		{
+			print("dg" + toches);
+			toches++;
+		}
+		if(toches == 3)
+			return true;
+
+		return false;
 	}
 
 }
