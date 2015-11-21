@@ -262,6 +262,11 @@ public class playerScript : MonoBehaviour
 
 	public void Reset ()
 	{
+		mDashing = false;
+		DownButtonCount = 0;
+		LeftButtonCount = 0;
+		RightButtonCount = 0;
+		UpButtonCount = 0;
 		gameObject.SetActive (true);
 		mIsDead = false;
 		RB.velocity = Vector3.zero;
