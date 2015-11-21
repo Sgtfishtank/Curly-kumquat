@@ -8,10 +8,15 @@ public class playerScript : MonoBehaviour
 	public float mDashSpeed;
 	public float mDashDuration;
 	public float mKnockBackDuration;
+
+	private string LastKeyPressed;
+
+	private float buttonCooldown = 0.5F;
+	private int buttonCount = 0;
 	
 	private float gravityForce;
 	private Rigidbody RB;
-	
+
 	private bool mIsDead;
 	private int mPlayerID;
 
@@ -23,7 +28,8 @@ public class playerScript : MonoBehaviour
 	private KeyCode mUpKey = KeyCode.W;
 	private KeyCode mDownKey = KeyCode.S;
 	private KeyCode mSpaceKey = KeyCode.Space;
-	private KeyCode mDashKey = KeyCode.Space;
+	private KeyCode mDashKey = KeyCode.LeftShift;
+
 
 	private bool mDashing = false;
 	private float mDashT;
@@ -84,23 +90,53 @@ public class playerScript : MonoBehaviour
 			}
 		}
 
+		if (Input.anyKeyDown)
+		{
+			if ( buttonCooldown > 0 && buttonCount == 2 && Input.inputString == LastKeyPressed)
+			{
+				Dash();
+			}
+
+			else
+			{
+				buttonCooldown = 0.5F ; 
+				buttonCount += 1 ;
+			}
+		}
+
+		if ( buttonCooldown > 0 )
+		{
+			
+			buttonCooldown -= 1 * Time.deltaTime ;
+			
+		}
+
+		else
+		{
+			buttonCount = 0 ;
+		}
+		
 		if (Input.GetKey(mLeftKey))
 		{
+			LastKeyPressed = mLeftKey.ToString();
 			transform.Translate(Vector3.left * moveSpeed2 * Time.deltaTime, Space.World);
 		}
 
 		if (Input.GetKey(mDownKey))
 		{
+			LastKeyPressed = mLeftKey.ToString();
 			transform.Translate(Vector3.back * moveSpeed2 * Time.deltaTime, Space.World);
 		}
 
 		if (Input.GetKey(mRightKey))
 		{
+			LastKeyPressed = mLeftKey.ToString();
 			transform.Translate(Vector3.right * moveSpeed2 * Time.deltaTime, Space.World);
 		}
 
 		if (Input.GetKey(mUpKey))
 		{
+			LastKeyPressed = mLeftKey.ToString();
 			transform.Translate(Vector3.forward * moveSpeed2 * Time.deltaTime, Space.World);
 		}
 
@@ -123,17 +159,17 @@ public class playerScript : MonoBehaviour
 
 	void InitKeys (KeyCode w, KeyCode s, KeyCode a, KeyCode d)
 	{
-		InitKeys (w, s, a, d, KeyCode.Space);
+		InitKeys (w, s, a, d, KeyCode.Space, KeyCode.LeftShift);
 	}
 
-	void InitKeys (KeyCode w, KeyCode s, KeyCode a, KeyCode d, KeyCode jump)
+	void InitKeys (KeyCode w, KeyCode s, KeyCode a, KeyCode d, KeyCode jump, KeyCode dash)
 	{
 		mLeftKey = a;
 		mRightKey = d;
 		mUpKey = w;
 		mDownKey = s;
 		mSpaceKey = jump;
-		mDashKey = jump;
+		mDashKey = dash;
 	}
 
 	public bool IsDashing()
