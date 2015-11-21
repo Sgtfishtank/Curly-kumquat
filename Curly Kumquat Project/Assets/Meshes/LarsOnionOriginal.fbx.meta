@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 8fd536fb3e539cd43bd60902f2b43ec4
-timeCreated: 1448126723
+guid: 43e5df190e97699488ca8b3e8f4c3b54
+timeCreated: 1448127021
 licenseType: Free
 ModelImporter:
   serializedVersion: 18
@@ -230,7 +230,6 @@ ModelImporter:
     4300024: leg1
     4300026: leg2
     4300028: arm2
-    7400000: Take 001
     9500000: //RootNode
     13700000: arm1
     13700002: arm2
@@ -287,7 +286,7 @@ ModelImporter:
     armStretch: .0500000007
     legStretch: .0500000007
     feetSpacing: 0
-    rootMotionBoneName: 
+    rootMotionBoneName: root_joint
   lastHumanDescriptionAvatarSource: {instanceID: 0}
   animationType: 2
   additionalBone: 0
