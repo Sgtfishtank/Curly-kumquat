@@ -20,11 +20,16 @@ public class playerScript : MonoBehaviour
 
 	private int numberOfJumps;
 	private int maxJumps = 2;
-
-	private string LastKeyPressed;
-
+	
+	private int LeftButtonCount;
+	private int RightButtonCount;
+	private int DownButtonCount;
+	private int UpButtonCount;
+	private bool LeftDash = false;
+	private bool RightDash = false;
+	private bool DownDash = false;
+	private bool UpDash = false;
 	private float buttonCooldown = 0.5F;
-	private int buttonCount = 0;
 
 	public GameObject mOinionBodyPrefab;
 	public GameObject mCarrotBodyPrefab;
@@ -101,7 +106,6 @@ public class playerScript : MonoBehaviour
 
 	void Update () 
 	{
-		Debug.Log (numberOfJumps);
 		if (mKnockBacking)
 		{
 			if (mKnockBackT < Time.time)
@@ -122,53 +126,105 @@ public class playerScript : MonoBehaviour
 
 		if (Input.anyKeyDown)
 		{
-			if ( buttonCooldown > 0 && buttonCount == 2 && Input.inputString == LastKeyPressed)
+			if ( buttonCooldown > 0 && LeftButtonCount == 2 || RightButtonCount == 2 || DownButtonCount == 2 || UpButtonCount == 2)
 			{
 				Dash();
+
+				if (LeftButtonCount == 2)
+				{
+					LeftDash = true;
+				}
+
+				else if (RightButtonCount == 2)
+				{
+					RightDash = true;
+				}
+
+				else if (DownButtonCount == 2)
+				{
+					DownDash = true;
+				}
+
+				else if (UpButtonCount == 2)
+				{
+					UpDash = true;
+				}
+				LeftButtonCount = 0;
+				RightButtonCount = 0;
+				DownButtonCount = 0;
+				UpButtonCount = 0;
 			}
 
 			else
 			{
-				buttonCooldown = 0.5F ; 
-				buttonCount += 1 ;
+				buttonCooldown = 1F ;
 			}
 		}
 
 		if ( buttonCooldown > 0 )
 		{
-			
 			buttonCooldown -= 1 * Time.deltaTime ;
-			
 		}
 
 		else
 		{
-			buttonCount = 0 ;
+			LeftButtonCount = 0;
+			RightButtonCount = 0;
+			DownButtonCount = 0;
+			UpButtonCount = 0;
 		}
 
 		if (!mKnockBacking)
 		{
 			if (Input.GetKey(mLeftKey))
 			{
-				LastKeyPressed = mLeftKey.ToString();
+				RightButtonCount = 0;
+				DownButtonCount = 0;
+				UpButtonCount = 0;
+
+				if (Input.GetKeyDown (mLeftKey))
+				{
+					LeftButtonCount++;
+				}
 				transform.Translate(Vector3.left * moveSpeed2 * Time.deltaTime, Space.World);
 			}
 			
 			if (Input.GetKey(mDownKey))
 			{
-				LastKeyPressed = mDownKey.ToString();
+				LeftButtonCount = 0;
+				RightButtonCount = 0;
+				UpButtonCount = 0;
+
+				if (Input.GetKeyDown (mDownKey))
+				{
+					DownButtonCount++;
+				}
 				transform.Translate(Vector3.back * moveSpeed2 * Time.deltaTime, Space.World);
 			}
 			
 			if (Input.GetKey(mRightKey))
 			{
-				LastKeyPressed = mRightKey.ToString();
+				LeftButtonCount = 0;
+				DownButtonCount = 0;
+				UpButtonCount = 0;
+
+				if (Input.GetKeyDown (mRightKey))
+				{
+					RightButtonCount++;
+				}
 				transform.Translate(Vector3.right * moveSpeed2 * Time.deltaTime, Space.World);
 			}
 			
 			if (Input.GetKey(mUpKey))
 			{
-				LastKeyPressed = mUpKey.ToString();
+				LeftButtonCount = 0;
+				RightButtonCount = 0;
+				DownButtonCount = 0;
+
+				if (Input.GetKeyDown (mUpKey))
+				{
+					UpButtonCount++;
+				}
 				transform.Translate(Vector3.forward * moveSpeed2 * Time.deltaTime, Space.World);
 			}
 
