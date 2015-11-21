@@ -10,8 +10,7 @@ public class Game : MonoBehaviour
 		{
 			if (instance == null)
 			{
-				GameObject thisObject = GameObject.Find("Game");
-				instance = thisObject.GetComponent<Game>();
+				instance = GameStarter.Instance.Game();
 			}
 			return instance;
 		}
@@ -28,7 +27,12 @@ public class Game : MonoBehaviour
 
 	void Awake()
 	{
-		mMasterChef = GameObject.Find("MasterChef").GetComponent<MasterChef>();
+		mMasterChef = GameStarter.Instance.MasterChef();
+
+		for (int i = 0; i < 4; i++)
+		{
+			mStartPositinos[i] = transform.Find("StartPos" + (i + 1)).gameObject;
+		}
 
 		mGameStarted = false;
 		mGameEnded = false;
@@ -97,7 +101,6 @@ public class Game : MonoBehaviour
 		mPlayers = new playerScript[playerCount];
 		for (int i = 0; i < mPlayers.Length; i++)
 		{
-			mStartPositinos[i] = transform.Find("StartPos" + (i + 1)).gameObject;
 			mPlayers[i] = Instantiate<GameObject>(mPlayerPrefab).GetComponent<playerScript>();
 		}
 		
@@ -149,7 +152,6 @@ public class Game : MonoBehaviour
 			mGameEnded = false;
 			mGameStarted = false;
 			mMasterChef.Reset();
-			UpdateGUI();
 		}
 		else if (mGameStarted) 
 		{
@@ -165,12 +167,13 @@ public class Game : MonoBehaviour
 			mGameEnded = false;
 			mGameStarted = true;
 			mMasterChef.Reset();
-			UpdateGUI();
 		}
 		else
 		{
 			// 	
 		}
+
+		UpdateGUI();
 	}
 
 	bool OutOfBounds (playerScript player)

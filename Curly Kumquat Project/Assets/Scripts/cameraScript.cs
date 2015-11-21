@@ -3,6 +3,12 @@ using System.Collections;
 
 public class cameraScript : MonoBehaviour
 {
+	private Camera mCamera;
+
+	void Awake()
+	{
+		mCamera = GetComponent<Camera>();
+	}
 
     void Start()
     {

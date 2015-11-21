@@ -11,8 +11,7 @@ public class GUICanvas : MonoBehaviour
 		{
 			if (instance == null)
 			{
-				GameObject thisObject = GameObject.Find("Canvas");
-				instance = thisObject.GetComponent<GUICanvas>();
+				instance = GameStarter.Instance.Canvas();
 			}
 			return instance;
 		}

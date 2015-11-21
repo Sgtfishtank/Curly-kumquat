@@ -3,19 +3,35 @@ using System.Collections;
 
 public class GameStarter : MonoBehaviour 
 {
+	private static GameStarter instance = null;
+	public static GameStarter Instance
+	{
+		get
+		{
+			if (instance == null)
+			{
+				GameObject thisObject = GameObject.Find("GameStarter");
+				instance = thisObject.GetComponent<GameStarter>();
+			}
+			return instance;
+		}
+	}
+
 	public GameObject mAM;
 	public GameObject mMasterChef;
 	public GameObject mEventSystem;
 	public GameObject mCanvas;
 	public GameObject mGame;
+	public GameObject mMainCamera;
 
 	void Awake()
 	{
-		Instantiate<GameObject>(mAM).name = mAM.name;
-		Instantiate<GameObject>(mMasterChef).name = mMasterChef.name;
-		Instantiate<GameObject>(mEventSystem).name = mEventSystem.name;
-		Instantiate<GameObject>(mCanvas).name = mCanvas.name;
-		Instantiate<GameObject>(mGame).name = mGame.name;
+		GetOrCreate (mAM);
+		GetOrCreate (mMasterChef);
+		GetOrCreate (mEventSystem);
+		GetOrCreate (mCanvas);
+		GetOrCreate (mGame);
+		GetOrCreate (mMainCamera);
 	}
 
 	// Use this for initialization
@@ -28,5 +44,42 @@ public class GameStarter : MonoBehaviour
 	void Update () 
 	{
 	
+	}
+
+	GameObject GetOrCreate (GameObject prefab)
+	{
+		GameObject x = GameObject.Find(prefab.name);
+		if (x == null) 
+		{
+			x = Instantiate<GameObject>(prefab);
+			x.name = prefab.name;
+		}
+
+		return x;
+	}
+
+	public MasterChef MasterChef()
+	{
+		return GetOrCreate(mMasterChef).GetComponent<MasterChef>();
+	}
+
+	public GUICanvas Canvas ()
+	{
+		return GetOrCreate(mCanvas).GetComponent<GUICanvas>();
+	}
+
+	public Game Game ()
+	{
+		return GetOrCreate(mGame).GetComponent<Game>();
+	}
+
+	public AudioManager AudioManager ()
+	{
+		return GetOrCreate(mAM).GetComponent<AudioManager>();
+	}
+	
+	public cameraScript Camera()
+	{
+		return GetOrCreate(mMainCamera).GetComponent<cameraScript>();
 	}
 }
