@@ -21,7 +21,7 @@ public class Game : MonoBehaviour
 	private GameObject[] mStartPositinos = new GameObject[4];
 	private MasterChef mMasterChef;
 
-	private playerScript[] mPlayers = new playerScript[4];
+	private playerScript[] mPlayers;
 
 	private bool mGameStarted;
 	private bool mGameEnded;
@@ -29,28 +29,22 @@ public class Game : MonoBehaviour
 	void Awake()
 	{
 		mMasterChef = GameObject.Find("MasterChef").GetComponent<MasterChef>();
-		for (int i = 0; i < 4; i++)
-		{
-			mStartPositinos[i] = transform.Find("StartPos" + (i + 1)).gameObject;
-			mPlayers[i] = Instantiate<GameObject>(mPlayerPrefab).GetComponent<playerScript>();
-		}
 
-		mGameStarted = true;
+		mGameStarted = false;
 		mGameEnded = false;
 	}
 
 	// Use this for initialization
 	void Start () 
 	{
-		GUICanvas.Instance.HideWin();
+		UpdateGUI();
+	}
 
-		for (int i = 0; i < 4; i++) 
-		{
-			Vector3 pos = mStartPositinos[i].transform.position;
-
-			mPlayers[i].transform.position = pos;
-			mPlayers[i].CreatePlayer(i);
-		}
+	void UpdateGUI ()
+	{
+		GUICanvas.Instance.ShowEnd(mGameEnded);
+		GUICanvas.Instance.ShowStart(!mGameStarted);
+		GUICanvas.Instance.ShowPlaying(mGameStarted && (!mGameEnded));
 	}
 	
 	// Update is called once per frame
@@ -58,7 +52,6 @@ public class Game : MonoBehaviour
 	{
 		if (!mGameStarted) 
 		{
-			// start game
 		}
 		else if (!mGameEnded)
 		{
@@ -70,7 +63,7 @@ public class Game : MonoBehaviour
 			
 			int playersAlive = 0;
 			int playerID = -1;
-			for (int i = 0; i < 4; i++) 
+			for (int i = 0; i < mPlayers.Length; i++) 
 			{
 				if (!mPlayers[i].IsDead()) 
 				{
@@ -99,11 +92,49 @@ public class Game : MonoBehaviour
 		}
 	}
 
+	public void StartGame (int playerCount)
+	{
+		mPlayers = new playerScript[playerCount];
+		for (int i = 0; i < mPlayers.Length; i++)
+		{
+			mStartPositinos[i] = transform.Find("StartPos" + (i + 1)).gameObject;
+			mPlayers[i] = Instantiate<GameObject>(mPlayerPrefab).GetComponent<playerScript>();
+		}
+		
+		for (int i = 0; i < mPlayers.Length; i++) 
+		{
+			Vector3 pos = mStartPositinos[i].transform.position;
+			
+			mPlayers[i].transform.position = pos;
+			mPlayers[i].CreatePlayer(i);
+		}
+
+		mGameStarted = true;
+		mGameEnded = false;
+		UpdateGUI();
+	}
+
+	public int PlayerCount ()
+	{
+		if (mPlayers == null) 
+		{
+			return 0;
+		}
+
+		return mPlayers.Length;
+	}
+
 	void EndGame (int playerID)
 	{
 		// game ends
-		GUICanvas.Instance.ShowWin(playerID);
+		GUICanvas.Instance.SetWin(playerID);
 		mGameEnded = true;
+		for (int i = 0; i < mPlayers.Length; i++) 
+		{
+			Destroy(mPlayers[i].gameObject);
+		}
+		mPlayers = null;
+		UpdateGUI();
 	}
 
 	public playerScript GetPlayer(int playerID)
@@ -113,17 +144,33 @@ public class Game : MonoBehaviour
 
 	void Reset()
 	{
-		for (int i = 0; i < 4; i++) 
+		if (mGameEnded) 
 		{
-			mPlayers[i].transform.position = mStartPositinos[i].transform.position;
-			mPlayers[i].gameObject.SetActive(true);
-			mPlayers[i].Reset();
+			mGameEnded = false;
+			mGameStarted = false;
+			mMasterChef.Reset();
+			UpdateGUI();
 		}
-		
-		GUICanvas.Instance.HideWin();
-		mGameEnded = false;
-		mGameStarted = true;
-		mMasterChef.Reset();
+		else if (mGameStarted) 
+		{
+			for (int i = 0; i < mPlayers.Length; i++) 
+			{
+				Vector3 pos = mStartPositinos[i].transform.position;
+				mPlayers[i].Reset();
+
+				mPlayers[i].transform.position = pos;
+				mPlayers[i].CreatePlayer(i);
+			}
+
+			mGameEnded = false;
+			mGameStarted = true;
+			mMasterChef.Reset();
+			UpdateGUI();
+		}
+		else
+		{
+			// 	
+		}
 	}
 
 	bool OutOfBounds (playerScript player)

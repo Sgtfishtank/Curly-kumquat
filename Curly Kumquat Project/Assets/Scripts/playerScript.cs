@@ -70,14 +70,19 @@ public class playerScript : MonoBehaviour
 		}
 
 	}
-	
+
 	void InitKeys (KeyCode w, KeyCode s, KeyCode a, KeyCode d)
+	{
+		InitKeys (w, s, a, d, KeyCode.Space);
+	}
+
+	void InitKeys (KeyCode w, KeyCode s, KeyCode a, KeyCode d, KeyCode jump)
 	{
 		mLeftKey = a;
 		mRightKey = d;
 		mUpKey = w;
 		mDownKey = s;
-		mSpaceKey = KeyCode.Space;
+		mSpaceKey = jump;
 	}
 	
 	public void Reset ()
