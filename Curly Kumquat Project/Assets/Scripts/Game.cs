@@ -16,13 +16,18 @@ public class Game : MonoBehaviour
 		}
 	}
 
+	public enum State
+	{
+		Menu,
+		Playing,
+		End
+	}
 	public GameObject mPlayerPrefab;
 
 	private GameObject[] mStartPositinos = new GameObject[4];
 	private MasterChef mMasterChef;
 	private playerScript[] mPlayers;
-	private bool mGameStarted;
-	private bool mGameEnded;
+	private State mCurrentState;
 
 	void Awake()
 	{
@@ -33,8 +38,7 @@ public class Game : MonoBehaviour
 			mStartPositinos[i] = transform.Find("StartPos" + (i + 1)).gameObject;
 		}
 
-		mGameStarted = false;
-		mGameEnded = false;
+		mCurrentState = State.Menu;
 	}
 
 	// Use this for initialization
@@ -45,55 +49,73 @@ public class Game : MonoBehaviour
 		GUICanvas.Instance.ShowQuit(true);
 	}
 
-	void UpdateGUI ()
+	void UpdateGUI()
 	{
-		GUICanvas.Instance.ShowEnd(mGameEnded);
-		GUICanvas.Instance.ShowStart(!mGameStarted);
-		GUICanvas.Instance.ShowPlaying(mGameStarted && (!mGameEnded));
+		GUICanvas.Instance.Show(mCurrentState);
 	}
 	
 	// Update is called once per frame
 	void Update () 
 	{
-		if (!mGameStarted) 
+		switch (mCurrentState) 
 		{
-		}
-		else if (!mGameEnded)
-		{
+		case State.Menu:
+			// mrnu
+			UpdateMenu();
+			break;
+		case State.Playing:
 			// game running
-			if (Input.GetKeyDown(KeyCode.R)) 
+			UpdatePlaying();
+			break;
+		case State.End:
+			// game ended
+			UpdateEnd();
+			break;
+		default:
+			Debug.Log("Error gem state");
+			break;
+		}
+	}
+
+	public void UpdateMenu()
+	{
+
+	}
+
+	public void UpdatePlaying()
+	{
+		if (Input.GetKeyDown(KeyCode.R)) 
+		{
+			Reset();
+		}
+		
+		int playersAlive = 0;
+		int playerID = -1;
+		for (int i = 0; i < mPlayers.Length; i++) 
+		{
+			if (!mPlayers[i].IsDead()) 
 			{
-				Reset();
+				playersAlive++;
+				playerID = i;
 			}
 			
-			int playersAlive = 0;
-			int playerID = -1;
-			for (int i = 0; i < mPlayers.Length; i++) 
+			if (OutOfBounds(mPlayers[i])) 
 			{
-				if (!mPlayers[i].IsDead()) 
-				{
-					playersAlive++;
-					playerID = i;
-				}
-				
-				if (OutOfBounds(mPlayers[i])) 
-				{
-					mPlayers[i].Kill();
-				}
-			}
-			
-			if (playersAlive < 2) 
-			{
-				EndGame(playerID);
+				mPlayers[i].Kill();
 			}
 		}
-		else 
+		
+		if (playersAlive < 2) 
 		{
-			// game ended
-			if (Input.GetKeyDown(KeyCode.R)) 
-			{
-				Reset();
-			}
+			EndGame(playerID);
+		}
+	}
+
+	public void UpdateEnd()
+	{
+		if (Input.GetKeyDown(KeyCode.R)) 
+		{
+			Reset();
 		}
 	}
 
@@ -115,8 +137,7 @@ public class Game : MonoBehaviour
 			mPlayers[i].CreatePlayer(i, (playerScript.FruitType)(Random.Range(0, (int)playerScript.FruitType.FruitCount)));
 		}
 
-		mGameStarted = true;
-		mGameEnded = false;
+		mCurrentState = State.Playing;
 		UpdateGUI();
 	}
 
@@ -135,7 +156,7 @@ public class Game : MonoBehaviour
 		mMasterChef.enabled = false;
 		// game ends
 		GUICanvas.Instance.SetWin(playerID);
-		mGameEnded = true;
+		mCurrentState = State.End;
 		for (int i = 0; i < mPlayers.Length; i++) 
 		{
 			Destroy(mPlayers[i].gameObject);
@@ -152,30 +173,31 @@ public class Game : MonoBehaviour
 
 	void Reset()
 	{
-		if (mGameEnded) 
+		switch (mCurrentState) 
 		{
-			mGameEnded = false;
-			mGameStarted = false;
-			mMasterChef.Reset();
-		}
-		else if (mGameStarted) 
-		{
+		case State.Menu:
+			// menu
+			break;
+		case State.Playing:
+			// game running
 			for (int i = 0; i < mPlayers.Length; i++) 
 			{
 				Vector3 pos = mStartPositinos[i].transform.position;
 				mPlayers[i].Reset();
-
+				
 				mPlayers[i].transform.position = pos;
 				mPlayers[i].CreatePlayer(i, (playerScript.FruitType)(Random.Range(0, (int)playerScript.FruitType.FruitCount)));
 			}
-
-			mGameEnded = false;
-			mGameStarted = true;
 			mMasterChef.Reset();
-		}
-		else
-		{
-			// 	
+			break;
+		case State.End:
+			// game ended
+			mMasterChef.Reset();
+			mCurrentState = State.Menu;
+			break;
+		default:
+			Debug.Log("Error gem state");
+			break;
 		}
 
 		UpdateGUI();
@@ -194,5 +216,10 @@ public class Game : MonoBehaviour
 		}
 
 		return false;
+	}
+
+	public State CurrentState()
+	{
+		return mCurrentState;
 	}
 }

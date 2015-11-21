@@ -17,9 +17,13 @@ public class cameraScript : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKey(KeyCode.A))
-        {
-
-        }
-    }
+		if (Game.Instance.CurrentState() == Game.State.Menu) 
+		{
+			transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, Mathf.Sin(Time.time) * 15, transform.rotation.eulerAngles.z);
+		}
+		else 
+		{
+			transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, 0, transform.rotation.eulerAngles.z);
+		}
+	}
 }

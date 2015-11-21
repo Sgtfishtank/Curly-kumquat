@@ -151,6 +151,7 @@ public class playerScript : MonoBehaviour
 			if (Input.GetKey(mLeftKey))
 			{
 				LastKeyPressed = mLeftKey.ToString();
+				mBody.transform.localScale = new Vector3(1, 1, 1);
 				transform.Translate(Vector3.left * moveSpeed2 * Time.deltaTime, Space.World);
 			}
 			
@@ -163,6 +164,7 @@ public class playerScript : MonoBehaviour
 			if (Input.GetKey(mRightKey))
 			{
 				LastKeyPressed = mRightKey.ToString();
+				mBody.transform.localScale = new Vector3(1, 1, -1);
 				transform.Translate(Vector3.right * moveSpeed2 * Time.deltaTime, Space.World);
 			}
 			

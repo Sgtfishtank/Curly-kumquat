@@ -76,19 +76,11 @@ public class GUICanvas : MonoBehaviour
 		Game.Instance.StartGame(i);
 	}
 
-	public void ShowEnd(bool show)
+	public void Show (Game.State mCurrentState)
 	{
-		mEnd.gameObject.SetActive (show);
-	}
-	
-	public void ShowStart(bool show)
-	{
-		mStart.gameObject.SetActive (show);
-	}
-	
-	public void ShowPlaying(bool show)
-	{
-		mPlaying.gameObject.SetActive (show);
+		mEnd.gameObject.SetActive (mCurrentState == Game.State.End);
+		mStart.gameObject.SetActive (mCurrentState == Game.State.Menu);
+		mPlaying.gameObject.SetActive (mCurrentState == Game.State.Playing);
 	}
 
 	public void SetWin(int i)
