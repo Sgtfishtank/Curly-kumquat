@@ -68,7 +68,6 @@ public class playerScript : MonoBehaviour
 		{
 			RB.velocity = new Vector3(RB.velocity.x, jumpForce, RB.velocity.z);
 		}
-
 	}
 	
 	void InitKeys (KeyCode w, KeyCode s, KeyCode a, KeyCode d)
@@ -83,6 +82,9 @@ public class playerScript : MonoBehaviour
 	public void Reset ()
 	{
 		mIsDead = false;
+		RB.velocity = Vector3.zero;
+		RB.angularVelocity = Vector3.zero;
+		transform.rotation = Quaternion.identity;
 	}
 	
 	public bool IsDead ()
