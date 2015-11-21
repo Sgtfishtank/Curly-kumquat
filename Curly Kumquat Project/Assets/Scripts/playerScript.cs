@@ -50,6 +50,12 @@ public class playerScript : MonoBehaviour
 
 	private FMOD.Studio.EventInstance[] mScreams;
 
+	private FMOD.Studio.EventInstance mScream;
+	private FMOD.Studio.EventInstance mDash;
+	private FMOD.Studio.EventInstance mDashHit;
+	private FMOD.Studio.EventInstance mKnifeBodyHit;
+
+	private float mSayTime;
 	private bool mDashing = false;
 	private float mDashT;
 	private GameObject mBody;
@@ -106,6 +112,10 @@ public class playerScript : MonoBehaviour
 
 	void Start () 
 	{
+		mDash = FMOD_StudioSystem.instance.GetEvent("event:/Dash/Dash");
+		mDashHit = FMOD_StudioSystem.instance.GetEvent("event:/Dash Hit/DashHit");
+		mScream = FMOD_StudioSystem.instance.GetEvent("event:/Scream/Scream");
+		mKnifeBodyHit = FMOD_StudioSystem.instance.GetEvent("event:/KnifeBodyHit/KnifebodyHit");
 	}
 
 	void Update () 
@@ -117,10 +127,10 @@ public class playerScript : MonoBehaviour
 			mCrossT = -1;
 		}
 		
-		if (Random.value > 0.999f) 
+		if (mSayTime < Time.time) 
 		{
-			int index = Random.Range(0, mScreams.Length);
-			AudioManager.Instance.PlaySoundOnce(mScreams[index]);
+			AudioManager.Instance.PlaySoundOnce(mScream);
+			mSayTime = Time.time + Random.Range(2.5f, 10.0f);
 		}
 
 		if (mKnockBacking)
@@ -246,6 +256,7 @@ public class playerScript : MonoBehaviour
 
 	void Dash ()
 	{
+		AudioManager.Instance.PlaySoundOnce(mDash);
 		mDashT = Time.time + mDashDuration;
 		mDashing = true;
 	}
@@ -312,6 +323,7 @@ public class playerScript : MonoBehaviour
 		{
 			if (mDashing)
 			{
+				AudioManager.Instance.PlaySoundOnce(mDashHit);
 				mDashing = false;
 			}
 
@@ -326,6 +338,7 @@ public class playerScript : MonoBehaviour
 		}
 		else if (coll.collider.tag == "Knife") 
 		{
+			AudioManager.Instance.PlaySoundOnce(mKnifeBodyHit);
 			Kill();
 		}
 	}

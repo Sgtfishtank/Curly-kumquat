@@ -3,7 +3,7 @@ using System.Collections;
 
 public class MasterChef : MonoBehaviour
 {
-	enum attacks {chop = 0, chopShove = 1, Swipe = 2, trippleChop = 3};
+	enum attacks {chop = 0, chopShove = 1, Swipe = 2, trippleChop = 3, AttackSize};
 	enum state {pick = 0, execute = 1, reset = 2, idel = 3};
 	float mCooldown;
 	int currentAttack;
@@ -21,7 +21,12 @@ public class MasterChef : MonoBehaviour
 	public GameObject trippleChopWarning;
 	public GameObject knifePrefab;
 	public GameObject knife;
-	public FMOD.Studio.EventInstance mSlapChopMusic;
+	public bool mFirstHit;
+
+	private FMOD.Studio.EventInstance mKnifeHit;
+	private FMOD.Studio.EventInstance mChefComment;
+	private float mSayTime;
+	private bool mDidTop;
 
 	void Awake()
 	{
@@ -31,18 +36,27 @@ public class MasterChef : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
+		mKnifeHit = FMOD_StudioSystem.instance.GetEvent("event:/Knifehit/New Event");
+		mChefComment = FMOD_StudioSystem.instance.GetEvent("event:/Chef comment/ChefComment");
 		currentState = (int)state.pick;
 	}
 	
 	// Update is called once per frame
 	void Update ()
 	{
+		if (mSayTime < Time.time) 
+		{
+			AudioManager.Instance.PlaySoundOnce(mChefComment);
+			mSayTime = Time.time + Random.Range(2.5f, 10.0f);
+		}
+
 		if(currentState == (int)state.pick && Time.time > mCooldown)
 		{
+			mFirstHit = false;
 			pos = Random.Range(-Limits,Limits+0.1f);
 			knife.transform.position = new Vector3(pos, transform.position.y, transform.position.z);
 			currentState = (int)state.idel;
-			switch (1)//UnityEngine.Random.Range(0,2))
+			switch (UnityEngine.Random.Range(0, (int)attacks.AttackSize))
 			{
 			case (int)attacks.chop:
 				currentAttack = (int)attacks.chop;
@@ -113,8 +127,9 @@ public class MasterChef : MonoBehaviour
 	public void Reset ()
 	{
 		// reset state
+		mFirstHit = false;
 		knife.transform.position = Vector3.zero;
-		knife.transform.rotation = Quaternion.identity;
+		knife.transform.rotation = Quaternion.Euler(0,0, 270);
 		currentState = (int)state.pick;
 	}
 
@@ -125,6 +140,11 @@ public class MasterChef : MonoBehaviour
 			knife.transform.RotateAround(new Vector3(0,0,0), Vector3.left, 120 * Time.deltaTime);
 		else
 		{
+			if (!mFirstHit) 
+			{
+				AudioManager.Instance.PlaySoundOnce(mKnifeHit);
+				mFirstHit = true;
+			}
 			knife.transform.rotation = Quaternion.Euler(270,0,90);
 			currentState = (int)state.idel;
 			Invoke("idel", 0.5f);
@@ -138,10 +158,21 @@ public class MasterChef : MonoBehaviour
 			knife.transform.RotateAround(new Vector3(0,0,0), Vector3.left, 180 * Time.deltaTime);
 		else if (knife.transform.position.x != targetPos)
 		{
+			if (!mFirstHit) 
+			{
+				AudioManager.Instance.PlaySoundOnce(mKnifeHit);
+				mFirstHit = true;
+			}	
+			//AudioManager.Instance.PlaySoundOnce(mKnifeHit);
 			knife.transform.position = Vector3.MoveTowards(knife.transform.position,new Vector3(targetPos,transform.position.y,transform.position.z),shoveSpeed*Time.deltaTime);
 		}
 		else
 		{
+			if (!mFirstHit) 
+			{
+				AudioManager.Instance.PlaySoundOnce(mKnifeHit);
+				mFirstHit = true;
+			}
 			currentState = (int)state.idel;
 			Invoke("idel", 1f);
 		}
@@ -153,6 +184,11 @@ public class MasterChef : MonoBehaviour
 			knife.transform.RotateAround(new Vector3(0,0,0), Vector3.down, 180 * Time.deltaTime);
 		else
 		{
+			if (!mFirstHit) 
+			{
+				AudioManager.Instance.PlaySoundOnce(mKnifeHit);
+				mFirstHit = true;
+			}
 			knife.transform.rotation = Quaternion.Euler(0,0,270);
 			currentState = (int)state.pick;
 			mCooldown = Random.Range(3,10) + Time.time;
@@ -183,6 +219,12 @@ public class MasterChef : MonoBehaviour
 	}
 	bool choping()
 	{
+		if (!mFirstHit) 
+		{
+			AudioManager.Instance.PlaySoundOnce(mKnifeHit);
+			mFirstHit = true;
+			mDidTop = false;
+		}
 
 		if(tripchopdir == -1)
 		{
@@ -193,12 +235,18 @@ public class MasterChef : MonoBehaviour
 			knife.transform.position = new Vector3(knife.transform.position.x + 5 * Time.deltaTime,Mathf.Clamp(5+5*Mathf.Sin(10*Time.time),0,50),knife.transform.position.z);
 		}
 
-		if(Mathf.Clamp(5+5*Mathf.Sin(10*Time.time),0,50) <= 0.05f)
+		if ((Mathf.Clamp(5+5*Mathf.Sin(10*Time.time),0,50) <= 0.05f) && (mDidTop))
 		{
-			print("dg" + toches);
+			AudioManager.Instance.PlaySoundOnce(mKnifeHit);
 			toches++;
+			mDidTop = false;
 		}
-		if(toches == 3)
+		else if ((Mathf.Clamp(5+5*Mathf.Sin(10*Time.time),0,50) > 5f)) 
+		{
+			mDidTop = true;
+		}
+
+		if(toches == 2)
 			return true;
 
 		return false;
