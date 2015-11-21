@@ -44,7 +44,7 @@ public class playerScript : MonoBehaviour
 
 	void Update () 
 	{
-		if (Input.GetKey(mUpKey))
+		if (Input.GetKey(mLeftKey))
 		{
 			transform.Translate(Vector3.left * moveSpeed * Time.deltaTime);
 		}
@@ -54,12 +54,12 @@ public class playerScript : MonoBehaviour
 			transform.Translate(Vector3.back * moveSpeed * Time.deltaTime);
 		}
 
-		if (Input.GetKey(mLeftKey))
+		if (Input.GetKey(mRightKey))
 		{
 			transform.Translate(Vector3.right * moveSpeed * Time.deltaTime);
 		}
 
-		if (Input.GetKey(mRightKey))
+		if (Input.GetKey(mUpKey))
 		{
 			transform.Translate(Vector3.forward * moveSpeed * Time.deltaTime);
 		}
