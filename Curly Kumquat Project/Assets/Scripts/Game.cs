@@ -152,6 +152,7 @@ public class Game : MonoBehaviour
 			Vector3 pos = mStartPositinos[i].transform.position;
 			
 			mPlayers[i].transform.position = pos;
+			mPlayers[i].transform.position += mPlayerPrefab.transform.position;
 			mPlayers[i].CreatePlayer(i, (playerScript.FruitType)(Random.Range(0, (int)playerScript.FruitType.FruitCount)));
 		}
 
@@ -208,6 +209,7 @@ public class Game : MonoBehaviour
 				mPlayers[i].Reset();
 				
 				mPlayers[i].transform.position = pos;
+				mPlayers[i].transform.position += mPlayerPrefab.transform.position;
 				mPlayers[i].CreatePlayer(i, (playerScript.FruitType)(Random.Range(0, (int)playerScript.FruitType.FruitCount)));
 			}
 			AudioManager.Instance.StopMusic(mGameMusic, FMOD.Studio.STOP_MODE.ALLOWFADEOUT);

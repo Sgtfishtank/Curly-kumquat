@@ -64,27 +64,27 @@ public class MasterChef : MonoBehaviour
 				currentAttack = attacks.chop;
 				knife.transform.RotateAround(new Vector3(0,0,0), Vector3.left, 120* Time.deltaTime);
 				//Destroy( Instantiate(chopWarning,new Vector3(pos,0,0),Quaternion.identity),1.1f);
-				Invoke("Chop" ,0.1f);
+				Invoke("Chop" ,1f);
 				break;
 			case attacks.chopShove:
 				currentAttack = attacks.chopShove;
 				targetPos = (Random.Range(0,2)*2-1) * Limits;
 				knife.transform.RotateAround(new Vector3(0,0,0), Vector3.left, 120* Time.deltaTime);
-				Invoke("ChopShove" ,0.1f);
+				Invoke("ChopShove" ,1f);
 				break;
 			case attacks.Swipe:
 				knife.transform.position = new Vector3(0, transform.position.y, transform.position.z);
 				currentAttack = attacks.Swipe;
 				targetPos = (Random.Range(0,2)*2-1) * Limits;
 				knife.transform.rotation = Quaternion.Euler(0,359,0);
-				Invoke("Swipe" ,0.1f);
+				Invoke("Swipe" ,1f);
 				break;
 			case attacks.trippleChop:
 				knife.transform.RotateAround(new Vector3(0,0,0), Vector3.left, 120* Time.deltaTime);
 				tripchopdir = Random.Range(0,2)*2-1;
 				currentAttack = attacks.trippleChop;
 				targetPos = (Random.Range(0,2)*2-1);
-				Invoke("TrippleChop" ,0.1f);
+				Invoke("TrippleChop" ,1f);
 				break;
 			default:
 				Debug.LogError("Error currentAttack " + currentAttack);
