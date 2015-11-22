@@ -3,14 +3,22 @@ using System.Collections;
 
 public class cameraScript : MonoBehaviour
 {
-	private Vector3 pos;
-	private Quaternion rot;
+	public GameObject MenuCamera;
+
+	private Vector3 menipos;
+	private Quaternion menirot;
+
+	private Vector3 gamepos;
+	private Quaternion gamerot;
 	//private Camera mCamera;
 
 	void Awake()
 	{
-		pos = transform.position;
-		rot = transform.rotation;
+		menipos = MenuCamera.transform.position;
+		menirot = MenuCamera.transform.rotation; 
+
+		gamepos = transform.position;
+		gamerot = transform.rotation;
 		//mCamera = GetComponent<Camera>();
 	}
 
@@ -21,14 +29,16 @@ public class cameraScript : MonoBehaviour
 
     void Update()
     {
-		transform.position = pos;
 		if (Game.Instance.CurrentState() == Game.State.Menu) 
 		{
-			transform.rotation = Quaternion.Euler(rot.eulerAngles.x, rot.eulerAngles.y + (Mathf.Sin(Time.time) * 15), rot.eulerAngles.z);
+			transform.position = menipos;
+			transform.rotation = menirot; 
+			//transform.rotation = Quaternion.Euler(gamerot.eulerAngles.x, gamerot.eulerAngles.y + (Mathf.Sin(Time.time) * 15), gamerot.eulerAngles.z);
 		}
 		else 
 		{
-			transform.rotation = Quaternion.Euler(rot.eulerAngles.x, rot.eulerAngles.y, rot.eulerAngles.z);
+			transform.position = Vector3.MoveTowards(transform.position, gamepos, Time.deltaTime * 25);
+			transform.rotation = Quaternion.RotateTowards(transform.rotation, gamerot, Time.deltaTime * 25);
 		}
 	}
 }

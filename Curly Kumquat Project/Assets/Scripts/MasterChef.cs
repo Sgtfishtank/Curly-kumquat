@@ -3,7 +3,7 @@ using System.Collections;
 
 public class MasterChef : MonoBehaviour
 {
-	public enum attacks {chop = 0, chopShove = 1, Swipe = 2, trippleChop = 3, AttackSize};
+	public enum attacks {chop = 0, chopShove = 1, Swipeleft = 2, SwipeRight = 3, trippleChop = 4, AttackSize};
 	public enum state {pick = 0, execute = 1, reset = 2, idel = 3};
 	float mCooldown;
 	public attacks currentAttack;
@@ -19,7 +19,11 @@ public class MasterChef : MonoBehaviour
 	public GameObject chopShoveWarning;
 	public GameObject swipeWarning;
 	public GameObject trippleChopWarning;
+	public GameObject knifePrefab;
+	public GameObject knife;
+	public GameObject knifeHitParticePrefab;
 	public bool mFirstHit;
+	public bool mfirstattack;
 	public Animator mAni;
 
 	float attacktime;
@@ -55,10 +59,11 @@ public class MasterChef : MonoBehaviour
 		if(currentState == state.pick && Time.time > mCooldown)
 		{
 			mFirstHit = false;
+			mfirstattack = true;
 			pos = Random.Range(-Limits,Limits+0.1f);
 			transform.position = new Vector3(pos, transform.position.y, transform.position.z);
 			currentState = state.idel;
-			switch (attacks.chop)//(attacks)UnityEngine.Random.Range(0, (int)attacks.AttackSize))
+			switch (attacks.SwipeRight)//(attacks)UnityEngine.Random.Range(0, (int)attacks.AttackSize))
 			{
 			case attacks.chop:
 				currentAttack = attacks.chop;
@@ -71,11 +76,15 @@ public class MasterChef : MonoBehaviour
 				targetPos = (Random.Range(0,2)*2-1) * Limits;
 				Invoke("ChopShove" ,1f);
 				break;
-			case attacks.Swipe:
-				currentAttack = attacks.Swipe;
-				targetPos = (Random.Range(0,2)*2-1) * Limits;
+			case attacks.Swipeleft:
+				currentAttack = attacks.Swipeleft;
+				attacktime = Time.time + 2f;
 				Invoke("Swipe" ,1f);
 				break;
+			case attacks.SwipeRight:
+				attacktime = Time.time + 2f;
+				Invoke("Swipe" ,1f);
+			break;
 			case attacks.trippleChop:
 				tripchopdir = Random.Range(0,2)*2-1;
 				currentAttack = attacks.trippleChop;
@@ -98,7 +107,10 @@ public class MasterChef : MonoBehaviour
 			case attacks.chopShove:
 				ChopShove();
 				break;
-			case attacks.Swipe:
+			case attacks.Swipeleft:
+				Swipe();
+				break;
+			case attacks.SwipeRight:
 				Swipe();
 				break;
 			case attacks.trippleChop:
@@ -112,7 +124,8 @@ public class MasterChef : MonoBehaviour
 
 		if(currentState == state.reset)
 		{
-
+			mCooldown = Random.Range(3,10)+ Time.time;
+			currentState = state.pick;
 		}
 	}
 
@@ -129,10 +142,13 @@ public class MasterChef : MonoBehaviour
 	void Chop()
 	{
 		currentState = state.execute;
-		mAni.SetInteger("Attack",(int)attacks.chop);
+		if (mfirstattack) {
+			mAni.SetInteger ("Attack", (int)attacks.chop);
+			mfirstattack = false;
+		}
 		if (Time.time > attacktime) {
 			if (!mFirstHit) {
-				AudioManager.Instance.PlaySoundOnce (mKnifeHit);
+				HitBoard();
 				mFirstHit = true;
 				currentState = state.idel;
 				mAni.SetInteger("Attack",(int)attacks.AttackSize);
@@ -148,7 +164,7 @@ public class MasterChef : MonoBehaviour
 		{
 			if (!mFirstHit) 
 			{
-				AudioManager.Instance.PlaySoundOnce(mKnifeHit);
+				HitBoard();
 				AudioManager.Instance.PlaySoundOnce(mKnifeSwoosh);
 				mFirstHit = true;
 			}
@@ -158,7 +174,7 @@ public class MasterChef : MonoBehaviour
 		{
 			if (!mFirstHit) 
 			{
-				AudioManager.Instance.PlaySoundOnce(mKnifeHit);
+				HitBoard();
 				AudioManager.Instance.PlaySoundOnce(mKnifeSwoosh);
 				mFirstHit = true;
 			}
@@ -167,20 +183,37 @@ public class MasterChef : MonoBehaviour
 		}*/
 	}
 
+	void HitBoard()
+	{
+		AudioManager.Instance.PlaySoundOnce(mKnifeHit);
+		GameObject splatooon2 = Instantiate(knifeHitParticePrefab, transform.position, Quaternion.identity) as GameObject;
+		splatooon2.transform.position = knife.transform.position + knifeHitParticePrefab.transform.position;
+		splatooon2.transform.rotation = knifeHitParticePrefab.transform.rotation;
+		splatooon2.transform.localScale = knifeHitParticePrefab.transform.localScale;
+		Destroy (splatooon2, 10);
+	}
+
 	void Swipe()
 	{
+
+		if (mfirstattack) {
+			print ("va fan");
+			mAni.SetInteger ("Attack", 3);
+			mfirstattack = false;
+		}
 		if (!mFirstHit) 
 		{
-			//AudioManager.Instance.PlaySoundOnce(mKnifeHit);
 			AudioManager.Instance.PlaySoundOnce(mKnifeSwoosh);
 			mFirstHit = true;
 		}
-		currentState = state.execute;
-		currentState = state.pick;
-		mCooldown = Random.Range(3,10) + Time.time;
+		if (Time.time > attacktime) {
+			currentState = state.pick;
+			mAni.SetInteger ("Attack", (int)attacks.AttackSize);
+			mCooldown = Random.Range (3, 10) + Time.time;
+		}
 			//Invoke("idel",1f);
 	}
-
+	
 	void TrippleChop()
 	{
 		currentState = state.execute;
@@ -194,7 +227,7 @@ public class MasterChef : MonoBehaviour
 
 	public bool IsKnifeSide ()
 	{
-		if (currentAttack == attacks.Swipe) 
+		if (currentAttack == attacks.Swipeleft || currentAttack == attacks.SwipeRight) 
 		{
 			return true;
 		}
@@ -211,7 +244,7 @@ public class MasterChef : MonoBehaviour
 	{
 		if (!mFirstHit) 
 		{
-			AudioManager.Instance.PlaySoundOnce(mKnifeHit);
+			HitBoard();
 			mFirstHit = true;
 			mDidTop = false;
 		}
@@ -227,7 +260,7 @@ public class MasterChef : MonoBehaviour
 
 		if ((Mathf.Clamp(5+5*Mathf.Sin(10*Time.time),0,50) <= 0.05f) && (mDidTop))
 		{
-			AudioManager.Instance.PlaySoundOnce(mKnifeHit);
+			HitBoard();
 			toches++;
 			mDidTop = false;
 		}

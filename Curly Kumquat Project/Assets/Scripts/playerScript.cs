@@ -12,6 +12,11 @@ public class playerScript : MonoBehaviour
 		FruitCount
 	}
 
+	// dash smope on player
+	// splatter on death
+	// 
+
+
 	public float moveSpeed;
 	public float jumpForce;
 	public float mDashSpeed;
@@ -41,11 +46,14 @@ public class playerScript : MonoBehaviour
 	public int UpButtonCount;
 
 	private float buttonCooldown = 0.5F;
-
+	
+	public GameObject mSplaterParticlesPrefab;
+	public GameObject mDahsParticlesPrefab;
 	public GameObject mOinionBodyPrefab;
 	public GameObject mCarrotBodyPrefab;
 	public GameObject mOinionBodyPartsPrefab;
 	public GameObject mCarrotBodyPartsPrefab;
+	public GameObject mRingParticlesPrefab;
 
 	private float gravityForce;
 	private Rigidbody RB;
@@ -78,6 +86,12 @@ public class playerScript : MonoBehaviour
 	private float mCrossT;
 	private FruitType mType;
 	private bool mGotDashHit;
+	
+	public Material carrotMaterial;
+	public Material carrotOtherMaterial;
+	public Material onionMaterial;
+	public Material onionOtherMaterial;
+	private GameObject dathshit;
 
 	void Awake()
 	{
@@ -85,6 +99,13 @@ public class playerScript : MonoBehaviour
 		RB = GetComponent<Rigidbody>();
 		gravityForce = -45;
 		Physics.gravity = new Vector3 (0, gravityForce, 0);
+		
+		dathshit = Instantiate (mDahsParticlesPrefab, transform.position, transform.rotation) as GameObject;
+		dathshit.transform.parent = transform;
+		dathshit.transform.localPosition = mDahsParticlesPrefab.transform.localPosition;
+		dathshit.transform.localRotation = mDahsParticlesPrefab.transform.localRotation;
+		dathshit.transform.localScale = mDahsParticlesPrefab.transform.localScale;
+		dathshit.SetActive(false);
 	}
 
 	public void CreatePlayer (int playerID, FruitType type)
@@ -92,16 +113,16 @@ public class playerScript : MonoBehaviour
 		switch (playerID) 
 		{
 		case 0:
-			InitKeys(KeyCode.UpArrow, KeyCode.DownArrow, KeyCode.LeftArrow, KeyCode.RightArrow);
+			InitKeys(KeyCode.UpArrow, KeyCode.DownArrow, KeyCode.LeftArrow, KeyCode.RightArrow, KeyCode.RightControl);
 			break;
 		case 1:
-			InitKeys(KeyCode.W, KeyCode.S, KeyCode.A, KeyCode.D);
+			InitKeys(KeyCode.W, KeyCode.S, KeyCode.A, KeyCode.D,KeyCode.LeftControl);
 			break;
 		case 2:
-			InitKeys(KeyCode.Keypad8, KeyCode.Keypad5, KeyCode.Keypad4, KeyCode.Keypad6);
+			InitKeys(KeyCode.Keypad8, KeyCode.Keypad5, KeyCode.Keypad4, KeyCode.Keypad6, KeyCode.KeypadPlus);
 			break;
 		case 3:
-			InitKeys(KeyCode.I, KeyCode.K, KeyCode.J, KeyCode.L);
+			InitKeys(KeyCode.I, KeyCode.K, KeyCode.J, KeyCode.L, KeyCode.Space);
 			break;
 		}
 		mPlayerID = playerID;
@@ -116,7 +137,7 @@ public class playerScript : MonoBehaviour
 		mBodyPartsBast = new GameObject[3];
 		mBodyParts2Bast = new GameObject[3];
 		Transform trans;
-		mType = type;
+		mType = (FruitType)(playerID % (int)FruitType.FruitCount);
 		switch (mType) 
 		{
 		case FruitType.Carrot:
@@ -151,6 +172,33 @@ public class playerScript : MonoBehaviour
 			break;
 		}
 
+		MeshRenderer[] renders = mBody.GetComponentsInChildren<MeshRenderer> ();
+		Material refMat;
+		Material otherMat;
+
+		if (mType == FruitType.Carrot) 
+		{
+			refMat = carrotMaterial;
+			otherMat = carrotOtherMaterial;
+		}
+		else 
+		{
+			refMat = onionMaterial;
+			otherMat = onionOtherMaterial;
+		}
+
+		if ((playerID == 2) || (playerID == 3))
+		{
+			for (int i = 0; i < renders.Length; i++) 
+			{
+				if (renders [i].sharedMaterial == refMat) 
+				{
+					renders [i].material = otherMat;
+				}
+			}
+		}
+
+
 		mAni = mBody.GetComponent<Animator> ();
 		mAni.CrossFade("Running", 0.5f, 0, Random.value);
 		mBody.transform.parent = transform;
@@ -171,6 +219,7 @@ public class playerScript : MonoBehaviour
 	{
 		if (mGotDashHit) 
 		{
+			dathshit.SetActive(false);
 			mDashing = false;
 			mGotDashHit = false;
 		}
@@ -202,6 +251,7 @@ public class playerScript : MonoBehaviour
 			moveSpeed2 = mDashSpeed;
 			if (mDashT < Time.time) 
 			{
+				dathshit.SetActive(false);
 				mDashing = false;
 			}
 		}
@@ -281,6 +331,7 @@ public class playerScript : MonoBehaviour
 				mAni.SetBool("moving",true);
 				transform.Translate(Vector3.forward * moveSpeed2 * Time.deltaTime, Space.World);
 			}
+			if(!Input.GetKey(mUpKey) && !Input.GetKey(mRightKey) && !Input.GetKey(mLeftKey) && !Input.GetKey(mDownKey))
 
 			if (Input.GetKeyDown(mSpaceKey) && numberOfJumps < maxJumps)
 			{
@@ -318,10 +369,18 @@ public class playerScript : MonoBehaviour
 			}
 		}
 
+
+
 		Vector3 pos = transform.position;
+		if ((pos.x < xMin) || (pos.x > xMax))
+		{
+			Kill();
+			return;
+		}
+
 		if (!Is2D)
 		{
-			pos.z = Mathf.Clamp(pos.z, zMin, zMax);
+			//pos.z = Mathf.Clamp(pos.z, zMin, zMax);
 		}
 		else
 		{
@@ -338,6 +397,7 @@ public class playerScript : MonoBehaviour
 		mAni.SetTrigger ("Dash");
 		mDashT = Time.time + mDashDuration;
 		mDashing = true;
+		dathshit.SetActive(true);
 	}
 
 	void InitKeys (KeyCode w, KeyCode s, KeyCode a, KeyCode d)
@@ -362,6 +422,7 @@ public class playerScript : MonoBehaviour
 	public void Reset ()
 	{
 		mDashing = false;
+		dathshit.SetActive(false);
 		DownButtonCount = 0;
 		LeftButtonCount = 0;
 		RightButtonCount = 0;
@@ -384,6 +445,24 @@ public class playerScript : MonoBehaviour
 	
 	public void Kill()
 	{
+		Vector3 possdf = new Vector3(0, -0.5f, 0);
+		RaycastHit hitInfo;
+		if (Physics.Raycast(transform.position + new Vector3(0, 2, 0), Vector3.down, out hitInfo, 10, LayerMask.GetMask("Ground")))
+		{
+			possdf = hitInfo.point + new Vector3(0, 0.01f, 0);
+		}
+
+		GameObject splatooon = Instantiate(mSplaterParticlesPrefab, transform.position, Quaternion.identity) as GameObject;
+		Destroy (splatooon, 10);
+		splatooon.transform.position = possdf;
+		splatooon.transform.rotation = mSplaterParticlesPrefab.transform.rotation;
+		splatooon.transform.localScale = mSplaterParticlesPrefab.transform.localScale;
+
+		GameObject splatooon2 = Instantiate(mRingParticlesPrefab, transform.position, Quaternion.identity) as GameObject;
+		Destroy (splatooon2, 10);
+		splatooon2.transform.position = transform.position + mRingParticlesPrefab.transform.position;
+		splatooon2.transform.rotation = mRingParticlesPrefab.transform.rotation;
+		splatooon2.transform.localScale = mRingParticlesPrefab.transform.localScale;
 		gameObject.SetActive (false);
 		mIsDead = true;
 	}
@@ -534,6 +613,34 @@ public class playerScript : MonoBehaviour
 		part20.transform.parent = rb2.transform;
 		part21.transform.parent = rb2.transform;
 
+		Material refMat;
+		Material otherMat;
+		if (mType == FruitType.Carrot) 
+		{
+			refMat = carrotMaterial;
+			otherMat = carrotOtherMaterial;
+		}
+		else 
+		{
+			refMat = onionMaterial;
+			otherMat = onionOtherMaterial;
+		}
+
+		if ((mPlayerID == 2) || (mPlayerID == 3)) 
+		{
+			part10.GetComponent<MeshRenderer>().material = otherMat;
+			part11.GetComponent<MeshRenderer>().material = otherMat;
+			part20.GetComponent<MeshRenderer>().material = otherMat;
+			part21.GetComponent<MeshRenderer>().material = otherMat;
+		}
+		else 
+		{
+			part10.GetComponent<MeshRenderer>().material = refMat;
+			part11.GetComponent<MeshRenderer>().material = refMat;
+			part20.GetComponent<MeshRenderer>().material = refMat;
+			part21.GetComponent<MeshRenderer>().material = refMat;
+		}
+
 		if (blast1 != null) 
 		{
 			blast1.AddComponent<MeshCollider> ().convex = true;
@@ -564,6 +671,5 @@ public class playerScript : MonoBehaviour
 	
 	void OnCollisionExit(Collision coll)
 	{
-	
 	}
 }
