@@ -23,6 +23,7 @@ public class Game : MonoBehaviour
 		End
 	}
 	public GameObject mPlayerPrefab;
+	private FMOD.Studio.EventInstance mMenuJIZZINMYPANTS;
 	private FMOD.Studio.EventInstance mIntenseMusic;
 	private FMOD.Studio.EventInstance mGameMusic;
 
@@ -47,12 +48,14 @@ public class Game : MonoBehaviour
 	// Use this for initialization
 	void Start () 
 	{
+		mMenuJIZZINMYPANTS = FMOD_StudioSystem.instance.GetEvent("event:/Music/Startmenu");
 		mIntenseMusic = FMOD_StudioSystem.instance.GetEvent("event:/Music/Intensemusic");
 		mGameMusic = FMOD_StudioSystem.instance.GetEvent("event:/Music/Song 1");
 
 		mMasterChef.enabled = false;
 		UpdateGUI();
 		GUICanvas.Instance.ShowQuit(true);
+		AudioManager.Instance.PlayMusic(mMenuJIZZINMYPANTS);
 	}
 
 	void UpdateGUI()
@@ -134,9 +137,10 @@ public class Game : MonoBehaviour
 
 	public void StartGame (int playerCount)
 	{
+		AudioManager.Instance.StopMusic(mMenuJIZZINMYPANTS, FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
 		AudioManager.Instance.PlayMusic(mGameMusic);
 		GUICanvas.Instance.ShowQuit(false);
-		mMasterChef.enabled = true;
+		//mMasterChef.enabled = true;
 		mPlayers = new playerScript[playerCount];
 		for (int i = 0; i < mPlayers.Length; i++)
 		{
@@ -167,7 +171,8 @@ public class Game : MonoBehaviour
 
 	void EndGame (int playerID)
 	{
-		AudioManager.Instance.StopMusic (mGameMusic, FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+		AudioManager.Instance.StopMusic(mGameMusic, FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+		AudioManager.Instance.StopMusic(mIntenseMusic, FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
 		mMasterChef.enabled = false;
 		// game ends
 		GUICanvas.Instance.SetWin(playerID);
@@ -193,6 +198,7 @@ public class Game : MonoBehaviour
 		{
 		case State.Menu:
 			// menu
+			AudioManager.Instance.StopMusic(mMenuJIZZINMYPANTS, FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
 			break;
 		case State.Playing:
 			// game running
@@ -204,14 +210,13 @@ public class Game : MonoBehaviour
 				mPlayers[i].transform.position = pos;
 				mPlayers[i].CreatePlayer(i, (playerScript.FruitType)(Random.Range(0, (int)playerScript.FruitType.FruitCount)));
 			}
-			AudioManager.Instance.PlayMusic(mGameMusic);
+			AudioManager.Instance.StopMusic(mGameMusic, FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
 			AudioManager.Instance.StopMusic(mIntenseMusic, FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+			AudioManager.Instance.PlayMusic(mGameMusic);
 			mMasterChef.Reset();
 			break;
 		case State.End:
 			// game ended
-			AudioManager.Instance.StopMusic(mGameMusic, FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
-			AudioManager.Instance.StopMusic(mIntenseMusic, FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
 			mMasterChef.Reset();
 			mCurrentState = State.Menu;
 			break;
