@@ -12,13 +12,13 @@ public class ButtonScript : MonoBehaviour
 	// Use this for initialization
 	void Start () 
 	{
-		mr = buttonsource.GetComponent<MeshRenderer> ();
-		but = GetComponent<Button> ();
+		//mr = buttonsource.GetComponent<MeshRenderer> ();
+		//but = GetComponent<Button> ();
 	}
 	
 	// Update is called once per frame
 	void Update () 
 	{
-		mr.material.color = but.colors.pressedColor;
+		//mr.material.color = but.colors.pressedColor;
 	}
 }

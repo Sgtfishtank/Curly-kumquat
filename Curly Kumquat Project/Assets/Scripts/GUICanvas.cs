@@ -17,7 +17,7 @@ public class GUICanvas : MonoBehaviour
 		}
 	}
 
-	private Text mWinText;
+	public Image[] mWinText = new Image[4];
 	private Text[] mPlayerTexts = new Text[4];
 	
 	private GameObject mStart;
@@ -30,14 +30,14 @@ public class GUICanvas : MonoBehaviour
 		mStart = transform.Find("Start").gameObject;
 		mPlaying = transform.Find("Playing").gameObject;
 		mEnd = transform.Find("End").gameObject;
-		mQuitButton = transform.Find("Quit").GetComponent<Button>();
+		//mQuitButton = transform.Find("Quit").GetComponent<Button>();
 
 		for (int i = 0; i < 4; i++) 
 		{
 			mPlayerTexts[i] = mPlaying.transform.Find("PlayerText" + (1 + i)).GetComponent<Text>();
+			mWinText[i] = mEnd.transform.Find("p" + (i + 1)).GetComponent<Image>();
 		}
 
-		mWinText = mEnd.transform.Find("WinText").GetComponent<Text>();
 	}
 
 	// Use this for initialization
@@ -54,7 +54,7 @@ public class GUICanvas : MonoBehaviour
 	{
 		for (int i = 0; i < Game.Instance.PlayerCount(); i++) 
 		{
-			mPlayerTexts[i].gameObject.SetActive(true);
+			mPlayerTexts[i].gameObject.SetActive(false);
 			if (Game.Instance.GetPlayer(i).IsDead()) 
 			{
 				mPlayerTexts[i].text = "Player " + (i + 1) + ": Dead";
@@ -93,20 +93,16 @@ public class GUICanvas : MonoBehaviour
 		mPlaying.gameObject.SetActive (mCurrentState == Game.State.Playing);
 	}
 
-	public void SetWin(int i)
+	public void SetWin(int i2)
 	{
-		if (i < 0) 
+		for (int i = 0; i < mWinText.Length; i++) 
 		{
-			mWinText.text = "No player  won! You lose";
-		}
-		else 
-		{
-			mWinText.text = "Player " + (i + 1) + " won!";
+			mWinText[i].gameObject.SetActive(i == i2);
 		}
 	}
 
 	public void ShowQuit (bool show)
 	{
-		mQuitButton.gameObject.SetActive (show);
+		//mQuitButton.gameObject.SetActive (show);
 	}
 }
