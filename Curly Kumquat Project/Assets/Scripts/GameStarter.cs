@@ -24,6 +24,8 @@ public class GameStarter : MonoBehaviour
 	public GameObject mGame;
 	public GameObject mMainCamera;
 	public GameObject mStove;
+	public GameObject mCutBoard;
+	public GameObject mDirLight;
 
 	void Awake()
 	{
@@ -34,6 +36,8 @@ public class GameStarter : MonoBehaviour
 		GetOrCreate (mGame);
 		GetOrCreate (mMainCamera);
 		GetOrCreate (mStove);
+		GetOrCreate (mDirLight);
+		GetOrCreate (mCutBoard);
 	}
 
 	// Use this for initialization
@@ -49,18 +53,35 @@ public class GameStarter : MonoBehaviour
 
 	GameObject GetOrCreate (GameObject prefab)
 	{
+		GameObject x = Get(prefab);
+		if (x == null) 
+		{
+			x = Create(prefab);
+		}
+
+		return x;
+	}
+
+	GameObject Get(GameObject prefab)
+	{
 		if (prefab == null) 
 		{
 			return null;
 		}
-
+		
 		GameObject x = GameObject.Find(prefab.name);
-		if (x == null) 
-		{
-			x = Instantiate<GameObject>(prefab);
-			x.name = prefab.name;
-		}
+		return x;
+	}
 
+	GameObject Create (GameObject prefab)
+	{
+		if (prefab == null) 
+		{
+			return null;
+		}
+		
+		GameObject x = Instantiate<GameObject>(prefab);
+		x.name = prefab.name;
 		return x;
 	}
 
