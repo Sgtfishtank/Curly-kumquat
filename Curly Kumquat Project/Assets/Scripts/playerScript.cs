@@ -452,7 +452,7 @@ public class playerScript : MonoBehaviour
 	{
 		if (coll.collider.tag == "Stove") 
 		{
-			SpawnParts(false, true);
+			SpawnParts((Random.value > 0.5f), false);
 			Kill();
 		}
 	}
