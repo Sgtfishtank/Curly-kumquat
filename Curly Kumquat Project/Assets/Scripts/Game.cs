@@ -26,6 +26,8 @@ public class Game : MonoBehaviour
 	private FMOD.Studio.EventInstance mMenuJIZZINMYPANTS;
 	private FMOD.Studio.EventInstance mIntenseMusic;
 	private FMOD.Studio.EventInstance mGameMusic;
+	private FMOD.Studio.EventInstance mEndMusic;
+	
 
 	private GameObject[] mStartPositinos = new GameObject[4];
 	private MasterChef mMasterChef;
@@ -52,6 +54,7 @@ public class Game : MonoBehaviour
 		mMenuJIZZINMYPANTS = FMOD_StudioSystem.instance.GetEvent("event:/Music/Startmenu");
 		mIntenseMusic = FMOD_StudioSystem.instance.GetEvent("event:/Music/Intensemusic");
 		mGameMusic = FMOD_StudioSystem.instance.GetEvent("event:/Music/Song 1");
+		mEndMusic = FMOD_StudioSystem.instance.GetEvent("event:/Applause/Applause");
 
 		initplayers(4);
 		SpawnPlayers ();
@@ -209,6 +212,10 @@ public class Game : MonoBehaviour
 		mCurrentState = State.End;
 		AudioManager.Instance.StopMusic(mGameMusic, FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
 		AudioManager.Instance.StopMusic(mIntenseMusic, FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+		if (mPlayers.Length > 1) 
+		{
+			AudioManager.Instance.PlayMusic (mEndMusic);
+		}
 		mMasterChef.enabled = false;
 		// game ends
 		GUICanvas.Instance.SetWin(playerID);
@@ -263,6 +270,7 @@ public class Game : MonoBehaviour
 			initplayers(4);
 			SpawnPlayers();
 			AudioManager.Instance.PlayMusic(mMenuJIZZINMYPANTS);
+			AudioManager.Instance.StopMusic(mEndMusic, FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
 			mMasterChef.Reset();
 			break;
 		default:
