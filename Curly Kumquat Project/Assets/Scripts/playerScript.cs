@@ -409,23 +409,31 @@ public class playerScript : MonoBehaviour
 
 	void SpawnParts (bool side)
 	{
-		GameObject rb = Instantiate(mPartPrefab, transform.position, transform.rotation) as GameObject;
-		GameObject part0;
-		GameObject part1;
-
+		GameObject rb1 = Instantiate(mPartPrefab, transform.position, transform.rotation) as GameObject;
+		GameObject rb2 = Instantiate(mPartPrefab, transform.position, transform.rotation) as GameObject;
+		GameObject part10;
+		GameObject part11;
+		GameObject part20;
+		GameObject part21;
 		if (side) 
 		{
-			part0 = Instantiate(mBodyParts[0], transform.position, transform.rotation) as GameObject;
-			part1 = Instantiate(mBodyParts[1], transform.position, transform.rotation) as GameObject;
+			part10 = Instantiate(mBodyParts[0], transform.position, transform.rotation) as GameObject;
+			part11 = Instantiate(mBodyParts[1], transform.position, transform.rotation) as GameObject;
+			part20 = Instantiate(mBodyParts[2], transform.position, transform.rotation) as GameObject;
+			part21 = Instantiate(mBodyParts[3], transform.position, transform.rotation) as GameObject;
 		}
 		else 
 		{
-			part0 = Instantiate(mBodyParts[2], transform.position, transform.rotation) as GameObject;
-			part1 = Instantiate(mBodyParts[3], transform.position, transform.rotation) as GameObject;
+			part10 = Instantiate(mBodyParts[1], transform.position, transform.rotation) as GameObject;
+			part11 = Instantiate(mBodyParts[2], transform.position, transform.rotation) as GameObject;
+			part20 = Instantiate(mBodyParts[3], transform.position, transform.rotation) as GameObject;
+			part21 = Instantiate(mBodyParts[0], transform.position, transform.rotation) as GameObject;
 		}
 
-		part0.transform.parent = transform;
-		part1.transform.parent = transform;
+		part10.transform.parent = rb1.transform;
+		part11.transform.parent = rb1.transform;
+		part20.transform.parent = rb2.transform;
+		part21.transform.parent = rb2.transform;
 	}
 
 	void KnockBack(Vector3 dir, float f)
