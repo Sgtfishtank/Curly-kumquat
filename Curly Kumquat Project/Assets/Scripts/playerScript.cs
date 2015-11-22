@@ -17,6 +17,12 @@ public class playerScript : MonoBehaviour
 	public float mDashSpeed;
 	public float mDashDuration;
 	public float mKnockBackDuration;
+	public float zMin;
+	public float zMax;
+	public float xMin;
+	public float xMax;
+	public bool Is2D;
+
 
 	private int numberOfJumps;
 	private int maxJumps = 2;
@@ -262,7 +268,15 @@ public class playerScript : MonoBehaviour
 		}
 
 		Vector3 pos = transform.position;
-		pos.z = Mathf.Clamp(pos.z, -4, 3);
+		if (!Is2D)
+		{
+			pos.z = Mathf.Clamp(pos.z, zMin, zMax);
+		}
+		else
+		{
+			pos.z = Mathf.Clamp(pos.z, 0, 0);
+		}
+		pos.x = Mathf.Clamp(pos.x, xMin, xMax);
 		transform.position = pos;
 	}
 

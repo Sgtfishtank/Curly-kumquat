@@ -225,7 +225,7 @@ public class Game : MonoBehaviour
 
 	bool OutOfBounds (playerScript player)
 	{
-		if (player.transform.position.magnitude > 25f) 
+		if (player.transform.position.magnitude > 250f) 
 		{
 			return true;
 		}
