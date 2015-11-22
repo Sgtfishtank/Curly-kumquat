@@ -217,6 +217,12 @@ public class playerScript : MonoBehaviour
 
 	void Update () 
 	{
+		RB.WakeUp();
+
+		if (Game.Instance.CurrentState() != Game.State.Playing) 
+		{
+			return;
+		}
 		if (mGotDashHit) 
 		{
 			dathshit.SetActive(false);
@@ -285,6 +291,7 @@ public class playerScript : MonoBehaviour
 				}
 
 				mBody.transform.localScale = new Vector3(1, 1, 1);
+				mBody.transform.localRotation = Quaternion.Euler(0, -90, 0);
 				mAni.SetBool("moving",true);
 				transform.Translate(Vector3.left * moveSpeed2 * Time.deltaTime, Space.World);
 			}
@@ -300,6 +307,8 @@ public class playerScript : MonoBehaviour
 					DownButtonCount++;
 				}
 				mAni.SetBool("moving",true);
+				mBody.transform.localRotation = Quaternion.Euler(0, 180, 0);
+				mBody.transform.localScale = new Vector3(1, 1, 1);
 				transform.Translate(Vector3.back * moveSpeed2 * Time.deltaTime, Space.World);
 			}
 			
@@ -314,6 +323,7 @@ public class playerScript : MonoBehaviour
 					RightButtonCount++;
 				}
 				mAni.SetBool("moving",true);
+				mBody.transform.localRotation = Quaternion.Euler(0, -90, 0);
 				mBody.transform.localScale = new Vector3(1, 1, -1);
 				transform.Translate(Vector3.right * moveSpeed2 * Time.deltaTime, Space.World);
 			}
@@ -329,6 +339,8 @@ public class playerScript : MonoBehaviour
 					UpButtonCount++;
 				}
 				mAni.SetBool("moving",true);
+				mBody.transform.localRotation = Quaternion.Euler(0, 0, 0);
+				mBody.transform.localScale = new Vector3(1, 1, 1);
 				transform.Translate(Vector3.forward * moveSpeed2 * Time.deltaTime, Space.World);
 			}
 			if(!Input.GetKey(mUpKey) && !Input.GetKey(mRightKey) && !Input.GetKey(mLeftKey) && !Input.GetKey(mDownKey))

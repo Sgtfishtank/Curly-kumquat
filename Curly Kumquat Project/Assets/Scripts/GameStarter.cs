@@ -26,6 +26,7 @@ public class GameStarter : MonoBehaviour
 	public GameObject mStove;
 	public GameObject mCutBoard;
 	public GameObject mDirLight;
+	public GameObject mBG;
 
 	void Awake()
 	{
@@ -38,6 +39,7 @@ public class GameStarter : MonoBehaviour
 		GetOrCreate (mStove);
 		GetOrCreate (mDirLight);
 		GetOrCreate (mCutBoard);
+		GetOrCreate (mBG);
 	}
 
 	// Use this for initialization
@@ -98,6 +100,11 @@ public class GameStarter : MonoBehaviour
 	public Game Game ()
 	{
 		return GetOrCreate(mGame).GetComponent<Game>();
+	}
+	
+	public GameObject BG()
+	{
+		return GetOrCreate(mBG);
 	}
 
 	public AudioManager AudioManager ()

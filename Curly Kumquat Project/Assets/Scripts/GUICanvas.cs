@@ -75,6 +75,16 @@ public class GUICanvas : MonoBehaviour
 	{
 		Game.Instance.StartGame(i);
 	}
+	
+	public void Restart()
+	{
+		Game.Instance.RestartGame();
+	}
+	
+	public void MenuBack()
+	{
+		Game.Instance.Reset ();
+	}
 
 	public void Show (Game.State mCurrentState)
 	{

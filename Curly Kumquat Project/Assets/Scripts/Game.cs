@@ -29,9 +29,10 @@ public class Game : MonoBehaviour
 
 	private GameObject[] mStartPositinos = new GameObject[4];
 	private MasterChef mMasterChef;
-	private playerScript[] mPlayers;
+	public playerScript[] mPlayers;
 	private State mCurrentState;
 	private bool mInstnse;
+	public GameObject mGB;
 
 	void Awake()
 	{
@@ -41,7 +42,7 @@ public class Game : MonoBehaviour
 		{
 			mStartPositinos[i] = transform.Find("StartPos" + (i + 1)).gameObject;
 		}
-
+		mGB = GameStarter.Instance.BG();
 		mCurrentState = State.Menu;
 	}
 
@@ -52,15 +53,27 @@ public class Game : MonoBehaviour
 		mIntenseMusic = FMOD_StudioSystem.instance.GetEvent("event:/Music/Intensemusic");
 		mGameMusic = FMOD_StudioSystem.instance.GetEvent("event:/Music/Song 1");
 
+		initplayers(4);
+		SpawnPlayers ();
 		mMasterChef.enabled = false;
 		UpdateGUI();
 		GUICanvas.Instance.ShowQuit(true);
 		AudioManager.Instance.PlayMusic(mMenuJIZZINMYPANTS);
 	}
 
+	void initplayers (int size)
+	{
+		mPlayers = new playerScript[size];
+		for (int i = 0; i < mPlayers.Length; i++)
+		{
+			mPlayers[i] = Instantiate<GameObject>(mPlayerPrefab).GetComponent<playerScript>();
+		}
+	}
+
 	void UpdateGUI()
 	{
 		GUICanvas.Instance.Show(mCurrentState);
+		mGB.SetActive(mCurrentState == State.Menu);
 	}
 	
 	// Update is called once per frame
@@ -134,6 +147,11 @@ public class Game : MonoBehaviour
 			Reset();
 		}
 	}
+	
+	public void StartGame ()
+	{
+		StartGame (mPlayers.Length);
+	}
 
 	public void StartGame (int playerCount)
 	{
@@ -141,12 +159,18 @@ public class Game : MonoBehaviour
 		AudioManager.Instance.PlayMusic(mGameMusic);
 		GUICanvas.Instance.ShowQuit(false);
 		mMasterChef.enabled = true;
-		mPlayers = new playerScript[playerCount];
-		for (int i = 0; i < mPlayers.Length; i++)
-		{
-			mPlayers[i] = Instantiate<GameObject>(mPlayerPrefab).GetComponent<playerScript>();
-		}
 		
+		Desyoplayers();
+		
+		initplayers(playerCount);
+		SpawnPlayers();
+
+		mCurrentState = State.Playing;
+		UpdateGUI();
+	}
+
+	void SpawnPlayers ()
+	{
 		for (int i = 0; i < mPlayers.Length; i++) 
 		{
 			Vector3 pos = mStartPositinos[i].transform.position;
@@ -155,9 +179,6 @@ public class Game : MonoBehaviour
 			mPlayers[i].transform.position += mPlayerPrefab.transform.position;
 			mPlayers[i].CreatePlayer(i, (playerScript.FruitType)(Random.Range(0, (int)playerScript.FruitType.FruitCount)));
 		}
-
-		mCurrentState = State.Playing;
-		UpdateGUI();
 	}
 
 	public int PlayerCount ()
@@ -178,13 +199,22 @@ public class Game : MonoBehaviour
 		// game ends
 		GUICanvas.Instance.SetWin(playerID);
 		mCurrentState = State.End;
+		Desyoplayers ();
+		GUICanvas.Instance.ShowQuit(true);
+		//mPlayers = null;
+		UpdateGUI();
+	}
+
+	void Desyoplayers ()
+	{
 		for (int i = 0; i < mPlayers.Length; i++) 
 		{
-			Destroy(mPlayers[i].gameObject);
+			if (mPlayers[i] != null) 
+			{
+				Destroy(mPlayers[i].gameObject);
+			}
+			mPlayers[i] = null;
 		}
-		GUICanvas.Instance.ShowQuit(true);
-		mPlayers = null;
-		UpdateGUI();
 	}
 
 	public playerScript GetPlayer(int playerID)
@@ -192,7 +222,7 @@ public class Game : MonoBehaviour
 		return mPlayers[playerID];
 	}
 
-	void Reset()
+	public void Reset()
 	{
 		mInstnse = false;
 		switch (mCurrentState) 
@@ -202,23 +232,15 @@ public class Game : MonoBehaviour
 			AudioManager.Instance.StopMusic(mMenuJIZZINMYPANTS, FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
 			break;
 		case State.Playing:
-			// game running
-			for (int i = 0; i < mPlayers.Length; i++) 
-			{
-				Vector3 pos = mStartPositinos[i].transform.position;
-				mPlayers[i].Reset();
-				
-				mPlayers[i].transform.position = pos;
-				mPlayers[i].transform.position += mPlayerPrefab.transform.position;
-				mPlayers[i].CreatePlayer(i, (playerScript.FruitType)(Random.Range(0, (int)playerScript.FruitType.FruitCount)));
-			}
-			AudioManager.Instance.StopMusic(mGameMusic, FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
-			AudioManager.Instance.StopMusic(mIntenseMusic, FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
-			AudioManager.Instance.PlayMusic(mGameMusic);
-			mMasterChef.Reset();
+			GameReset ();
+			SpawnPlayers();
 			break;
 		case State.End:
 			// game ended
+			Desyoplayers();
+			initplayers(4);
+			SpawnPlayers();
+			AudioManager.Instance.PlayMusic(mMenuJIZZINMYPANTS);
 			mMasterChef.Reset();
 			mCurrentState = State.Menu;
 			break;
@@ -230,6 +252,23 @@ public class Game : MonoBehaviour
 		UpdateGUI();
 	}
 
+	public void RestartGame ()
+	{
+		int size = mPlayers.Length;
+		Game.Instance.Reset();
+		Game.Instance.StartGame(size);
+	}
+
+	void GameReset()
+	{
+		// game running
+		SpawnPlayers ();
+		AudioManager.Instance.StopMusic(mGameMusic, FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+		AudioManager.Instance.StopMusic(mIntenseMusic, FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+		AudioManager.Instance.PlayMusic(mGameMusic);
+		mMasterChef.Reset();
+	}
+	
 	bool OutOfBounds (playerScript player)
 	{
 		if (player.transform.position.magnitude > 250f) 
