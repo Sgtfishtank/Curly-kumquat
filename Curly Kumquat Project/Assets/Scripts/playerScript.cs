@@ -200,7 +200,7 @@ public class playerScript : MonoBehaviour
 
 
 		mAni = mBody.GetComponent<Animator> ();
-		mAni.CrossFade("Running", 0.5f, 0, Random.value);
+		mAni.CrossFade("Idle", 0.5f, 0, Random.value);
 		mBody.transform.parent = transform;
 		mBody.transform.localPosition = Vector3.zero;
 		mBody.transform.localRotation = Quaternion.Euler (0,-90, 0);

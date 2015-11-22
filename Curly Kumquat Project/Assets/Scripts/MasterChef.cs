@@ -178,6 +178,9 @@ public class MasterChef : MonoBehaviour
 
 	public void Reset ()
 	{
+		
+		mAni.gameObject.SetActive (false);
+		mAni.gameObject.SetActive (true);
 		// reset state
 		mFirstHit = false;
 		transform.rotation = Quaternion.Euler (new Vector3 (0, 180, 0));
