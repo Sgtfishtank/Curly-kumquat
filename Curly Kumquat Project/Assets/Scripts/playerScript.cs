@@ -204,6 +204,7 @@ public class playerScript : MonoBehaviour
 		mBody.transform.parent = transform;
 		mBody.transform.localPosition = Vector3.zero;
 		mBody.transform.localRotation = Quaternion.Euler (0,-90, 0);
+		mBody.transform.localRotation = Quaternion.Euler(0, 180, 0);
 	}
 
 	void Start () 
@@ -343,7 +344,7 @@ public class playerScript : MonoBehaviour
 				mBody.transform.localScale = new Vector3(1, 1, 1);
 				transform.Translate(Vector3.forward * moveSpeed2 * Time.deltaTime, Space.World);
 			}
-			if(!Input.GetKey(mUpKey) && !Input.GetKey(mRightKey) && !Input.GetKey(mLeftKey) && !Input.GetKey(mDownKey))
+			//if(!Input.GetKey(mUpKey) && !Input.GetKey(mRightKey) && !Input.GetKey(mLeftKey) && !Input.GetKey(mDownKey))
 
 			if (Input.GetKeyDown(mSpaceKey) && numberOfJumps < maxJumps)
 			{
