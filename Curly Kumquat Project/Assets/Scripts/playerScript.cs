@@ -281,6 +281,7 @@ public class playerScript : MonoBehaviour
 				mAni.SetBool("moving",true);
 				transform.Translate(Vector3.forward * moveSpeed2 * Time.deltaTime, Space.World);
 			}
+			if(!Input.GetKey(mUpKey) && !Input.GetKey(mRightKey) && !Input.GetKey(mLeftKey) && !Input.GetKey(mDownKey))
 
 			if (Input.GetKeyDown(mSpaceKey) && numberOfJumps < maxJumps)
 			{
