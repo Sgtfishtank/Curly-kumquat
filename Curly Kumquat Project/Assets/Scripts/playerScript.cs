@@ -97,7 +97,7 @@ public class playerScript : MonoBehaviour
 			InitKeys(KeyCode.W, KeyCode.S, KeyCode.A, KeyCode.D);
 			break;
 		case 2:
-			InitKeys(KeyCode.Keypad8, KeyCode.Keypad2, KeyCode.Keypad4, KeyCode.Keypad6);
+			InitKeys(KeyCode.Keypad8, KeyCode.Keypad5, KeyCode.Keypad4, KeyCode.Keypad6);
 			break;
 		case 3:
 			InitKeys(KeyCode.I, KeyCode.K, KeyCode.J, KeyCode.L);
