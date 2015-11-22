@@ -25,6 +25,9 @@ public class playerScript : MonoBehaviour
 
 	public float mStunDuration;
 	public float mDashStunDuration;
+	
+	public GameObject mPartPrefab;
+	public GameObject[] mBodyParts;
 
 	private int numberOfJumps;
 	private int maxJumps = 2;
@@ -334,7 +337,6 @@ public class playerScript : MonoBehaviour
 	public void Kill()
 	{
 		gameObject.SetActive (false);
-		//SpawnParts();
 		mIsDead = true;
 	}
 
@@ -392,8 +394,38 @@ public class playerScript : MonoBehaviour
 		else if (coll.collider.tag == "Knife") 
 		{
 			AudioManager.Instance.PlaySoundOnce(mKnifeBodyHit);
+			
+			if (coll.collider.GetComponent<MasterChef>().IsKnifeSide()) 
+			{
+				SpawnParts(true);
+			}
+			else 
+			{
+				SpawnParts(false);
+			}
 			Kill();
 		}
+	}
+
+	void SpawnParts (bool side)
+	{
+		GameObject rb = Instantiate(mPartPrefab, transform.position, transform.rotation) as GameObject;
+		GameObject part0;
+		GameObject part1;
+
+		if (side) 
+		{
+			part0 = Instantiate(mBodyParts[0], transform.position, transform.rotation) as GameObject;
+			part1 = Instantiate(mBodyParts[1], transform.position, transform.rotation) as GameObject;
+		}
+		else 
+		{
+			part0 = Instantiate(mBodyParts[2], transform.position, transform.rotation) as GameObject;
+			part1 = Instantiate(mBodyParts[3], transform.position, transform.rotation) as GameObject;
+		}
+
+		part0.transform.parent = transform;
+		part1.transform.parent = transform;
 	}
 
 	void KnockBack(Vector3 dir, float f)

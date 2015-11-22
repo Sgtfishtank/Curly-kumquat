@@ -216,6 +216,16 @@ public class MasterChef : MonoBehaviour
 		}
 	}
 
+	public bool IsKnifeSide ()
+	{
+		if (currentAttack == attacks.Swipe) 
+		{
+			return true;
+		}
+
+		return false;
+	}
+
 	void idel()
 	{
 		currentState = state.reset;
