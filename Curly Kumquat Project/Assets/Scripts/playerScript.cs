@@ -122,7 +122,7 @@ public class playerScript : MonoBehaviour
 
 	void Update () 
 	{
-
+		mAni.SetBool("moving",false);
 		if ((mCrossT < Time.time) && (mCrossT > 0))
 		{
 			print("crossfade");
@@ -183,6 +183,7 @@ public class playerScript : MonoBehaviour
 				}
 
 				mBody.transform.localScale = new Vector3(1, 1, 1);
+				mAni.SetBool("moving",true);
 				transform.Translate(Vector3.left * moveSpeed2 * Time.deltaTime, Space.World);
 			}
 			
@@ -196,6 +197,7 @@ public class playerScript : MonoBehaviour
 				{
 					DownButtonCount++;
 				}
+				mAni.SetBool("moving",true);
 				transform.Translate(Vector3.back * moveSpeed2 * Time.deltaTime, Space.World);
 			}
 			
@@ -209,7 +211,7 @@ public class playerScript : MonoBehaviour
 				{
 					RightButtonCount++;
 				}
-
+				mAni.SetBool("moving",true);
 				mBody.transform.localScale = new Vector3(1, 1, -1);
 				transform.Translate(Vector3.right * moveSpeed2 * Time.deltaTime, Space.World);
 			}
@@ -224,6 +226,7 @@ public class playerScript : MonoBehaviour
 				{
 					UpButtonCount++;
 				}
+				mAni.SetBool("moving",true);
 				transform.Translate(Vector3.forward * moveSpeed2 * Time.deltaTime, Space.World);
 			}
 
@@ -271,6 +274,8 @@ public class playerScript : MonoBehaviour
 	void Dash ()
 	{
 		AudioManager.Instance.PlaySoundOnce(mDash);
+		mCrossT = Time.time + ((9 / 24.0f) / 1f) - 0.5f;
+		mAni.SetTrigger ("Dash");
 		mDashT = Time.time + mDashDuration;
 		mDashing = true;
 	}
