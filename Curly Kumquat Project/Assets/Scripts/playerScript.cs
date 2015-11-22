@@ -53,6 +53,7 @@ public class playerScript : MonoBehaviour
 	public GameObject mCarrotBodyPrefab;
 	public GameObject mOinionBodyPartsPrefab;
 	public GameObject mCarrotBodyPartsPrefab;
+	public GameObject mRingParticlesPrefab;
 
 	private float gravityForce;
 	private Rigidbody RB;
@@ -90,6 +91,7 @@ public class playerScript : MonoBehaviour
 	public Material carrotOtherMaterial;
 	public Material onionMaterial;
 	public Material onionOtherMaterial;
+	private GameObject dathshit;
 
 	void Awake()
 	{
@@ -97,6 +99,13 @@ public class playerScript : MonoBehaviour
 		RB = GetComponent<Rigidbody>();
 		gravityForce = -45;
 		Physics.gravity = new Vector3 (0, gravityForce, 0);
+		
+		dathshit = Instantiate (mDahsParticlesPrefab, transform.position, transform.rotation) as GameObject;
+		dathshit.transform.parent = transform;
+		dathshit.transform.localPosition = mDahsParticlesPrefab.transform.localPosition;
+		dathshit.transform.localRotation = mDahsParticlesPrefab.transform.localRotation;
+		dathshit.transform.localScale = mDahsParticlesPrefab.transform.localScale;
+		dathshit.SetActive(false);
 	}
 
 	public void CreatePlayer (int playerID, FruitType type)
@@ -104,16 +113,16 @@ public class playerScript : MonoBehaviour
 		switch (playerID) 
 		{
 		case 0:
-			InitKeys(KeyCode.UpArrow, KeyCode.DownArrow, KeyCode.LeftArrow, KeyCode.RightArrow);
+			InitKeys(KeyCode.UpArrow, KeyCode.DownArrow, KeyCode.LeftArrow, KeyCode.RightArrow, KeyCode.RightControl);
 			break;
 		case 1:
-			InitKeys(KeyCode.W, KeyCode.S, KeyCode.A, KeyCode.D);
+			InitKeys(KeyCode.W, KeyCode.S, KeyCode.A, KeyCode.D,KeyCode.LeftControl);
 			break;
 		case 2:
-			InitKeys(KeyCode.Keypad8, KeyCode.Keypad5, KeyCode.Keypad4, KeyCode.Keypad6);
+			InitKeys(KeyCode.Keypad8, KeyCode.Keypad5, KeyCode.Keypad4, KeyCode.Keypad6, KeyCode.KeypadPlus);
 			break;
 		case 3:
-			InitKeys(KeyCode.I, KeyCode.K, KeyCode.J, KeyCode.L);
+			InitKeys(KeyCode.I, KeyCode.K, KeyCode.J, KeyCode.L, KeyCode.Space);
 			break;
 		}
 		mPlayerID = playerID;
@@ -122,9 +131,6 @@ public class playerScript : MonoBehaviour
 		{
 			Destroy(mBody);
 		}
-
-		GameObject dathshit = Instantiate (mDahsParticlesPrefab, transform.position, transform.rotation) as GameObject;
-		dathshit.transform.parent = transform;
 
 		mBodyParts = new GameObject[4];
 		mBodyParts2 = new GameObject[4];
@@ -213,6 +219,7 @@ public class playerScript : MonoBehaviour
 	{
 		if (mGotDashHit) 
 		{
+			dathshit.SetActive(false);
 			mDashing = false;
 			mGotDashHit = false;
 		}
@@ -244,6 +251,7 @@ public class playerScript : MonoBehaviour
 			moveSpeed2 = mDashSpeed;
 			if (mDashT < Time.time) 
 			{
+				dathshit.SetActive(false);
 				mDashing = false;
 			}
 		}
@@ -360,10 +368,18 @@ public class playerScript : MonoBehaviour
 			}
 		}
 
+
+
 		Vector3 pos = transform.position;
+		if ((pos.x < xMin) || (pos.x > xMax))
+		{
+			Kill();
+			return;
+		}
+
 		if (!Is2D)
 		{
-			pos.z = Mathf.Clamp(pos.z, zMin, zMax);
+			//pos.z = Mathf.Clamp(pos.z, zMin, zMax);
 		}
 		else
 		{
@@ -380,6 +396,7 @@ public class playerScript : MonoBehaviour
 		mAni.SetTrigger ("Dash");
 		mDashT = Time.time + mDashDuration;
 		mDashing = true;
+		dathshit.SetActive(true);
 	}
 
 	void InitKeys (KeyCode w, KeyCode s, KeyCode a, KeyCode d)
@@ -404,6 +421,7 @@ public class playerScript : MonoBehaviour
 	public void Reset ()
 	{
 		mDashing = false;
+		dathshit.SetActive(false);
 		DownButtonCount = 0;
 		LeftButtonCount = 0;
 		RightButtonCount = 0;
@@ -426,8 +444,24 @@ public class playerScript : MonoBehaviour
 	
 	public void Kill()
 	{
+		Vector3 possdf = new Vector3(0, -0.5f, 0);
+		RaycastHit hitInfo;
+		if (Physics.Raycast(transform.position + new Vector3(0, 2, 0), Vector3.down, out hitInfo, 10, LayerMask.GetMask("Ground")))
+		{
+			possdf = hitInfo.point + new Vector3(0, 0.01f, 0);
+		}
+
 		GameObject splatooon = Instantiate(mSplaterParticlesPrefab, transform.position, Quaternion.identity) as GameObject;
 		Destroy (splatooon, 10);
+		splatooon.transform.position = possdf;
+		splatooon.transform.rotation = mSplaterParticlesPrefab.transform.rotation;
+		splatooon.transform.localScale = mSplaterParticlesPrefab.transform.localScale;
+
+		GameObject splatooon2 = Instantiate(mRingParticlesPrefab, transform.position, Quaternion.identity) as GameObject;
+		Destroy (splatooon2, 10);
+		splatooon2.transform.position = transform.position + mRingParticlesPrefab.transform.position;
+		splatooon2.transform.rotation = mRingParticlesPrefab.transform.rotation;
+		splatooon2.transform.localScale = mRingParticlesPrefab.transform.localScale;
 		gameObject.SetActive (false);
 		mIsDead = true;
 	}

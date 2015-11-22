@@ -19,6 +19,9 @@ public class MasterChef : MonoBehaviour
 	public GameObject chopShoveWarning;
 	public GameObject swipeWarning;
 	public GameObject trippleChopWarning;
+	public GameObject knifePrefab;
+	public GameObject knife;
+	public GameObject knifeHitParticePrefab;
 	public bool mFirstHit;
 	public Animator mAni;
 
@@ -132,7 +135,7 @@ public class MasterChef : MonoBehaviour
 		mAni.SetInteger("Attack",(int)attacks.chop);
 		if (Time.time > attacktime) {
 			if (!mFirstHit) {
-				AudioManager.Instance.PlaySoundOnce (mKnifeHit);
+				HitBoard();
 				mFirstHit = true;
 				currentState = state.idel;
 				mAni.SetInteger("Attack",(int)attacks.AttackSize);
@@ -148,7 +151,7 @@ public class MasterChef : MonoBehaviour
 		{
 			if (!mFirstHit) 
 			{
-				AudioManager.Instance.PlaySoundOnce(mKnifeHit);
+				HitBoard();
 				AudioManager.Instance.PlaySoundOnce(mKnifeSwoosh);
 				mFirstHit = true;
 			}
@@ -158,7 +161,7 @@ public class MasterChef : MonoBehaviour
 		{
 			if (!mFirstHit) 
 			{
-				AudioManager.Instance.PlaySoundOnce(mKnifeHit);
+				HitBoard();
 				AudioManager.Instance.PlaySoundOnce(mKnifeSwoosh);
 				mFirstHit = true;
 			}
@@ -167,11 +170,20 @@ public class MasterChef : MonoBehaviour
 		}*/
 	}
 
+	void HitBoard()
+	{
+		AudioManager.Instance.PlaySoundOnce(mKnifeHit);
+		GameObject splatooon2 = Instantiate(knifeHitParticePrefab, transform.position, Quaternion.identity) as GameObject;
+		splatooon2.transform.position = knife.transform.position + knifeHitParticePrefab.transform.position;
+		splatooon2.transform.rotation = knifeHitParticePrefab.transform.rotation;
+		splatooon2.transform.localScale = knifeHitParticePrefab.transform.localScale;
+		Destroy (splatooon2, 10);
+	}
+
 	void Swipe()
 	{
 		if (!mFirstHit) 
 		{
-			//AudioManager.Instance.PlaySoundOnce(mKnifeHit);
 			AudioManager.Instance.PlaySoundOnce(mKnifeSwoosh);
 			mFirstHit = true;
 		}
@@ -211,7 +223,7 @@ public class MasterChef : MonoBehaviour
 	{
 		if (!mFirstHit) 
 		{
-			AudioManager.Instance.PlaySoundOnce(mKnifeHit);
+			HitBoard();
 			mFirstHit = true;
 			mDidTop = false;
 		}
@@ -227,7 +239,7 @@ public class MasterChef : MonoBehaviour
 
 		if ((Mathf.Clamp(5+5*Mathf.Sin(10*Time.time),0,50) <= 0.05f) && (mDidTop))
 		{
-			AudioManager.Instance.PlaySoundOnce(mKnifeHit);
+			HitBoard();
 			toches++;
 			mDidTop = false;
 		}
