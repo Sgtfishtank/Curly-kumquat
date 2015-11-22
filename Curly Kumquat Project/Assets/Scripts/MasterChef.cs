@@ -188,8 +188,8 @@ public class MasterChef : MonoBehaviour
 
 	public void Reset ()
 	{
-
 		// reset state
+		mAni.SetInteger("Attack",(int)attacks.AttackSize);
 		mFirstHit = false;
 		transform.rotation = Quaternion.Euler (new Vector3 (0, 180, 0));
 		currentState = state.pick;
