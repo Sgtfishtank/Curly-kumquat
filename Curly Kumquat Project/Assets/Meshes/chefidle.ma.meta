@@ -1,0 +1,187 @@
+fileFormatVersion: 2
+guid: 3567819e67585054a99b5378659269ce
+timeCreated: 1448212155
+licenseType: Free
+ModelImporter:
+  serializedVersion: 18
+  fileIDToRecycleName:
+    100000: body
+    100002: boooody
+    100004: //RootNode
+    100006: chest
+    100008: cigarette
+    100010: cigg
+    100012: hat
+    100014: hatt
+    100016: head
+    100018: knifeelbow
+    100020: knifehand
+    100022: knifeshoulder
+    100024: Lmuche1
+    100026: Lmuche2
+    100028: muche
+    100030: mustache
+    100032: Rmuche1
+    100034: Rmuche2
+    100036: spine
+    100038: stuckelbow
+    100040: stuckshoulder
+    400000: body
+    400002: boooody
+    400004: //RootNode
+    400006: chest
+    400008: cigarette
+    400010: cigg
+    400012: hat
+    400014: hatt
+    400016: head
+    400018: knifeelbow
+    400020: knifehand
+    400022: knifeshoulder
+    400024: Lmuche1
+    400026: Lmuche2
+    400028: muche
+    400030: mustache
+    400032: Rmuche1
+    400034: Rmuche2
+    400036: spine
+    400038: stuckelbow
+    400040: stuckshoulder
+    2300000: cigarette
+    2300002: hatt
+    3300000: cigarette
+    3300002: hatt
+    4300000: mustache
+    4300002: hatt
+    4300004: cigarette
+    4300006: body
+    7400000: Take 001
+    9500000: //RootNode
+    13700000: body
+    13700002: mustache
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Take 001
+      takeName: Take 001
+      firstFrame: 0
+      lastFrame: 125
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: body
+        weight: 1
+      - path: boooody
+        weight: 1
+      - path: boooody/spine
+        weight: 1
+      - path: boooody/spine/chest
+        weight: 1
+      - path: boooody/spine/chest/head
+        weight: 1
+      - path: boooody/spine/chest/head/hat
+        weight: 1
+      - path: boooody/spine/chest/head/hat/hatt
+        weight: 1
+      - path: boooody/spine/chest/head/muche
+        weight: 1
+      - path: boooody/spine/chest/head/muche/cigg
+        weight: 1
+      - path: boooody/spine/chest/head/muche/cigg/cigarette
+        weight: 1
+      - path: boooody/spine/chest/head/muche/Lmuche1
+        weight: 1
+      - path: boooody/spine/chest/head/muche/Lmuche1/Lmuche2
+        weight: 1
+      - path: boooody/spine/chest/head/muche/Rmuche1
+        weight: 1
+      - path: boooody/spine/chest/head/muche/Rmuche1/Rmuche2
+        weight: 1
+      - path: boooody/spine/chest/knifeshoulder
+        weight: 1
+      - path: boooody/spine/chest/knifeshoulder/knifeelbow
+        weight: 1
+      - path: boooody/spine/chest/knifeshoulder/knifeelbow/knifehand
+        weight: 1
+      - path: boooody/spine/chest/stuckshoulder
+        weight: 1
+      - path: boooody/spine/chest/stuckshoulder/stuckelbow
+        weight: 1
+      - path: mustache
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
