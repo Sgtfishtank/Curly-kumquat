@@ -3,7 +3,7 @@ using System.Collections;
 
 public class MasterChef : MonoBehaviour
 {
-	public enum attacks {chop = 0, chopShove = 1, Swipeleft = 2, SwipeRight = 3/*, trippleChop = 4*/, AttackSize};
+	public enum attacks {chop = 0, chopShove = 1, Swipeleft = 2, SwipeRight = 3,chop1,chop2,chop3,chop4,chop5/*, trippleChop = 4*/, AttackSize};
 	public enum state {pick = 0, execute = 1, reset = 2, idel = 3, prep = 4};
 	float mCooldown;
 	public attacks currentAttack;
@@ -25,7 +25,7 @@ public class MasterChef : MonoBehaviour
 	public Animator mAni;
 
 	float attacktime;
-
+	float orgpos;
 	private FMOD.Studio.EventInstance mKnifeHit;
 	private FMOD.Studio.EventInstance mChefComment;
 	private FMOD.Studio.EventInstance mKnifeSwoosh;
@@ -39,6 +39,7 @@ public class MasterChef : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
+		orgpos = transform.position.y;
 		mKnifeSwoosh = FMOD_StudioSystem.instance.GetEvent("event:/KnifeSwing/Knifeswing");
 		mChefComment = FMOD_StudioSystem.instance.GetEvent("event:/Chef comment/ChefComment");
 		mKnifeHit = FMOD_StudioSystem.instance.GetEvent("event:/Knifehit/KnifeHit");
@@ -75,6 +76,36 @@ public class MasterChef : MonoBehaviour
 				//Destroy( Instantiate(chopWarning,new Vector3(pos,0,0),Quaternion.identity),1.1f);
 				Invoke("Chop" ,1f);
 				break;
+			case attacks.chop1:
+				currentAttack = attacks.chop;
+				attacktime = Time.time + 1.458f;
+				//Destroy( Instantiate(chopWarning,new Vector3(pos,0,0),Quaternion.identity),1.1f);
+				Invoke("Chop" ,1f);
+				break;
+			case attacks.chop2:
+				currentAttack = attacks.chop;
+				attacktime = Time.time + 1.458f;
+				//Destroy( Instantiate(chopWarning,new Vector3(pos,0,0),Quaternion.identity),1.1f);
+				Invoke("Chop" ,1f);
+				break;
+			case attacks.chop3:
+				currentAttack = attacks.chop;
+				attacktime = Time.time + 1.458f;
+				//Destroy( Instantiate(chopWarning,new Vector3(pos,0,0),Quaternion.identity),1.1f);
+				Invoke("Chop" ,1f);
+				break;
+			case attacks.chop4:
+				currentAttack = attacks.chop;
+				attacktime = Time.time + 1.458f;
+				//Destroy( Instantiate(chopWarning,new Vector3(pos,0,0),Quaternion.identity),1.1f);
+				Invoke("Chop" ,1f);
+				break;
+			case attacks.chop5:
+				currentAttack = attacks.chop;
+				attacktime = Time.time + 1.458f;
+				//Destroy( Instantiate(chopWarning,new Vector3(pos,0,0),Quaternion.identity),1.1f);
+				Invoke("Chop" ,1f);
+				break;
 			case attacks.chopShove:
 				currentAttack = attacks.chopShove;
 				targetPos = (Random.Range(0,2)*2-1);
@@ -83,6 +114,7 @@ public class MasterChef : MonoBehaviour
 				break;
 			case attacks.Swipeleft:
 				currentAttack = attacks.Swipeleft;
+				//transform.position = new Vector3(transform.position.x, transform.position.y +1.25f,transform.position.z);
 				attacktime = Time.time + 2f;
 				Invoke("Swipe" ,1f);
 				break;
@@ -136,9 +168,10 @@ public class MasterChef : MonoBehaviour
 			else
 			{
 				transform.rotation = Quaternion.Euler(new Vector3(0,180,0));
-				mCooldown = Random.Range(3,7)+ Time.time;
+				mCooldown = Random.Range(1,3)+ Time.time;
 				currentState = state.prep;
 				pos = Random.Range(-Limits,Limits+0.1f);
+				transform.position = new Vector3(transform.position.x, orgpos,transform.position.z);
 			}
 		}
 	}
@@ -147,8 +180,7 @@ public class MasterChef : MonoBehaviour
 	{
 		// reset state
 		mFirstHit = false;
-		transform.position = Vector3.zero;
-		transform.rotation = Quaternion.Euler(0,180,0);
+		transform.rotation = Quaternion.Euler (new Vector3 (0, 180, 0));
 		currentState = state.pick;
 		mCooldown = 0;
 	}
@@ -226,6 +258,7 @@ public class MasterChef : MonoBehaviour
 			currentState = state.pick;
 			mAni.SetInteger ("Attack", (int)attacks.AttackSize);
 			mCooldown = Random.Range (3, 10) + Time.time;
+			transform.position = new Vector3(transform.position.x, orgpos,transform.position.z);
 		}
 			//Invoke("idel",1f);
 	}
