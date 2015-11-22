@@ -20,7 +20,6 @@ public class MasterChef : MonoBehaviour
 	public GameObject swipeWarning;
 	public GameObject trippleChopWarning;
 	public GameObject knifeHitParticePrefab;
-	public GameObject knife2;
 	public bool mFirstHit;
 	public bool mfirstattack;
 	public Animator mAni;
@@ -233,7 +232,7 @@ public class MasterChef : MonoBehaviour
 			}
 		}
 		else if (transform.rotation.eulerAngles.y >= 125 && transform.rotation.eulerAngles.y <= 235 &&attacktime < Time.time) {
-			transform.rotation = Quaternion.Euler (0, transform.rotation.eulerAngles.y + targetPos * 90 * Time.deltaTime, 0);
+			transform.rotation = Quaternion.Euler (0, transform.rotation.eulerAngles.y + targetPos * 22.5f * Time.deltaTime, 0);
 		} else if(attacktime < Time.time){
 			mAni.SetInteger ("Attack", (int)attacks.AttackSize);
 			currentState = state.idel;
@@ -245,8 +244,7 @@ public class MasterChef : MonoBehaviour
 	{
 		AudioManager.Instance.PlaySoundOnce(mKnifeHit);
 		GameObject splatooon2 = Instantiate(knifeHitParticePrefab, transform.position, Quaternion.identity) as GameObject;
-
-		splatooon2.transform.position = new Vector3 (knife2.transform.position.x, 0.31f, knife2.transform.position.z);
+		//splatooon2.transform.position = knife.transform.position + knifeHitParticePrefab.transform.position;
 		splatooon2.transform.rotation = knifeHitParticePrefab.transform.rotation;
 		splatooon2.transform.localScale = knifeHitParticePrefab.transform.localScale;
 		Destroy (splatooon2, 10);

@@ -51,7 +51,5 @@ public class StoveTurnOn : MonoBehaviour {
 		
 		Color finalColor = baseColor * Mathf.LinearToGammaSpace (emission);
 		mat.SetColor ("_EmissionColor", finalColor);
-
-		print(emission);
 	}
 }
