@@ -153,7 +153,6 @@ public class MasterChef : MonoBehaviour
 			currentState = state.idel;
 			Invoke("idel", 0.5f);
 		}
-
 	}
 
 	void ChopShove()
@@ -168,8 +167,7 @@ public class MasterChef : MonoBehaviour
 				AudioManager.Instance.PlaySoundOnce(mKnifeHit);
 				AudioManager.Instance.PlaySoundOnce(mKnifeSwoosh);
 				mFirstHit = true;
-			}	
-			//AudioManager.Instance.PlaySoundOnce(mKnifeHit);
+			}
 			knife.transform.position = Vector3.MoveTowards(knife.transform.position,new Vector3(targetPos,transform.position.y,transform.position.z),shoveSpeed*Time.deltaTime);
 		}
 		else
@@ -187,17 +185,17 @@ public class MasterChef : MonoBehaviour
 
 	void Swipe()
 	{
+		if (!mFirstHit) 
+		{
+			//AudioManager.Instance.PlaySoundOnce(mKnifeHit);
+			AudioManager.Instance.PlaySoundOnce(mKnifeSwoosh);
+			mFirstHit = true;
+		}
 		currentState = state.execute;
 		if(knife.transform.rotation.eulerAngles.y > 180)
 			knife.transform.RotateAround(new Vector3(0,0,0), Vector3.down, 180 * Time.deltaTime);
 		else
 		{
-			if (!mFirstHit) 
-			{
-				AudioManager.Instance.PlaySoundOnce(mKnifeHit);
-				AudioManager.Instance.PlaySoundOnce(mKnifeSwoosh);
-				mFirstHit = true;
-			}
 			knife.transform.rotation = Quaternion.Euler(0,0,270);
 			currentState = state.pick;
 			mCooldown = Random.Range(3,10) + Time.time;

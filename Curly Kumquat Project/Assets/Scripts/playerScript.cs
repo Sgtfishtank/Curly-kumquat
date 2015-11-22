@@ -180,7 +180,6 @@ public class playerScript : MonoBehaviour
 				if (Input.GetKeyDown (mLeftKey))
 				{
 					LeftButtonCount++;
-					print("Left");
 				}
 
 				mBody.transform.localScale = new Vector3(1, 1, 1);
@@ -196,7 +195,6 @@ public class playerScript : MonoBehaviour
 				if (Input.GetKeyDown (mDownKey))
 				{
 					DownButtonCount++;
-					print("Down");
 				}
 				transform.Translate(Vector3.back * moveSpeed2 * Time.deltaTime, Space.World);
 			}
@@ -210,7 +208,6 @@ public class playerScript : MonoBehaviour
 				if (Input.GetKeyDown (mRightKey))
 				{
 					RightButtonCount++;
-					print("Right");
 				}
 
 				mBody.transform.localScale = new Vector3(1, 1, -1);
@@ -226,7 +223,6 @@ public class playerScript : MonoBehaviour
 				if (Input.GetKeyDown (mUpKey))
 				{
 					UpButtonCount++;
-					print("Up");
 				}
 				transform.Translate(Vector3.forward * moveSpeed2 * Time.deltaTime, Space.World);
 			}
@@ -323,6 +319,7 @@ public class playerScript : MonoBehaviour
 	public void Kill()
 	{
 		gameObject.SetActive (false);
+		//SpawnParts();
 		mIsDead = true;
 	}
 
@@ -345,6 +342,11 @@ public class playerScript : MonoBehaviour
 		}
 		else if (coll.collider.tag == "Player") 
 		{
+			if (coll.relativeVelocity.magnitude > 0.5f) 
+			{
+				return;
+			}
+
 			RB.velocity = Vector3.zero;
 			playerScript otherPlayer = coll.collider.GetComponent<playerScript>();
 			bool otherDashing = otherPlayer.mDashing;
