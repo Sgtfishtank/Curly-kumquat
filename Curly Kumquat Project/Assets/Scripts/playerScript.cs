@@ -113,16 +113,16 @@ public class playerScript : MonoBehaviour
 		switch (playerID) 
 		{
 		case 0:
-			InitKeys(KeyCode.UpArrow, KeyCode.DownArrow, KeyCode.LeftArrow, KeyCode.RightArrow, KeyCode.RightControl);
-			break;
-		case 1:
 			InitKeys(KeyCode.W, KeyCode.S, KeyCode.A, KeyCode.D,KeyCode.LeftControl);
 			break;
+		case 1:
+			InitKeys(KeyCode.UpArrow, KeyCode.DownArrow, KeyCode.LeftArrow, KeyCode.RightArrow, KeyCode.RightControl);
+			break;
 		case 2:
-			InitKeys(KeyCode.Keypad8, KeyCode.Keypad5, KeyCode.Keypad4, KeyCode.Keypad6, KeyCode.KeypadPlus);
+			InitKeys(KeyCode.I, KeyCode.K, KeyCode.J, KeyCode.L, KeyCode.Space);
 			break;
 		case 3:
-			InitKeys(KeyCode.I, KeyCode.K, KeyCode.J, KeyCode.L, KeyCode.Space);
+			InitKeys(KeyCode.Keypad8, KeyCode.Keypad5, KeyCode.Keypad4, KeyCode.Keypad6, KeyCode.KeypadEnter);
 			break;
 		}
 		mPlayerID = playerID;
