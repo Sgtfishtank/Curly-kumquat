@@ -29,7 +29,6 @@ public class cameraScript : MonoBehaviour
 
     void Update()
     {
-		transform.position = gamepos;
 		if (Game.Instance.CurrentState() == Game.State.Menu) 
 		{
 			transform.position = menipos;
@@ -38,8 +37,8 @@ public class cameraScript : MonoBehaviour
 		}
 		else 
 		{
-			transform.position = Vector3.MoveTowards(transform.position, gamepos, Time.deltaTime * 10);
-			transform.rotation = Quaternion.RotateTowards(transform.rotation, gamerot, Time.deltaTime * 10);
+			transform.position = Vector3.MoveTowards(transform.position, gamepos, Time.deltaTime * 25);
+			transform.rotation = Quaternion.RotateTowards(transform.rotation, gamerot, Time.deltaTime * 25);
 		}
 	}
 }
