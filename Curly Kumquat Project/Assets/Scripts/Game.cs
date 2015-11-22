@@ -140,7 +140,7 @@ public class Game : MonoBehaviour
 		AudioManager.Instance.StopMusic(mMenuJIZZINMYPANTS, FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
 		AudioManager.Instance.PlayMusic(mGameMusic);
 		GUICanvas.Instance.ShowQuit(false);
-		//mMasterChef.enabled = true;
+		mMasterChef.enabled = true;
 		mPlayers = new playerScript[playerCount];
 		for (int i = 0; i < mPlayers.Length; i++)
 		{

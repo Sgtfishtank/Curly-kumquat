@@ -25,7 +25,13 @@ public class playerScript : MonoBehaviour
 
 	public float mStunDuration;
 	public float mDashStunDuration;
-
+	
+	public GameObject mPartPrefab;
+	public GameObject[] mBodyParts;
+	public GameObject[] mBodyParts2;
+	public GameObject[] mBodyPartsBast;
+	public GameObject[] mBodyParts2Bast;
+	
 	private int numberOfJumps;
 	private int maxJumps = 2;
 
@@ -38,6 +44,8 @@ public class playerScript : MonoBehaviour
 
 	public GameObject mOinionBodyPrefab;
 	public GameObject mCarrotBodyPrefab;
+	public GameObject mOinionBodyPartsPrefab;
+	public GameObject mCarrotBodyPartsPrefab;
 
 	private float gravityForce;
 	private Rigidbody RB;
@@ -68,6 +76,7 @@ public class playerScript : MonoBehaviour
 	private float mDashT;
 	private GameObject mBody;
 	private float mCrossT;
+	private FruitType mType;
 
 	void Awake()
 	{
@@ -101,13 +110,43 @@ public class playerScript : MonoBehaviour
 			Destroy(mBody);
 		}
 
-		switch (type) 
+		mBodyParts = new GameObject[4];
+		mBodyParts2 = new GameObject[4];
+		mBodyPartsBast = new GameObject[3];
+		mBodyParts2Bast = new GameObject[3];
+		Transform trans;
+		mType = type;
+		switch (mType) 
 		{
 		case FruitType.Carrot:
-			mBody = Instantiate(mOinionBodyPrefab);
+			trans = mCarrotBodyPartsPrefab.transform;
+			mBody = Instantiate(mCarrotBodyPrefab);
+			mBodyParts[0] = mBody.transform.Find("full_body_ctrl/root_joint/hip_joint/Body_joint/group5/carrot_upper_left1").gameObject;
+			mBodyParts[1] = mBody.transform.Find("full_body_ctrl/root_joint/hip_joint/Body_joint/group5/carrot_upper_right1").gameObject;
+			mBodyParts[2] = mBody.transform.Find("full_body_ctrl/root_joint/hip_joint/Body_joint/group5/carrot_lower_right1_1").gameObject;
+			mBodyParts[3] = mBody.transform.Find("full_body_ctrl/root_joint/hip_joint/Body_joint/group5/carrot_lower_left1").gameObject;
+			mBodyParts2[0] = trans.transform.Find("full_body_ctrl/root_joint/hip_joint/Body_joint/group5/carrot_upper_left1").gameObject;
+			mBodyParts2[1] = trans.transform.Find("full_body_ctrl/root_joint/hip_joint/Body_joint/group5/carrot_upper_right1").gameObject;
+			mBodyParts2[2] = trans.transform.Find("full_body_ctrl/root_joint/hip_joint/Body_joint/group5/carrot_lower_right1_1").gameObject;
+			mBodyParts2[3] = trans.transform.Find("full_body_ctrl/root_joint/hip_joint/Body_joint/group5/carrot_lower_left1").gameObject;
+			mBodyPartsBast[0] = mBody.transform.Find("full_body_ctrl/root_joint/hip_joint/Body_joint/polySurface37/carrot_blast_left1").gameObject;
+			mBodyPartsBast[1] = mBody.transform.Find("full_body_ctrl/root_joint/hip_joint/Body_joint/polySurface37/carrot_blast_middle1").gameObject;
+			mBodyPartsBast[2] = mBody.transform.Find("full_body_ctrl/root_joint/hip_joint/Body_joint/polySurface37/carrot_blast_right1").gameObject;
+			mBodyParts2Bast[0] = trans.transform.Find("full_body_ctrl/root_joint/hip_joint/Body_joint/polySurface37/carrot_blast_left1").gameObject;
+			mBodyParts2Bast[1] = trans.transform.Find("full_body_ctrl/root_joint/hip_joint/Body_joint/polySurface37/carrot_blast_middle1").gameObject;
+			mBodyParts2Bast[2] = trans.transform.Find("full_body_ctrl/root_joint/hip_joint/Body_joint/polySurface37/carrot_blast_right1").gameObject;
 			break;
 		case FruitType.Onion:
-			mBody = Instantiate(mCarrotBodyPrefab);
+			trans = mOinionBodyPartsPrefab.transform;
+			mBody = Instantiate(mOinionBodyPrefab);
+			mBodyParts[0] = mBody.transform.Find("full_body_ctrl/root_joint/hip_joint/Body_joint/onionbody/onion_body_part1").gameObject;
+			mBodyParts[1] = mBody.transform.Find("full_body_ctrl/root_joint/hip_joint/Body_joint/onionbody/onion_body_part2").gameObject;
+			mBodyParts[2] = mBody.transform.Find("full_body_ctrl/root_joint/hip_joint/Body_joint/onionbody/onion_body_part4").gameObject;
+			mBodyParts[3] = mBody.transform.Find("full_body_ctrl/root_joint/hip_joint/Body_joint/onionbody/onion_body_part3").gameObject;
+			mBodyParts2[0] = trans.transform.Find("full_body_ctrl/root_joint/hip_joint/Body_joint/onionbody/onion_body_part1").gameObject;
+			mBodyParts2[1] = trans.transform.Find("full_body_ctrl/root_joint/hip_joint/Body_joint/onionbody/onion_body_part2").gameObject;
+			mBodyParts2[2] = trans.transform.Find("full_body_ctrl/root_joint/hip_joint/Body_joint/onionbody/onion_body_part4").gameObject;
+			mBodyParts2[3] = trans.transform.Find("full_body_ctrl/root_joint/hip_joint/Body_joint/onionbody/onion_body_part3").gameObject;
 			break;
 		}
 
@@ -334,7 +373,6 @@ public class playerScript : MonoBehaviour
 	public void Kill()
 	{
 		gameObject.SetActive (false);
-		//SpawnParts();
 		mIsDead = true;
 	}
 
@@ -392,8 +430,85 @@ public class playerScript : MonoBehaviour
 		else if (coll.collider.tag == "Knife") 
 		{
 			AudioManager.Instance.PlaySoundOnce(mKnifeBodyHit);
+			
+			if (GameStarter.Instance.MasterChef().IsKnifeSide()) 
+			{
+				SpawnParts(true);
+			}
+			else 
+			{
+				SpawnParts(false);
+			}
 			Kill();
 		}
+	}
+
+	void SpawnParts (bool side)
+	{
+		Vector3 prevScale = mBody.transform.localScale;
+		mBody.transform.localScale = Vector3.one;
+		GameObject rb1 = Instantiate(mPartPrefab, transform.position, transform.rotation) as GameObject;
+		GameObject rb2 = Instantiate(mPartPrefab, transform.position, transform.rotation) as GameObject;
+		GameObject part10;
+		GameObject part11;
+		GameObject part20;
+		GameObject part21;
+		GameObject blast1 = null;
+		GameObject blast2 = null;
+		GameObject blast3 = null;
+		if (side) 
+		{
+			part10 = Instantiate(mBodyParts2[0], mBodyParts[0].transform.position, mBodyParts[0].transform.rotation) as GameObject;
+			part11 = Instantiate(mBodyParts2[1], mBodyParts[1].transform.position, mBodyParts[1].transform.rotation) as GameObject;
+			part20 = Instantiate(mBodyParts2[2], mBodyParts[2].transform.position, mBodyParts[2].transform.rotation) as GameObject;
+			part21 = Instantiate(mBodyParts2[3], mBodyParts[3].transform.position, mBodyParts[3].transform.rotation) as GameObject;
+
+			if (mType == FruitType.Carrot) 
+			{
+				blast1 = Instantiate(mBodyParts2Bast[0], mBodyPartsBast[0].transform.position, mBodyPartsBast[0].transform.rotation) as GameObject;
+				blast2 = Instantiate(mBodyParts2Bast[1], mBodyPartsBast[1].transform.position, mBodyPartsBast[1].transform.rotation) as GameObject;
+				blast3 = Instantiate(mBodyParts2Bast[2], mBodyPartsBast[2].transform.position, mBodyPartsBast[2].transform.rotation) as GameObject;
+			}
+		}
+		else 
+		{
+			part10 = Instantiate(mBodyParts2[1], mBodyParts[1].transform.position, mBodyParts[1].transform.rotation) as GameObject;
+			part11 = Instantiate(mBodyParts2[2], mBodyParts[2].transform.position, mBodyParts[2].transform.rotation) as GameObject;
+			part20 = Instantiate(mBodyParts2[3], mBodyParts[3].transform.position, mBodyParts[3].transform.rotation) as GameObject;
+			part21 = Instantiate(mBodyParts2[0], mBodyParts[0].transform.position, mBodyParts[0].transform.rotation) as GameObject;
+			
+			if (mType == FruitType.Carrot) 
+			{
+				blast1 = Instantiate(mBodyParts2Bast[0], mBodyPartsBast[0].transform.position, mBodyPartsBast[0].transform.rotation) as GameObject;
+				blast2 = Instantiate(mBodyParts2Bast[1], mBodyPartsBast[1].transform.position, mBodyPartsBast[1].transform.rotation) as GameObject;
+				blast3 = Instantiate(mBodyParts2Bast[2], mBodyPartsBast[2].transform.position, mBodyPartsBast[2].transform.rotation) as GameObject;
+			}
+		}
+
+		rb1.transform.position = (part10.transform.position + part11.transform.position) / 2;
+		rb2.transform.position = (part20.transform.position + part21.transform.position) / 2;
+
+		part10.AddComponent<MeshCollider> ().convex = true;
+		part11.AddComponent<MeshCollider> ().convex = true;
+		part20.AddComponent<MeshCollider> ().convex = true;
+		part21.AddComponent<MeshCollider> ().convex = true;
+		part10.transform.parent = rb1.transform;
+		part11.transform.parent = rb1.transform;
+		part20.transform.parent = rb2.transform;
+		part21.transform.parent = rb2.transform;
+
+		if (blast1 != null) 
+		{
+			blast1.AddComponent<MeshCollider> ().convex = true;
+			blast2.AddComponent<MeshCollider> ().convex = true;
+			blast3.AddComponent<MeshCollider> ().convex = true;
+			blast1.transform.parent = rb1.transform;
+			blast2.transform.parent = rb1.transform;
+			blast3.transform.parent = rb1.transform;
+		}
+
+		rb1.transform.localScale = prevScale;
+		rb2.transform.localScale = prevScale;
 	}
 
 	void KnockBack(Vector3 dir, float f)

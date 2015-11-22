@@ -121,7 +121,7 @@ public class MasterChef : MonoBehaviour
 			else
 			{
 				knife.transform.rotation = Quaternion.Euler(0,0,90);
-				mCooldown = Random.Range(3,10) + Time.time;
+				mCooldown = Random.Range(2,4) + Time.time;
 				currentState = state.pick;
 				//currentAttack = -1;
 			}
@@ -135,6 +135,7 @@ public class MasterChef : MonoBehaviour
 		knife.transform.position = Vector3.zero;
 		knife.transform.rotation = Quaternion.Euler(0,0, 270);
 		currentState = state.pick;
+		mCooldown = 0;
 	}
 
 	void Chop()
@@ -214,6 +215,16 @@ public class MasterChef : MonoBehaviour
 			Invoke("idel",1f);
 			toches = 0;
 		}
+	}
+
+	public bool IsKnifeSide ()
+	{
+		if (currentAttack == attacks.Swipe) 
+		{
+			return true;
+		}
+
+		return false;
 	}
 
 	void idel()
