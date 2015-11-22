@@ -24,9 +24,11 @@ public class GUICanvas : MonoBehaviour
 	private GameObject mPlaying;
 	private GameObject mEnd;
 	private Button mQuitButton;
+	private FMOD.Studio.EventInstance mClick;
 
 	void Awake()
 	{
+		mClick = FMOD_StudioSystem.instance.GetEvent("event:/Click/click");
 		mStart = transform.Find("Start").gameObject;
 		mPlaying = transform.Find("Playing").gameObject;
 		mEnd = transform.Find("End").gameObject;
@@ -68,21 +70,25 @@ public class GUICanvas : MonoBehaviour
 
 	public void Exit()
 	{
+		AudioManager.Instance.PlaySoundOnce (mClick);
 		Application.Quit();
 	}
 
 	public void StartGame(int i)
 	{
+		AudioManager.Instance.PlaySoundOnce (mClick);
 		Game.Instance.StartGame(i);
 	}
 	
 	public void Restart()
 	{
+		AudioManager.Instance.PlaySoundOnce (mClick);
 		Game.Instance.RestartGame();
 	}
 	
 	public void MenuBack()
 	{
+		AudioManager.Instance.PlaySoundOnce (mClick);
 		Game.Instance.Reset ();
 	}
 

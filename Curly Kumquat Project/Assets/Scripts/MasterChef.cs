@@ -20,6 +20,7 @@ public class MasterChef : MonoBehaviour
 	public GameObject swipeWarning;
 	public GameObject trippleChopWarning;
 	public GameObject knifeHitParticePrefab;
+	public GameObject knife2;
 	public bool mFirstHit;
 	public bool mfirstattack;
 	public Animator mAni;
@@ -244,7 +245,8 @@ public class MasterChef : MonoBehaviour
 	{
 		AudioManager.Instance.PlaySoundOnce(mKnifeHit);
 		GameObject splatooon2 = Instantiate(knifeHitParticePrefab, transform.position, Quaternion.identity) as GameObject;
-		//splatooon2.transform.position = knife.transform.position + knifeHitParticePrefab.transform.position;
+
+		splatooon2.transform.position = new Vector3 (knife2.transform.position.x, 0.31f, knife2.transform.position.z);
 		splatooon2.transform.rotation = knifeHitParticePrefab.transform.rotation;
 		splatooon2.transform.localScale = knifeHitParticePrefab.transform.localScale;
 		Destroy (splatooon2, 10);

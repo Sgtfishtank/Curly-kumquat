@@ -106,11 +106,6 @@ public class Game : MonoBehaviour
 
 	public void UpdatePlaying()
 	{
-		if ((Input.GetKeyDown(KeyCode.R)) && (mCurrentState == State.End)) 
-		{
-			Reset();
-		}
-		
 		int playersAlive = 0;
 		int playerID = -1;
 		for (int i = 0; i < mPlayers.Length; i++) 
@@ -144,7 +139,11 @@ public class Game : MonoBehaviour
 	{
 		if (Input.GetKeyDown(KeyCode.R)) 
 		{
-			Reset();
+			Game.Instance.RestartGame();
+		}
+		else if (Input.GetKeyDown(KeyCode.T)) 
+		{
+			Game.Instance.Reset();
 		}
 	}
 	
@@ -213,7 +212,15 @@ public class Game : MonoBehaviour
 		mMasterChef.enabled = false;
 		// game ends
 		GUICanvas.Instance.SetWin(playerID);
-		Desyoplayers ();
+
+		mCurrentState = State.End;
+		for (int i = 0; i < mPlayers.Length; i++) 
+		{
+			if (mPlayers[i] != null) 
+			{
+				mPlayers[i].enabled = false;
+			}
+		}
 		GUICanvas.Instance.ShowQuit(true);
 		//mPlayers = null;
 		UpdateGUI();
