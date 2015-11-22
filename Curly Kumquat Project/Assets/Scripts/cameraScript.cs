@@ -37,8 +37,8 @@ public class cameraScript : MonoBehaviour
 		}
 		else 
 		{
-			transform.position = Vector3.MoveTowards(transform.position, gamepos, Time.deltaTime * 25);
-			transform.rotation = Quaternion.RotateTowards(transform.rotation, gamerot, Time.deltaTime * 25);
+			transform.position = Vector3.Slerp(transform.position, gamepos, Time.deltaTime * 1);
+			transform.rotation = Quaternion.Slerp(transform.rotation, gamerot, Time.deltaTime * 0.8f);
 		}
 	}
 }

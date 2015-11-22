@@ -397,9 +397,9 @@ public class playerScript : MonoBehaviour
 		}
 		else
 		{
-			pos.z = Mathf.Clamp(pos.z, 0, 0);
+			//pos.z = Mathf.Clamp(pos.z, 0, 0);
 		}
-		pos.x = Mathf.Clamp(pos.x, xMin, xMax);
+		//pos.x = Mathf.Clamp(pos.x, xMin, xMax);
 		transform.position = pos;
 	}
 
