@@ -106,7 +106,7 @@ public class Game : MonoBehaviour
 
 	public void UpdatePlaying()
 	{
-		if (Input.GetKeyDown(KeyCode.R)) 
+		if ((Input.GetKeyDown(KeyCode.R)) && (mCurrentState == State.End)) 
 		{
 			Reset();
 		}
@@ -155,8 +155,13 @@ public class Game : MonoBehaviour
 
 	public void StartGame (int playerCount)
 	{
-		AudioManager.Instance.StopMusic(mMenuJIZZINMYPANTS, FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
-		AudioManager.Instance.PlayMusic(mGameMusic);
+		GameObject[] fd = GameObject.FindGameObjectsWithTag ("Splatoon");
+		for (int i = 0; i < fd.Length; i++) 
+		{
+			Destroy(fd[i]);
+		}
+		mCurrentState = State.Playing;
+
 		GUICanvas.Instance.ShowQuit(false);
 		mMasterChef.enabled = true;
 		
@@ -164,8 +169,16 @@ public class Game : MonoBehaviour
 		
 		initplayers(playerCount);
 		SpawnPlayers();
+		
+		AudioManager.Instance.StopMusic(mMenuJIZZINMYPANTS, FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
 
-		mCurrentState = State.Playing;
+		if (mPlayers.Length <= 2) 
+		{
+			AudioManager.Instance.PlayMusic(mIntenseMusic);
+		}
+		else {
+			AudioManager.Instance.PlayMusic(mGameMusic);
+		}
 		UpdateGUI();
 	}
 
@@ -174,7 +187,8 @@ public class Game : MonoBehaviour
 		for (int i = 0; i < mPlayers.Length; i++) 
 		{
 			Vector3 pos = mStartPositinos[i].transform.position;
-			
+
+			mPlayers[i].GetComponent<Rigidbody>().isKinematic = (mCurrentState == State.Menu);
 			mPlayers[i].transform.position = pos;
 			mPlayers[i].transform.position += mPlayerPrefab.transform.position;
 			mPlayers[i].CreatePlayer(i, (playerScript.FruitType)(Random.Range(0, (int)playerScript.FruitType.FruitCount)));
@@ -193,12 +207,12 @@ public class Game : MonoBehaviour
 
 	void EndGame (int playerID)
 	{
+		mCurrentState = State.End;
 		AudioManager.Instance.StopMusic(mGameMusic, FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
 		AudioManager.Instance.StopMusic(mIntenseMusic, FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
 		mMasterChef.enabled = false;
 		// game ends
 		GUICanvas.Instance.SetWin(playerID);
-		mCurrentState = State.End;
 		Desyoplayers ();
 		GUICanvas.Instance.ShowQuit(true);
 		//mPlayers = null;
@@ -236,13 +250,13 @@ public class Game : MonoBehaviour
 			SpawnPlayers();
 			break;
 		case State.End:
+			mCurrentState = State.Menu;
 			// game ended
 			Desyoplayers();
 			initplayers(4);
 			SpawnPlayers();
 			AudioManager.Instance.PlayMusic(mMenuJIZZINMYPANTS);
 			mMasterChef.Reset();
-			mCurrentState = State.Menu;
 			break;
 		default:
 			Debug.Log("Error gem state");

@@ -55,14 +55,14 @@ public class GUICanvas : MonoBehaviour
 		for (int i = 0; i < Game.Instance.PlayerCount(); i++) 
 		{
 			mPlayerTexts[i].gameObject.SetActive(false);
-			if (Game.Instance.GetPlayer(i).IsDead()) 
+			/*if (Game.Instance.GetPlayer(i).IsDead()) 
 			{
 				mPlayerTexts[i].text = "Player " + (i + 1) + ": Dead";
 			}
 			else 
 			{
 				mPlayerTexts[i].text = "Player " + (i + 1) + ": Aviobe";
-			}
+			}*/
 		}
 	}
 

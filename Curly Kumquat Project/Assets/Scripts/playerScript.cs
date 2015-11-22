@@ -200,7 +200,7 @@ public class playerScript : MonoBehaviour
 
 
 		mAni = mBody.GetComponent<Animator> ();
-		mAni.CrossFade("Idle", 0.5f, 0, Random.value);
+		//mAni.CrossFade("Idel", 0.5f, 0, Random.value);
 		mBody.transform.parent = transform;
 		mBody.transform.localPosition = Vector3.zero;
 		mBody.transform.localRotation = Quaternion.Euler (0,-90, 0);
@@ -458,6 +458,11 @@ public class playerScript : MonoBehaviour
 	
 	public void Kill()
 	{
+		if (!gameObject.activeSelf) 
+		{
+			return;
+		}
+
 		Vector3 possdf = new Vector3(0, -0.5f, 0);
 		RaycastHit hitInfo;
 		if (Physics.Raycast(transform.position + new Vector3(0, 2, 0), Vector3.down, out hitInfo, 10, LayerMask.GetMask("Ground")))
@@ -466,7 +471,6 @@ public class playerScript : MonoBehaviour
 		}
 
 		GameObject splatooon = Instantiate(mSplaterParticlesPrefab, transform.position, Quaternion.identity) as GameObject;
-		Destroy (splatooon, 10);
 		splatooon.transform.position = possdf;
 		splatooon.transform.rotation = mSplaterParticlesPrefab.transform.rotation;
 		splatooon.transform.localScale = mSplaterParticlesPrefab.transform.localScale;

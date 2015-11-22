@@ -168,7 +168,7 @@ public class MasterChef : MonoBehaviour
 			else
 			{
 				transform.rotation = Quaternion.Euler(new Vector3(0,180,0));
-				mCooldown = Random.Range(1,3)+ Time.time;
+				mCooldown = Random.Range(0,1)+ Time.time;
 				currentState = state.prep;
 				pos = Random.Range(-Limits,Limits+0.1f);
 				transform.position = new Vector3(transform.position.x, orgpos,transform.position.z);
@@ -176,11 +176,19 @@ public class MasterChef : MonoBehaviour
 		}
 	}
 
+	void OnEnable()
+	{
+		mAni.SetInteger("Attack",(int)attacks.AttackSize);
+	}
+	
+	void OnDisable()
+	{
+		mAni.SetInteger("Attack",(int)attacks.AttackSize);
+	}
+
 	public void Reset ()
 	{
-		
-		mAni.gameObject.SetActive (false);
-		mAni.gameObject.SetActive (true);
+
 		// reset state
 		mFirstHit = false;
 		transform.rotation = Quaternion.Euler (new Vector3 (0, 180, 0));
