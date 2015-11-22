@@ -17,10 +17,6 @@ public class cameraScript : MonoBehaviour
 		menipos = MenuCamera.transform.position;
 		menirot = MenuCamera.transform.rotation; 
 
-		// REOMVE KEBAB
-		menipos = transform.position;
-		menirot = transform.rotation;
-
 		gamepos = transform.position;
 		gamerot = transform.rotation;
 		//mCamera = GetComponent<Camera>();
