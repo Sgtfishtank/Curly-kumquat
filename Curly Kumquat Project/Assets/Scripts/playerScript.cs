@@ -16,8 +16,9 @@ public class playerScript : MonoBehaviour
 	public float jumpForce;
 	public float mDashSpeed;
 	public float mDashDuration;
-	public float mKnockBackDuration;
-
+	public float mStunDuration;
+	public float mDashStunDuration;
+	
 	private int numberOfJumps;
 	private int maxJumps = 2;
 
@@ -37,8 +38,9 @@ public class playerScript : MonoBehaviour
 	private bool mIsDead;
 	private int mPlayerID;
 
-	private bool mKnockBacking = false;
-	private float mKnockBackT;
+	private bool mStunning;
+	private float mStunT;
+	private bool mKnockBacking;
 
 	private KeyCode mLeftKey = KeyCode.A;
 	private KeyCode mRightKey = KeyCode.D;
@@ -51,6 +53,7 @@ public class playerScript : MonoBehaviour
 	private FMOD.Studio.EventInstance mScream;
 	private FMOD.Studio.EventInstance mDash;
 	private FMOD.Studio.EventInstance mDashHit;
+	private FMOD.Studio.EventInstance mHit;
 	private FMOD.Studio.EventInstance mKnifeBodyHit;
 
 	private float mSayTime;
@@ -90,6 +93,7 @@ public class playerScript : MonoBehaviour
 		{
 			Destroy(mBody);
 		}
+
 		switch (type) 
 		{
 		case FruitType.Carrot:
@@ -109,6 +113,7 @@ public class playerScript : MonoBehaviour
 
 	void Start () 
 	{
+		mHit = FMOD_StudioSystem.instance.GetEvent("event:/PlayerCollide/PlayerCollide");
 		mDash = FMOD_StudioSystem.instance.GetEvent("event:/Dash/Dash");
 		mDashHit = FMOD_StudioSystem.instance.GetEvent("event:/Dash Hit/DashHit");
 		mScream = FMOD_StudioSystem.instance.GetEvent("event:/Scream/Scream");
@@ -117,6 +122,7 @@ public class playerScript : MonoBehaviour
 
 	void Update () 
 	{
+
 		if ((mCrossT < Time.time) && (mCrossT > 0))
 		{
 			print("crossfade");
@@ -130,11 +136,11 @@ public class playerScript : MonoBehaviour
 			mSayTime = Time.time + Random.Range(2.5f, 10.0f);
 		}
 
-		if (mKnockBacking)
+		if (mStunning)
 		{
-			if (mKnockBackT < Time.time)
+			if (mStunT < Time.time)
 			{
-				mKnockBacking = false;
+				mStunning = false;
 			}
 		}
 
@@ -163,7 +169,7 @@ public class playerScript : MonoBehaviour
 		{
 		}
 
-		if (!mKnockBacking)
+		if ((!mStunning) && (!mKnockBacking))
 		{
 			if (Input.GetKey(mLeftKey))
 			{
@@ -305,6 +311,8 @@ public class playerScript : MonoBehaviour
 		RB.angularVelocity = Vector3.zero;
 		transform.rotation = Quaternion.identity;
 		transform.position = Vector3.zero;
+		mKnockBacking = false;
+		numberOfJumps = 0;
 	}
 	
 	public bool IsDead ()
@@ -318,41 +326,64 @@ public class playerScript : MonoBehaviour
 		mIsDead = true;
 	}
 
-	void KnockBack ()
+	void Stun (float duration)
 	{
-		mKnockBacking = true;
-		mKnockBackT = Time.time + mKnockBackDuration;
+		mStunning = true;
+		mStunT = Time.time + duration;
 	}
 
 	void OnCollisionEnter(Collision coll)
 	{
-		
-		if (coll.gameObject.tag == "Ground" && numberOfJumps > 0)
+		if (coll.gameObject.tag == "Ground")
 		{
-			numberOfJumps = 0;
-		}
-		if (coll.collider.tag == "Player") 
-		{
-			if (mDashing)
+			if (numberOfJumps > 0) 
 			{
-				AudioManager.Instance.PlaySoundOnce(mDashHit);
-				mDashing = false;
+				numberOfJumps = 0;
 			}
 
+			mKnockBacking = false;
+		}
+		else if (coll.collider.tag == "Player") 
+		{
+			RB.velocity = Vector3.zero;
 			playerScript otherPlayer = coll.collider.GetComponent<playerScript>();
-			int otherID = otherPlayer.mPlayerID;
-			print("ID: " + otherID);
+			bool otherDashing = otherPlayer.mDashing;
+			Vector3 dir = (transform.position - coll.collider.transform.position).normalized;
 
-			//otherPlayer.GetComponent<Rigidbody>().velocity;
-			KnockBack();
-			RB.velocity = (transform.position - coll.collider.transform.position).normalized * 7;
-			RB.velocity += new Vector3(0, 7, 0);
+			if (mDashing && otherDashing) // both dashing
+			{
+				//Stun(mDashStunDuration);
+				KnockBack(dir, 14);
+				AudioManager.Instance.PlaySoundOnce(mHit);
+			}
+			else if (mDashing && (!otherDashing)) // me dashing him
+			{
+				AudioManager.Instance.PlaySoundOnce(mDashHit);
+			}
+			else if ((!mDashing) && otherDashing) // him dashing me
+			{
+				KnockBack(dir, 10);
+				Stun(mStunDuration);
+			}
+			else // neither dashing
+			{
+				//Stun(mStunDuration);
+				KnockBack(dir, 7);
+				AudioManager.Instance.PlaySoundOnce(mHit);
+			}
 		}
 		else if (coll.collider.tag == "Knife") 
 		{
 			AudioManager.Instance.PlaySoundOnce(mKnifeBodyHit);
 			Kill();
 		}
+	}
+
+	void KnockBack(Vector3 dir, float f)
+	{
+		mKnockBacking = true;
+		RB.velocity = dir * f;
+		RB.velocity += new Vector3(0, f, 0);
 	}
 	
 	void OnCollisionExit(Collision coll)
