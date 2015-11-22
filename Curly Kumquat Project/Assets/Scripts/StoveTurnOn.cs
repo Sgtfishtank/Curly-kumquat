@@ -35,7 +35,7 @@ public class StoveTurnOn : MonoBehaviour {
 		}
 		if(emission >= 0.998f)
 		{
-			transform.tag = "Knife";
+			transform.tag = "Stove";
 			cooldown = Random.Range(2,5) +Time.time;
 		}
 	

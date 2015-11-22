@@ -438,17 +438,26 @@ public class playerScript : MonoBehaviour
 			
 			if (GameStarter.Instance.MasterChef().IsKnifeSide()) 
 			{
-				SpawnParts(true);
+				SpawnParts(true, false);
 			}
 			else 
 			{
-				SpawnParts(false);
+				SpawnParts(false, false);
 			}
 			Kill();
 		}
 	}
+	
+	void OnCollisionStay(Collision coll)
+	{
+		if (coll.collider.tag == "Stove") 
+		{
+			SpawnParts(false, true);
+			Kill();
+		}
+	}
 
-	void SpawnParts (bool side)
+	void SpawnParts (bool side, bool all)
 	{
 		Vector3 prevScale = mBody.transform.localScale;
 		mBody.transform.localScale = Vector3.one;
@@ -461,7 +470,22 @@ public class playerScript : MonoBehaviour
 		GameObject blast1 = null;
 		GameObject blast2 = null;
 		GameObject blast3 = null;
-		if (side) 
+
+		if (all) 
+		{
+			part10 = Instantiate(mBodyParts2[0], mBodyParts[0].transform.position, mBodyParts[0].transform.rotation) as GameObject;
+			part11 = Instantiate(mBodyParts2[1], mBodyParts[1].transform.position, mBodyParts[1].transform.rotation) as GameObject;
+			part20 = Instantiate(mBodyParts2[2], mBodyParts[2].transform.position, mBodyParts[2].transform.rotation) as GameObject;
+			part21 = Instantiate(mBodyParts2[3], mBodyParts[3].transform.position, mBodyParts[3].transform.rotation) as GameObject;
+			
+			if (mType == FruitType.Carrot) 
+			{
+				blast1 = Instantiate(mBodyParts2Bast[0], mBodyPartsBast[0].transform.position, mBodyPartsBast[0].transform.rotation) as GameObject;
+				blast2 = Instantiate(mBodyParts2Bast[1], mBodyPartsBast[1].transform.position, mBodyPartsBast[1].transform.rotation) as GameObject;
+				blast3 = Instantiate(mBodyParts2Bast[2], mBodyPartsBast[2].transform.position, mBodyPartsBast[2].transform.rotation) as GameObject;
+			}
+		}
+		else if (side) 
 		{
 			part10 = Instantiate(mBodyParts2[0], mBodyParts[0].transform.position, mBodyParts[0].transform.rotation) as GameObject;
 			part11 = Instantiate(mBodyParts2[1], mBodyParts[1].transform.position, mBodyParts[1].transform.rotation) as GameObject;
@@ -514,6 +538,13 @@ public class playerScript : MonoBehaviour
 
 		rb1.transform.localScale = prevScale;
 		rb2.transform.localScale = prevScale;
+
+		if (all) 
+		{
+			part20.transform.parent = rb1.transform;
+			part21.transform.parent = rb1.transform;
+			Destroy (rb2);
+		}
 	}
 
 	void KnockBack(Vector3 dir, float f)
