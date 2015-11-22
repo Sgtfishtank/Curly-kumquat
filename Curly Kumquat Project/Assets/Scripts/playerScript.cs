@@ -77,6 +77,7 @@ public class playerScript : MonoBehaviour
 	private GameObject mBody;
 	private float mCrossT;
 	private FruitType mType;
+	private bool mGotDashHit;
 
 	void Awake()
 	{
@@ -168,6 +169,11 @@ public class playerScript : MonoBehaviour
 
 	void Update () 
 	{
+		if (mGotDashHit) 
+		{
+			mDashing = false;
+			mGotDashHit = false;
+		}
 		mAni.SetBool("moving",false);
 		if ((mCrossT < Time.time) && (mCrossT > 0))
 		{
@@ -368,6 +374,7 @@ public class playerScript : MonoBehaviour
 		transform.position = Vector3.zero;
 		mKnockBacking = false;
 		numberOfJumps = 0;
+		mGotDashHit = false;
 	}
 	
 	public bool IsDead ()
@@ -395,7 +402,6 @@ public class playerScript : MonoBehaviour
 			{
 				numberOfJumps = 0;
 			}
-
 			mKnockBacking = false;
 		}
 		else if (coll.collider.tag == "Player") 
@@ -431,6 +437,8 @@ public class playerScript : MonoBehaviour
 				KnockBack(dir, 7);
 				AudioManager.Instance.PlaySoundOnce(mHit);
 			}
+
+			mGotDashHit = true;
 		}
 		else if (coll.collider.tag == "Knife") 
 		{
