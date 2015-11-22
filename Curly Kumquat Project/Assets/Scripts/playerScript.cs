@@ -12,6 +12,11 @@ public class playerScript : MonoBehaviour
 		FruitCount
 	}
 
+	// dash smope on player
+	// splatter on death
+	// 
+
+
 	public float moveSpeed;
 	public float jumpForce;
 	public float mDashSpeed;
@@ -41,7 +46,9 @@ public class playerScript : MonoBehaviour
 	public int UpButtonCount;
 
 	private float buttonCooldown = 0.5F;
-
+	
+	public GameObject mSplaterParticlesPrefab;
+	public GameObject mDahsParticlesPrefab;
 	public GameObject mOinionBodyPrefab;
 	public GameObject mCarrotBodyPrefab;
 	public GameObject mOinionBodyPartsPrefab;
@@ -78,6 +85,11 @@ public class playerScript : MonoBehaviour
 	private float mCrossT;
 	private FruitType mType;
 	private bool mGotDashHit;
+	
+	public Material carrotMaterial;
+	public Material carrotOtherMaterial;
+	public Material onionMaterial;
+	public Material onionOtherMaterial;
 
 	void Awake()
 	{
@@ -111,12 +123,15 @@ public class playerScript : MonoBehaviour
 			Destroy(mBody);
 		}
 
+		GameObject dathshit = Instantiate (mDahsParticlesPrefab, transform.position, transform.rotation) as GameObject;
+		dathshit.transform.parent = transform;
+
 		mBodyParts = new GameObject[4];
 		mBodyParts2 = new GameObject[4];
 		mBodyPartsBast = new GameObject[3];
 		mBodyParts2Bast = new GameObject[3];
 		Transform trans;
-		mType = type;
+		mType = (FruitType)(playerID % (int)FruitType.FruitCount);
 		switch (mType) 
 		{
 		case FruitType.Carrot:
@@ -150,6 +165,33 @@ public class playerScript : MonoBehaviour
 			mBodyParts2[3] = trans.transform.Find("full_body_ctrl/root_joint/hip_joint/Body_joint/onionbody/onion_body_part3").gameObject;
 			break;
 		}
+
+		MeshRenderer[] renders = mBody.GetComponentsInChildren<MeshRenderer> ();
+		Material refMat;
+		Material otherMat;
+
+		if (mType == FruitType.Carrot) 
+		{
+			refMat = carrotMaterial;
+			otherMat = carrotOtherMaterial;
+		}
+		else 
+		{
+			refMat = onionMaterial;
+			otherMat = onionOtherMaterial;
+		}
+
+		if ((playerID == 2) || (playerID == 3))
+		{
+			for (int i = 0; i < renders.Length; i++) 
+			{
+				if (renders [i].sharedMaterial == refMat) 
+				{
+					renders [i].material = otherMat;
+				}
+			}
+		}
+
 
 		mAni = mBody.GetComponent<Animator> ();
 		mAni.CrossFade("Running", 0.5f, 0, Random.value);
@@ -384,6 +426,8 @@ public class playerScript : MonoBehaviour
 	
 	public void Kill()
 	{
+		GameObject splatooon = Instantiate(mSplaterParticlesPrefab, transform.position, Quaternion.identity) as GameObject;
+		Destroy (splatooon, 10);
 		gameObject.SetActive (false);
 		mIsDead = true;
 	}
@@ -534,6 +578,34 @@ public class playerScript : MonoBehaviour
 		part20.transform.parent = rb2.transform;
 		part21.transform.parent = rb2.transform;
 
+		Material refMat;
+		Material otherMat;
+		if (mType == FruitType.Carrot) 
+		{
+			refMat = carrotMaterial;
+			otherMat = carrotOtherMaterial;
+		}
+		else 
+		{
+			refMat = onionMaterial;
+			otherMat = onionOtherMaterial;
+		}
+
+		if ((mPlayerID == 2) || (mPlayerID == 3)) 
+		{
+			part10.GetComponent<MeshRenderer>().material = otherMat;
+			part11.GetComponent<MeshRenderer>().material = otherMat;
+			part20.GetComponent<MeshRenderer>().material = otherMat;
+			part21.GetComponent<MeshRenderer>().material = otherMat;
+		}
+		else 
+		{
+			part10.GetComponent<MeshRenderer>().material = refMat;
+			part11.GetComponent<MeshRenderer>().material = refMat;
+			part20.GetComponent<MeshRenderer>().material = refMat;
+			part21.GetComponent<MeshRenderer>().material = refMat;
+		}
+
 		if (blast1 != null) 
 		{
 			blast1.AddComponent<MeshCollider> ().convex = true;
@@ -564,6 +636,5 @@ public class playerScript : MonoBehaviour
 	
 	void OnCollisionExit(Collision coll)
 	{
-	
 	}
 }
