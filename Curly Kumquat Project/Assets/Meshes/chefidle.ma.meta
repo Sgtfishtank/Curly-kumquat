@@ -74,7 +74,75 @@ ModelImporter:
     animationScaleError: .5
     animationWrapMode: 0
     extraExposedTransformPaths: []
-    clipAnimations: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Take 001
+      takeName: Take 001
+      firstFrame: 0
+      lastFrame: 125
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: body
+        weight: 1
+      - path: boooody
+        weight: 1
+      - path: boooody/spine
+        weight: 1
+      - path: boooody/spine/chest
+        weight: 1
+      - path: boooody/spine/chest/head
+        weight: 1
+      - path: boooody/spine/chest/head/hat
+        weight: 1
+      - path: boooody/spine/chest/head/hat/hatt
+        weight: 1
+      - path: boooody/spine/chest/head/muche
+        weight: 1
+      - path: boooody/spine/chest/head/muche/cigg
+        weight: 1
+      - path: boooody/spine/chest/head/muche/cigg/cigarette
+        weight: 1
+      - path: boooody/spine/chest/head/muche/Lmuche1
+        weight: 1
+      - path: boooody/spine/chest/head/muche/Lmuche1/Lmuche2
+        weight: 1
+      - path: boooody/spine/chest/head/muche/Rmuche1
+        weight: 1
+      - path: boooody/spine/chest/head/muche/Rmuche1/Rmuche2
+        weight: 1
+      - path: boooody/spine/chest/knifeshoulder
+        weight: 1
+      - path: boooody/spine/chest/knifeshoulder/knifeelbow
+        weight: 1
+      - path: boooody/spine/chest/knifeshoulder/knifeelbow/knifehand
+        weight: 1
+      - path: boooody/spine/chest/stuckshoulder
+        weight: 1
+      - path: boooody/spine/chest/stuckshoulder/stuckelbow
+        weight: 1
+      - path: mustache
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
     isReadable: 1
   meshes:
     lODScreenPercentages: []
