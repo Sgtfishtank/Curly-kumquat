@@ -27,10 +27,10 @@ public class GUICanvas : MonoBehaviour
 	private FMOD.Studio.EventInstance mClick;
 	private bool mShowCredits;
 	private Image mCredits;
+	private Image mcREDITStOmENU;
 
 	void Awake()
 	{
-		mClick = FMOD_StudioSystem.instance.GetEvent("event:/Click/click");
 		mStart = transform.Find("Start").gameObject;
 		mPlaying = transform.Find("Playing").gameObject;
 		mEnd = transform.Find("End").gameObject;
@@ -43,11 +43,13 @@ public class GUICanvas : MonoBehaviour
 		}
 		
 		mCredits = mStart.transform.Find("Credits").GetComponent<Image>();
+		mcREDITStOmENU = mStart.transform.Find("BackToMenu").GetComponent<Image>();
 	}
 
 	// Use this for initialization
 	void Start () 
 	{
+		mClick = FMOD_StudioSystem.instance.GetEvent("event:/Click/click");
 		for (int i = 0; i < 4; i++) 
 		{
 			mPlayerTexts[i].gameObject.SetActive(false);
@@ -95,9 +97,16 @@ public class GUICanvas : MonoBehaviour
 		Game.Instance.Reset ();
 	}
 
+	public void CeditsToMenu()
+	{
+		AudioManager.Instance.PlaySoundOnce (mClick);
+		ShowCredits(false);
+	}
+
 	public void Cedits()
 	{
-		ShowCredits(!mShowCredits);
+		AudioManager.Instance.PlaySoundOnce (mClick);
+		ShowCredits(true);
 	}
 
 	public void Show (Game.State mCurrentState)
@@ -111,6 +120,7 @@ public class GUICanvas : MonoBehaviour
 	{
 		mShowCredits = show;
 		mCredits.gameObject.SetActive(mShowCredits);
+		mcREDITStOmENU.gameObject.SetActive(mShowCredits);
 	}
 
 	public void SetWin(int i2)
