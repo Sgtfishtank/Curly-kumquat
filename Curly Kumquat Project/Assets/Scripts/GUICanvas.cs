@@ -25,6 +25,8 @@ public class GUICanvas : MonoBehaviour
 	private GameObject mEnd;
 	private Button mQuitButton;
 	private FMOD.Studio.EventInstance mClick;
+	private bool mShowCredits;
+	private Image mCredits;
 
 	void Awake()
 	{
@@ -39,7 +41,8 @@ public class GUICanvas : MonoBehaviour
 			mPlayerTexts[i] = mPlaying.transform.Find("PlayerText" + (1 + i)).GetComponent<Text>();
 			mWinText[i] = mEnd.transform.Find("p" + (i + 1)).GetComponent<Image>();
 		}
-
+		
+		mCredits = mStart.transform.Find("Credits").GetComponent<Image>();
 	}
 
 	// Use this for initialization
@@ -92,11 +95,22 @@ public class GUICanvas : MonoBehaviour
 		Game.Instance.Reset ();
 	}
 
+	public void Cedits()
+	{
+		ShowCredits(!mShowCredits);
+	}
+
 	public void Show (Game.State mCurrentState)
 	{
 		mEnd.gameObject.SetActive (mCurrentState == Game.State.End);
 		mStart.gameObject.SetActive (mCurrentState == Game.State.Menu);
 		mPlaying.gameObject.SetActive (mCurrentState == Game.State.Playing);
+	}
+
+	public void ShowCredits(bool show)
+	{
+		mShowCredits = show;
+		mCredits.gameObject.SetActive(mShowCredits);
 	}
 
 	public void SetWin(int i2)

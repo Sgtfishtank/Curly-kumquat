@@ -54,6 +54,7 @@ public class Game : MonoBehaviour
 	// Use this for initialization
 	void Start () 
 	{
+		GUICanvas.Instance.ShowCredits(false);
 		mMenuJIZZINMYPANTS = FMOD_StudioSystem.instance.GetEvent("event:/Music/Startmenu");
 		mIntenseMusic = FMOD_StudioSystem.instance.GetEvent("event:/Music/Intensemusic");
 		mGameMusic = FMOD_StudioSystem.instance.GetEvent("event:/Music/Song 1");
@@ -160,6 +161,7 @@ public class Game : MonoBehaviour
 
 	public void StartGame (int playerCount)
 	{
+		GUICanvas.Instance.ShowCredits(false);
 		GameObject[] fd = GameObject.FindGameObjectsWithTag ("Splatoon");
 		for (int i = 0; i < fd.Length; i++) 
 		{
