@@ -38,9 +38,6 @@ public class Game : MonoBehaviour
 
 	void Awake()
 	{
-		Debug.LogError ("missing Credits");
-		Debug.LogError ("missing icon");
-		Debug.LogError ("missing acioent stundios");
 		mMasterChef = GameStarter.Instance.MasterChef();
 
 		for (int i = 0; i < 4; i++)
